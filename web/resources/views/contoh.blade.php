@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('title', "Judul")
+@section('title', "Judul Custom")
 
 @section('style')
     
@@ -11,6 +11,11 @@
 @endsection
 
 @section('content')
-<div class="bg-white">
+<div class="bg-gray-900">
+   @component('components.button', ["angka" => "1"])
+       @slot('judul')
+           Hello
+       @endslot
+   @endcomponent
 </div>
 @endsection
