@@ -24,5 +24,5 @@ Route::get('/test', function () {
 // Disini saya mempersiapkan route untuk menampilkan dari resource yang ada 
 // di folder resources/views/conteoh_template. Selanjutnya kita ke file tsb
 Route::get('/layout', function () {
-    return view('contoh_template');
+    return view('contoh');
 });
