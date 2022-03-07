@@ -1,4 +1,4 @@
-<button class="btn">
+<button id="test" class="btn affan">
   {{ $judul }}
   {{ $angka }}
 </button>

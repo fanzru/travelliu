@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,15 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('timeline');
 });
 
 Route::get('/test', function () {
     return view('test');
 });
 
-// Disini saya mempersiapkan route untuk menampilkan dari resource yang ada 
-// di folder resources/views/conteoh_template. Selanjutnya kita ke file tsb
-Route::get('/layout', function () {
-    return view('contoh');
-});
+Route::get('/login', [UserController::class, 'loginPage']);
+Route::post('/login', [UserController::class, 'login']);
+Route::get('/register', [UserController::class, 'registerPage']);
+Route::post('/register', [UserController::class, 'register']);
+Route::get('/logout', [UserController::class, 'logout']);
