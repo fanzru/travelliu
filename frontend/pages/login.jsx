@@ -13,13 +13,15 @@ export default function Home() {
 
   const onSubmitLogin = async (e) => {
     e.preventDefault()
-    let res = api.get("/api/login")
-    console.log(res)
-  }
+    // Bagian ini harus ada setidaknya sekali untuk sessioning, lebih aman kalau misalkan ada di setiap post request
+    let result = await api.get("/sanctum/csrf-cookie")
+    console.log(result)
+    if ( result.status != 204 ) {
+      console.log("Error getting CSRF token")
+    }
 
-  useEffect(() => {
-    console.log(LoginForm)
-  }, [LoginForm])
+    result = await api.post("/api/login", LoginForm)
+  }
 
   return (
     <div className='flex flex-col justify-center items-center h-screen'>

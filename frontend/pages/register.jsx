@@ -11,13 +11,17 @@ function Register() {
     name: ''
   })
 
-  const onSubmitLogin = (e) => {
+  const onSubmitRegister = async (e) => {
     e.preventDefault()
-    api.get("/sanctum/csrf-cookie").then(() => {
-      api.post("/api/register", registerForm).then(res => {
-        console.log(res)
-      })
-    })
+    // Bagian ini harus ada setidaknya sekali untuk sessioning, lebih aman kalau misalkan ada di setiap post request
+    let result = await api.get("/sanctum/csrf-cookie")
+    console.log(result)
+    if ( result.status != 204 ) {
+      console.log("Error getting CSRF token")
+    }
+
+    result = await api.post("/api/register", registerForm)
+    console.log(result)
   }
 
   return (
@@ -29,7 +33,7 @@ function Register() {
       <input onChange={e => setRegisterForm({ ...registerForm, email: e.target.value })} className='border' type="email" name="" id="" />
       <h2>Password</h2>
       <input onChange={e => setRegisterForm({ ...registerForm, password: e.target.value })} className='border' type="password" name="" id="" />
-      <button onClick={onSubmitLogin} type="submit">Register!</button>
+      <button onClick={onSubmitRegister} type="submit">Register!</button>
     </div>
   )
 }

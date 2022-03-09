@@ -2,83 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use mysql_xdevapi\Exception;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->status = 200;
+        $this->data = [];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function register(Request $request)
     {
-        //
+        try {
+            $this->validate($request, [
+                'name' => "required",
+                'email' => 'required|email',
+                'password'=> 'required',
+            ]);
+
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' =>bcrypt($request->password),
+            ]);
+
+            $this->data = [
+                "message"=>"Sukses"
+            ];
+            return response($this->data, $this->status);
+        } catch (Exception $e) {
+            $this->data = $e->getMessage();
+            $this->status = 500;
+            return response($this->data, $this->status);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function login(Request $request)
     {
-        return $request;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        try {
+            $this->validate($request, [
+                'email' => 'required|email',
+                'password'=> 'required',
+            ]);
+            if (Auth::attempt(["email"=>$request->email, "password"=>$request->password])) {
+                $user = Auth::user();
+                $token = $user->createToken('tkn')->plainTextToken;
+                $this->data = [
+                    "user" => $user,
+                    "token" => $token,
+                ];
+                return response($this->data, $this->status)->cookie(
+                    "personal_token", $token, 60*24 // 1 Day
+                );
+            } else {
+                $this->status = 400;
+                $this->data = [
+                    "message"=>"Nama atau password salah",
+                ];
+                return response($this->data, $this->status);
+            }
+        } catch ( Exception $e ) {
+            $this->data = $e->getMessage();
+            $this->status = 500;
+            return response($this->data, $this->status);
+        }
     }
 }
