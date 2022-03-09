@@ -71,4 +71,21 @@ class UserController extends Controller
             return response($this->data, $this->status);
         }
     }
+
+    public function logout()
+    {
+        try {
+            Auth::guard('web')->logout();
+            auth()->user()->tokens()->delete();
+            $this->status = 200;
+            $this->data = [
+                "message" => "Sukses"
+            ];
+            return response($this->data, $this->status);
+        } catch ( Exception $e ) {
+            $this->data = $e->getMessage();
+            $this->status = 500;
+            return response($this->data, $this->status);
+        }
+    }
 }
