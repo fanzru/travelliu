@@ -55,9 +55,7 @@ class UserController extends Controller
                     "user" => $user,
                     "token" => $token,
                 ];
-                return response($this->data, $this->status)->cookie(
-                    "personal_token", $token, 60*24 // 1 Day
-                );
+                return response($this->data, $this->status);
             } else {
                 $this->status = 400;
                 $this->data = [

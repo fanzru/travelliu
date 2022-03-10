@@ -32,7 +32,6 @@ function index() {
 }
 
 export async function getServerSideProps({ req, res }) {
-  console.log(req.cookies)
   if (req.cookies.auth == "true") {
     return {
       props: {}
