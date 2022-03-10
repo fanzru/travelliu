@@ -4,7 +4,7 @@ import { api } from '../utils/apiHelper'
 import { useRouter } from 'next/router'
 import Router from 'next/router'
 
-export default function Home() {
+export default function login({must_login}) {
   let router = useRouter()
 
   const [LoginForm, setLoginForm] = useState({
@@ -32,6 +32,12 @@ export default function Home() {
   return (
     <>
       <div className=' flex flex-col justify-center items-center h-screen'>
+        {
+          must_login &&
+          <div>
+            Kamu harus login duluu
+          </div>
+        }
         <h1>Login</h1>
         <h2>Email</h2>
         <input onChange={e => setLoginForm({ ...LoginForm, email: e.target.value })} className='border' type="text" name="" id="" />
@@ -41,4 +47,18 @@ export default function Home() {
       </div>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  if (context.query["must_login"] != undefined) {
+    return {
+      props: {
+        must_login: true
+      }
+    }
+  }
+
+  return {
+    props : {}
+  }
 }

@@ -31,8 +31,8 @@ function index() {
   )
 }
 
-export async function getServerSideProps({ req, res }) {
-  if (req.cookies.auth == "true") {
+export async function getServerSideProps(context) {
+  if (context.req.cookies.auth == "true") {
     return {
       props: {}
     }
@@ -40,7 +40,7 @@ export async function getServerSideProps({ req, res }) {
 
   return {
     redirect : {
-      destination: "/login",
+      destination: "/login?must_login",
       permanent: false
     }
   }
