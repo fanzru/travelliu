@@ -55,14 +55,13 @@ class UserController extends Controller
                     "user" => $user,
                     "token" => $token,
                 ];
-                return response($this->data, $this->status);
             } else {
                 $this->status = 400;
                 $this->data = [
                     "message"=>"Nama atau password salah",
                 ];
-                return response($this->data, $this->status);
             }
+            return response($this->data, $this->status);
         } catch ( Exception $e ) {
             $this->data = $e->getMessage();
             $this->status = 500;

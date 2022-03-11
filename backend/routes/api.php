@@ -18,6 +18,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// User
 Route::post("/register", [\App\Http\Controllers\UserController::class, 'register']);
 Route::post("/login", [\App\Http\Controllers\UserController::class, 'login']);
 Route::middleware('auth:sanctum')->post("/logout", [\App\Http\Controllers\UserController::class, 'logout']);
+
+// Review
+Route::get("/review", [\App\Http\Controllers\ReviewController::class, 'index']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);
+});
+
