@@ -31,4 +31,20 @@ function index() {
   )
 }
 
+export async function getServerSideProps(context) {
+  if (context.req.cookies.auth == "true") {
+    return {
+      props: {}
+    }
+  }
+
+  return {
+    redirect : {
+      destination: "/login?must_login",
+      permanent: false
+    }
+  }
+
+}
+
 export default index
