@@ -58,35 +58,3 @@ export default function ProfilSendiri() {
 
   )
 }
-
-
-
-// import {BiTrash} from 'react-icons/bi'
-// export default function RevievById(){
-//   return (
-//       <div className="flex justify-center">
-//         <div className="border-2 max-w-[720px] w-full min-h-screen">
-//           <ing src"/kiseki-no-sedai.jpeg" alt="" className="object-cover h-[300px] w-full"/
-//           <div className="mt-[4px] flex items-center justify-between h-[50px] p-[12px]">
-//             <div className="flex items-center">
-//               <ing src="/kiseki-no-sedai.jpeg" alt="" className="object-cover h-[35px] w-[35
-//               <p className="nx-2 text-[18px] font-bold">Ananda Affan Fattahila</p>
-//             </div>
-//             <button className="text-[18px] text-red-580">
-//               BiTrash/>
-//             </button>
-//           </div>
-//       </div> CATP/>
-
-// export default function ReviewById (){
-//     return (
-//         <div className="flex justify-center">
-//           <div className="border-2 max-w-[720px] w-full min-h-screen">
-//             <img src="/kiseki-no-sedai.jpeg" alt="" className="object-cover h-[300px] w-full"/>
-//               <img src="/kiseki-no-sedai.jpeg" alt="" className="object-cover h-[35px] w-[35px] " />
-//               <p></p>
-//               <button></button>
-//             </div>
-//           </div>
-//         </div>
-//       </>
