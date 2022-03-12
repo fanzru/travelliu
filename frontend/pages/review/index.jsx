@@ -1,4 +1,5 @@
 import {BiTrash} from 'react-icons/bi'
+import CardTimeline from '../../components/CardTimeline'
 
 export default function ReviewById(){
   return (
@@ -20,9 +21,9 @@ export default function ReviewById(){
             </button>
 
           </div>
-
         </div>
       </div>
+      <CardTimeline/>
     </>
   )
 }
