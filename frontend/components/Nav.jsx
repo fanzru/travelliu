@@ -25,7 +25,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className='fixed w-full bg-white h-[70px] px-[57px] flex items-center justify-between border border-black z-50'>
+      <nav className='fixed w-full bg-white h-[70px] px-[57px] flex items-center justify-between border-b border-black z-50'>
         <Link href="/">
           <a >
             <h1 className='font-bold text-[25px]'>
