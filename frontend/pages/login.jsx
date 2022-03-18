@@ -51,7 +51,7 @@ export default function login({ must_login }) {
           <input onChange={e => setLoginForm({ ...LoginForm, email: e.target.value })} className='border h-[62px] rounded-[15px] p-2' type="text" name="" id="" />
 
           <p className='text-[18px] text-left'>Password</p>
-          <input onChange={e => setLoginForm({ ...LoginForm, password: e.target.value })} className='border h-[62px] rounded-[15px] p-2' type="text" name="" id="" />
+          <input onChange={e => setLoginForm({ ...LoginForm, password: e.target.value })} className='border h-[62px] rounded-[15px] p-2' type="password" name="" id="" />
 
           {
             ErrorMessage.error != "" ? 
