@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use mysql_xdevapi\Exception;
-
 class UserController extends Controller
 {
     public function __construct()
@@ -34,7 +32,7 @@ class UserController extends Controller
                 "message"=>"Sukses"
             ];
             return response($this->data, $this->status);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->data = $e->getMessage();
             $this->status = 500;
             return response($this->data, $this->status);
@@ -62,7 +60,7 @@ class UserController extends Controller
                 ];
             }
             return response($this->data, $this->status);
-        } catch ( Exception $e ) {
+        } catch ( \Exception $e ) {
             $this->data = $e->getMessage();
             $this->status = 500;
             return response($this->data, $this->status);
@@ -79,7 +77,7 @@ class UserController extends Controller
                 "message" => "Sukses"
             ];
             return response($this->data, $this->status);
-        } catch ( Exception $e ) {
+        } catch ( \Exception $e ) {
             $this->data = $e->getMessage();
             $this->status = 500;
             return response($this->data, $this->status);
