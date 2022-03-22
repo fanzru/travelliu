@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReviewsTable extends Migration
+class CreateKomentarsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,14 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('komentars', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nama_tempat');
-            $table->string('alamat');
-            $table->float('rating');
-            $table->longText('review');
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->longText("komentar");
 
-            // Foreign key
+            // Foreign key stuff
             $table->foreignId("user_id")->constrained();
+            $table->foreignId("review_id")->constrained();
         });
     }
 
@@ -35,6 +31,6 @@ class CreateReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('komentars');
     }
 }

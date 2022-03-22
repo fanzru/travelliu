@@ -45,4 +45,12 @@ class User extends Authenticatable
     public function review() {
         return $this->hasMany(Review::class);
     }
+
+    public function tikum() {
+        return $this->hasMany(Tikum::class);
+    }
+
+    public function komentar() {
+        return $this->hasMany(Komentar::class);
+    } 
 }

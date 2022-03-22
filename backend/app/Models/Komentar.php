@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class Komentar extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nama_tempat',
-        'alamat',
-        'rating',
-        'review',
-        'latitude',
-        'longitude',
+        'komentar',
+        'review_id',
         'user_id'
     ];
+
+    public function review() {
+        return $this->belongsTo(Komentar::class);
+    }
 
     public function user() {
         return $this->belongsTo(User::class);
