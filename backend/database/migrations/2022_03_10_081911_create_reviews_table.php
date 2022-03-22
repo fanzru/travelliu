@@ -20,8 +20,9 @@ class CreateReviewsTable extends Migration
             $table->string('alamat');
             $table->float('rating');
             $table->longText('review');
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->float('latitude')->nullable();
+            $table->float('longitude')->nullable();
+            $table->string('photo');
 
             // Foreign key
             $table->foreignId("user_id")->constrained();

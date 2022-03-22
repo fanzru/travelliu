@@ -16,6 +16,7 @@ class Review extends Model
         'review',
         'latitude',
         'longitude',
+        'photo',
         'user_id'
     ];
 
