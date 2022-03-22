@@ -9,6 +9,7 @@ import sys
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
+import os
 
 with open('./DataCleaner.pkl', 'rb') as f:
 	data_cleaner = pickle.load(f)
@@ -52,6 +53,6 @@ async def predict(req: RequestText):
 		}
 
 if __name__ == '__main__':
-	port = 8000
-	print(f"Listening to http://127.0.0.1:{port}")
-	uvicorn.run(app, host='127.0.0.1',port=8001)
+	port = 8001
+	print(f"Listening to http://0.0.0.0:{port}")
+	uvicorn.run(app, host='0.0.0.0',port=port)

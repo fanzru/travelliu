@@ -10,6 +10,15 @@ class Tikum extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'tempat_tujuan',
+        'tempat_kumpul',
+        'waktu_kumpul',
+        'link_group',
+        'deskripsi',
+        'user_id'
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
     }

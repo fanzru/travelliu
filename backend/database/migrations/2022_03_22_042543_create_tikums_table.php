@@ -16,7 +16,12 @@ class CreateTikumsTable extends Migration
         Schema::create('tikums', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
+            $table->string("tempat_tujuan");
+            $table->string("tempat_kumpul");
+            $table->string("link_group")->nullable();
+            $table->string("deskripsi")->nullable();
+            $table->dateTime("waktu_kumpul");
+            
             // Foreign key
             $table->foreignId("user_id")->constrained();
         });

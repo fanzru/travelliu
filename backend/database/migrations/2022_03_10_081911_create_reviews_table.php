@@ -16,8 +16,8 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('place_name');
-            $table->string('address');
+            $table->string('nama_tempat');
+            $table->string('alamat');
             $table->float('rating');
             $table->longText('review');
             $table->float('latitude');

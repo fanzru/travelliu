@@ -10,12 +10,13 @@ class Review extends Model
     use HasFactory;
 
     protected $fillable = [
-        'place_name',
-        'address',
+        'nama_tempat',
+        'alamat',
         'rating',
         'review',
         'latitude',
-        'longitude'
+        'longitude',
+        'user_id'
     ];
 
     public function user() {
