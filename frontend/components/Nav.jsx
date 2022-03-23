@@ -3,7 +3,7 @@ import MainButton from './button/MainButton'
 import jsCookie from 'js-cookie'
 import { authApi } from '../utils/apiHelper'
 import Link from 'next/link'
-
+import {BiMenu} from 'react-icons/bi'
 export default function Nav() {
   let auth = jsCookie.get('auth')
 
@@ -33,7 +33,7 @@ export default function Nav() {
             </h1>
           </a>
         </Link>
-        <div className='flex gap-[30px] items-center'>
+        <div className='flex gap-[30px] items-center hidden md:flex'>
           <Link href="/">
             <a className='text-[17px]'>Timeline</a>
           </Link>
@@ -54,6 +54,38 @@ export default function Nav() {
               </Link>
           }
           <MainButton href="/">Download</MainButton>
+          
+        </div>
+        <div>
+          <div class="dropdown dropdown-end ">
+            <label tabindex="0" class="btn btn-ghost rounded-btn"><BiMenu/></label>
+            <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+              <Link href="/">
+                <a className='text-[17px]  w-full h-[50px] flex items-center justify-center'>Timeline</a>
+              </Link>
+              {
+                auth == "true" ?
+                  <>
+                    <Link href="/">
+                      <a className='text-[17px]  w-full h-[50px] flex items-center justify-center '>My Profile</a>
+                    </Link>
+                    {/* Need to make div because of  MainButton bug */}
+                    <div>
+                      <button onClick={handleLogout} className='text-[17px]  w-full h-[50px] flex items-center justify-center' href="/">Logout</button>
+                    </div>
+                  </>
+                  :
+                  <Link href="/login">
+                    <a className='text-[17px]  w-full h-[50px] flex items-center justify-center'>Login</a>
+                  </Link>
+                  
+              }
+              <Link href="/tikum">
+                <a className='text-[17px]  w-full h-[50px] flex items-center justify-center'>Tikum</a>
+              </Link>
+              <MainButton href="/">Download</MainButton>
+            </ul>
+          </div>
         </div>
       </nav>
       <div className='w-full h-[65px]'>

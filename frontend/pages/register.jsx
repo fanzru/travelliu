@@ -11,7 +11,6 @@ function Register() {
   })
   const onSubmitRegister = async (e) => {
     e.preventDefault()
-    
     // Bagian ini harus ada setidaknya sekali untuk sessioning, lebih aman kalau misalkan ada di setiap post request
     try {
       let result = await api.get("/sanctum/csrf-cookie")
