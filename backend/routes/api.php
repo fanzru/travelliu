@@ -29,3 +29,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);
 });
 
+// Tikum
+Route::get("/tikum",[\App\Http\Controllers\TikumController::class, "index"]);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post("/tikum/create",[\App\Http\Controllers\TikumController::class,"create"]);
+});
+
