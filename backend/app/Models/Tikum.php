@@ -4,19 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 
-class Review extends Model
+class Tikum extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nama_tempat',
-        'alamat',
-        'rating',
-        'review',
-        'latitude',
-        'longitude',
-        'photo',
+        'tempat_tujuan',
+        'tempat_kumpul',
+        'waktu_kumpul',
+        'link_group',
+        'deskripsi',
         'user_id'
     ];
 
