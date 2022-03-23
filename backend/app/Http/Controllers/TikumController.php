@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Tikum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TikumController extends Controller
 {
+    public function __construct()
+    {
+        $this->status = 200;
+        $this->data = [];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,11 @@ class TikumController extends Controller
      */
     public function index()
     {
-        //
+        $tikum = Tikum::all();
+        // Lazy eager loading
+        $this->status = 200;
+        $this->data = $tikum;
+        return response($this->data,$this->status);
     }
 
     /**
@@ -22,9 +32,32 @@ class TikumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'tempat_tujuan'=>['required'],
+                'tempat_kumpul'=>['required'],
+                'waktu_kumpul'=>['required'],
+                'link_group'=>['required'],
+                'deskripsi'=>['required']
+            ]);
+
+            $user = Auth::user();
+
+            $tikum = $user->tikum()->create($validated);
+            $this->status = 200;
+            $this->data = [
+                "message"=> "Create Tikums Success",
+                "token" => $tikum,
+            ];
+            return response($this->data,$this->status);
+
+        } catch (\Exception $e) {
+            $this->data = $e->getMessage();
+            $this->status = 500;
+            return response($this->data, $this->status);
+        }
     }
 
     /**
@@ -82,4 +115,8 @@ class TikumController extends Controller
     {
         //
     }
+
+
+
+
 }
