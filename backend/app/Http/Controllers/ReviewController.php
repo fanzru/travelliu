@@ -86,10 +86,20 @@ class ReviewController extends Controller
      *
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
+     * @param  string  $id
      */
-    public function show(Review $review)
+    public function show(int $id)
     {
-        //
+        $review = Review::where(array('id' => $id))->get();
+        // Lazy eager loading
+        $review->load('user');
+        $this->status = 200;
+        $this->data=[
+            "message"=> "Get Review Success",
+            "data" => $review,
+        ];
+        return response($this->data, $this->status);
+        
     }
 
     /**
