@@ -49,7 +49,7 @@ class TikumController extends Controller
             $this->status = 200;
             $this->data = [
                 "message"=> "Create Tikums Success",
-                "token" => $tikum,
+                "data" => $tikum,
             ];
             return response($this->data,$this->status);
 

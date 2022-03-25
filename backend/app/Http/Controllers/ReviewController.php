@@ -56,7 +56,31 @@ class ReviewController extends Controller
             return  $e;
         }
     }
-
+    public function create(Request $request){
+        try{
+            $validated = $request->validate([
+                'nama_tempat'=>['required'],
+                'alamat'=>['required'],
+                'rating'=>['required'],
+                'review'=>['required'],
+                'latitude' => ['min:-90', 'max:90'],
+                'longitude' => ['min:-90', 'max:90'],
+                'photo'=>['required'],
+            ]);
+            $user = Auth::user();
+            $review = $user->review()->create($validated);
+            $this->status = 200;
+            $this->data=[
+                "message"=> "Create Review Success",
+                "data" => $review,
+            ];
+            return response($this->data, $this->status);
+        }catch(\Exception $e){
+            $this->data=$e->getMessage();
+            $this->status = 500;
+            return response($this->data, $this->status);
+        }
+    }
     /**
      * Display the specified resource.
      *

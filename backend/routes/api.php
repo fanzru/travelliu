@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->post("/logout", [\App\Http\Controllers\UserCo
 Route::get("/review", [\App\Http\Controllers\ReviewController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);
+    Route::post('/review/create', [\App\Http\Controllers\ReviewController::class, 'create']);
 });
 
 // Tikum
