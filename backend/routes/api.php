@@ -19,12 +19,13 @@ use Illuminate\Support\Facades\Route;
 // User
 Route::post("/register", [\App\Http\Controllers\UserController::class, 'register']);
 Route::post("/login", [\App\Http\Controllers\UserController::class, 'login']);
-Route::get("/user/{id}", [\App\Http\Controllers\UserController::class, 'profile']);
+Route::get("/user/{:id}", [\App\Http\Controllers\UserController::class, 'profile']);
 Route::middleware('auth:sanctum')->get('/user', [\App\Http\Controllers\UserController::class, 'index']);
 Route::middleware('auth:sanctum')->post("/logout", [\App\Http\Controllers\UserController::class, 'logout']);
 
 // Review
 Route::get("/review", [\App\Http\Controllers\ReviewController::class, 'index']);
+Route::get("/review/{id}",[\App\Http\Controllers\ReviewController::class, "show"]);
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);
     Route::post('/review/create', [\App\Http\Controllers\ReviewController::class, 'create']);
