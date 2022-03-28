@@ -41,6 +41,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
 
 // Komentar
+Route::get("/komentar/{review_id}",[\App\Http\Controllers\KomentarController::class, "getallkomentar_byreviewid"]);
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('/komentar',[\App\Http\Controllers\KomentarController::class,"create"]);
+    
 });
