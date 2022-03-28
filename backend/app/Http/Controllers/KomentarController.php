@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Komentar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KomentarController extends Controller
 {
+    public function __construct()
+    {
+        $this->status = 200;
+        $this->data = [];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +21,10 @@ class KomentarController extends Controller
     public function index()
     {
         //
+        $komentar = Komentar::all();
+        // Lazy eager loading
+        $komentar->load('user');
+        return $komentar;
     }
 
     /**
@@ -22,9 +32,26 @@ class KomentarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        try{
+            $validated = $request->validate([
+                'komentar' =>['required'],
+                'review_id' =>['required']
+            ]);
+            $user = Auth::user();
+            $komentar = $user->komentar()->create($validated);
+            $this->status = 200;
+            $this->data=[
+                "message"=> "Create Komentar Success",
+                "data"=> $komentar
+            ];
+            return response($this->data, $this->status);
+        }catch(\Exception $e){
+            $this->data=$e->getMessage();
+            $this->status = 500;
+            return response($this->data, $this->status);
+        }
     }
 
     /**

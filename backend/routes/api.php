@@ -29,6 +29,8 @@ Route::get("/review/{id}",[\App\Http\Controllers\ReviewController::class, "show"
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);
     Route::post('/review/create', [\App\Http\Controllers\ReviewController::class, 'create']);
+    Route::post('/review/delete/');
+    Route::get('/review/{user_id}',[\App\Http\Controllers\ReviewController::class, 'getUserByUserID']);
 });
 
 // Tikum
@@ -37,3 +39,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post("/tikum/create",[\App\Http\Controllers\TikumController::class,"create"]);
 });
 
+
+// Komentar
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('/komentar',[\App\Http\Controllers\KomentarController::class,"create"]);
+});
