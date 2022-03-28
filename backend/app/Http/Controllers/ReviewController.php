@@ -102,8 +102,14 @@ class ReviewController extends Controller
         
     }
 
-    public function getUserByUserID(){
-        
+    public function getReviewByUserID(int $userid){
+        $review = Review::where(array('user_id'=>$userid))->get();
+        $this->status=200;
+        $this->data=[
+            "message"=> "Get Review Success",
+            "data" => $review,
+        ];
+        return response($this->data,$this->status);
     }
     /**
      * Show the form for editing the specified resource.
@@ -134,9 +140,25 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
+        try{
+            $user = Auth::user();
+            $review = Review::find($id);
+            $review->delete();
+            $this->status=200;
+            $this->data=[
+                'messege' => 'review deleted successfully',
+                // 'data' => $review
+            ];
+            return response($this->data,$this->status);
+        }catch(\Exception $e){
+            $this->data=$e->getMessage();
+            $this->status = 500;
+            return response($this->data, $this->status);
+        }
+        
         
     }
 }

@@ -26,11 +26,12 @@ Route::middleware('auth:sanctum')->post("/logout", [\App\Http\Controllers\UserCo
 // Review
 Route::get("/review", [\App\Http\Controllers\ReviewController::class, 'index']);
 Route::get("/review/{id}",[\App\Http\Controllers\ReviewController::class, "show"]);
+Route::get('/review/profile/{user_id}',[\App\Http\Controllers\ReviewController::class, 'getReviewByUserID']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);
     Route::post('/review/create', [\App\Http\Controllers\ReviewController::class, 'create']);
-    Route::post('/review/delete/');
-    Route::get('/review/{user_id}',[\App\Http\Controllers\ReviewController::class, 'getUserByUserID']);
+    Route::delete('/review/{id}', [\App\Http\Controllers\ReviewController::class, 'destroy']);
+    
 });
 
 // Tikum
