@@ -109,4 +109,17 @@ class KomentarController extends Controller
     {
         //
     }
+
+    public function getallkomentar_byreviewid(int $review_id)
+    {
+        $komentar = Komentar::where(array('review_id' => $review_id))->get();
+        // Lazy eager loading
+        $komentar->load('user');
+        $this->status = 200;
+        $this->data=[
+            "message"=> "Get Komentar Success",
+            "data" => $komentar,
+        ];
+        return response($this->data, $this->status);
+    }
 }
