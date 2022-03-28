@@ -102,6 +102,9 @@ class ReviewController extends Controller
         
     }
 
+    public function getUserByUserID(){
+        
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -131,8 +134,9 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy($id)
     {
         //
+        
     }
 }
