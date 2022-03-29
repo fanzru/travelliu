@@ -35,12 +35,16 @@ class KomentarController extends Controller
     public function create(Request $request)
     {
         try{
-            $validated = $request->validate([
+            $request->validate([
                 'komentar' =>['required'],
                 'review_id' =>['required']
             ]);
             $user = Auth::user();
-            $komentar = $user->komentar()->create($validated);
+            $komentar = Komentar::create([
+                "komentar" => $request->komentar,
+                "review_id" => $request->review_id,
+                "user_id" => $user->id
+            ]);
             $this->status = 200;
             $this->data=[
                 "message"=> "Create Komentar Success",
@@ -99,18 +103,7 @@ class KomentarController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Komentar  $komentar
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Komentar $komentar)
-    {
-        //
-    }
-
-    public function getallkomentar_byreviewid(int $review_id)
+    public function getAllKomentarByReviewId(int $review_id)
     {
         $komentar = Komentar::where(array('review_id' => $review_id))->get();
         // Lazy eager loading

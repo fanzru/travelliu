@@ -23,7 +23,7 @@ class CreateTikumsTable extends Migration
             $table->dateTime("waktu_kumpul");
             
             // Foreign key
-            $table->foreignId("user_id")->constrained();
+            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
         });
     }
 

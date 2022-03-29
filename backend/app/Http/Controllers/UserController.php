@@ -52,7 +52,7 @@ class UserController extends Controller
     public function profile(int $id)
     {
         try {
-            $user = User::findOrFail($id);
+            $user = User::find($id);
             $totalReview = Review::where('user_id', $user->id)->count();
 
             if ($totalReview == 0) {

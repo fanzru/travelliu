@@ -25,7 +25,7 @@ class CreateReviewsTable extends Migration
             $table->string('photo');
 
             // Foreign key
-            $table->foreignId("user_id")->constrained();
+            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
         });
     }
 

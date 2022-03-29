@@ -19,8 +19,8 @@ class CreateKomentarsTable extends Migration
             $table->longText("komentar");
 
             // Foreign key stuff
-            $table->foreignId("user_id")->constrained();
-            $table->foreignId("review_id")->constrained();
+            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("review_id")->constrained()->cascadeOnDelete();
         });
     }
 

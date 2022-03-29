@@ -34,34 +34,12 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        try {
-            $validated = $request->validate([
-                'place_name' => ['required'],
-                'address' => ['required'],
-                'rating' => ['required', 'max:5', 'min:0'],
-                'review' => ['required'],
-                'latitude' => ['min:-90', 'max:90'],
-                'longitude' => ['min:-90', 'max:90']
-            ]);
-
-            $user = Auth::user();
-
-            $review = $user->review()->create($validated);
-
-            return $review;
-
-        } catch (\Exception $e) {
-            return  $e;
-        }
-    }
     public function create(Request $request){
         try{
             $validated = $request->validate([
                 'nama_tempat'=>['required'],
                 'alamat'=>['required'],
-                'rating'=>['required'],
+                'rating'=>['required', 'max:5', 'min:0'],
                 'review'=>['required'],
                 'latitude' => ['min:-90', 'max:90'],
                 'longitude' => ['min:-90', 'max:90'],
@@ -81,6 +59,7 @@ class ReviewController extends Controller
             return response($this->data, $this->status);
         }
     }
+
     /**
      * Display the specified resource.
      *
@@ -102,36 +81,15 @@ class ReviewController extends Controller
         
     }
 
+    // NOTE: Oke ini gaada di use case tapi good la
     public function getReviewByUserID(int $userid){
-        $review = Review::where(array('user_id'=>$userid))->get();
+        $review = Review::where(['user_id'=>$userid])->get();
         $this->status=200;
         $this->data=[
             "message"=> "Get Review Success",
             "data" => $review,
         ];
         return response($this->data,$this->status);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Review $review)
-    {
-        //
     }
 
     /**
@@ -146,6 +104,10 @@ class ReviewController extends Controller
         try{
             $user = Auth::user();
             $review = Review::find($id);
+            if ($review->user_id !=  $user->id) {
+                $this->status = 403;
+                return response($this->data, $this->status);
+            }
             $review->delete();
             $this->status=200;
             $this->data=[

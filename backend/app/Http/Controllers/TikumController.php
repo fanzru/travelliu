@@ -21,7 +21,6 @@ class TikumController extends Controller
     public function index()
     {
         $tikum = Tikum::all();
-        // Lazy eager loading
         $this->status = 200;
         $this->data = $tikum;
         return response($this->data,$this->status);
@@ -35,12 +34,13 @@ class TikumController extends Controller
     public function create(Request $request)
     {
         try {
+            // Check on ERD of TIkum not all required
             $validated = $request->validate([
                 'tempat_tujuan'=>['required'],
                 'tempat_kumpul'=>['required'],
                 'waktu_kumpul'=>['required'],
-                'link_group'=>['required'],
-                'deskripsi'=>['required']
+                'link_group'=>[],
+                'deskripsi'=>[]
             ]);
 
             $user = Auth::user();
@@ -106,17 +106,30 @@ class TikumController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove Tikum that user have
      *
-     * @param  \App\Models\Tikum  $tikum
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tikum $tikum)
+    public function destroy(int $id)
     {
-        //
+        try {
+            $user = Auth::user();
+            $komentar = Tikum::find($id);
+            if ($komentar->user_id != $user->id) {
+                $this->status = 403;
+                return response($this->data, $this->status);
+            }
+
+            $komentar->delete();
+            $this->status = 200;
+            $this->data = $komentar;
+            return response($this->data, $this->status);
+
+        } catch (\Exception $e) {
+            $this->data = $e->getMessage();
+            $this->status = 500;
+            return response($this->data, $this->status); 
+        }
     }
-
-
-
-
 }
