@@ -34,27 +34,28 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request){
-        try{
+    public function create(Request $request)
+    {
+        try {
             $validated = $request->validate([
-                'nama_tempat'=>['required'],
-                'alamat'=>['required'],
-                'rating'=>['required', 'max:5', 'min:0'],
-                'review'=>['required'],
+                'nama_tempat' => ['required'],
+                'alamat' => ['required'],
+                'rating' => ['required', 'max:5', 'min:0'],
+                'review' => ['required'],
                 'latitude' => ['min:-90', 'max:90'],
                 'longitude' => ['min:-90', 'max:90'],
-                'photo'=>['required'],
+                'photo' => ['required'],
             ]);
             $user = Auth::user();
             $review = $user->review()->create($validated);
             $this->status = 200;
-            $this->data=[
-                "message"=> "Create Review Success",
+            $this->data = [
+                "message" => "Create Review Success",
                 "data" => $review,
             ];
             return response($this->data, $this->status);
-        }catch(\Exception $e){
-            $this->data=$e->getMessage();
+        } catch (\Exception $e) {
+            $this->data = $e->getMessage();
             $this->status = 500;
             return response($this->data, $this->status);
         }
@@ -73,23 +74,23 @@ class ReviewController extends Controller
         // Lazy eager loading
         $review->load('user');
         $this->status = 200;
-        $this->data=[
-            "message"=> "Get Review Success",
+        $this->data = [
+            "message" => "Get Review Success",
             "data" => $review,
         ];
         return response($this->data, $this->status);
-        
     }
 
     // NOTE: Oke ini gaada di use case tapi good la
-    public function getReviewByUserID(int $userid){
-        $review = Review::where(['user_id'=>$userid])->get();
-        $this->status=200;
-        $this->data=[
-            "message"=> "Get Review Success",
+    public function getReviewByUserID(int $userid)
+    {
+        $review = Review::where(['user_id' => $userid])->get();
+        $this->status = 200;
+        $this->data = [
+            "message" => "Get Review Success",
             "data" => $review,
         ];
-        return response($this->data,$this->status);
+        return response($this->data, $this->status);
     }
 
     /**
@@ -101,7 +102,7 @@ class ReviewController extends Controller
     public function destroy(int $id)
     {
         //
-        try{
+        try {
             $user = Auth::user();
             $review = Review::find($id);
             if ($review->user_id !=  $user->id) {
@@ -109,18 +110,16 @@ class ReviewController extends Controller
                 return response($this->data, $this->status);
             }
             $review->delete();
-            $this->status=200;
-            $this->data=[
+            $this->status = 200;
+            $this->data = [
                 'messege' => 'review deleted successfully',
                 // 'data' => $review
             ];
-            return response($this->data,$this->status);
-        }catch(\Exception $e){
-            $this->data=$e->getMessage();
+            return response($this->data, $this->status);
+        } catch (\Exception $e) {
+            $this->data = $e->getMessage();
             $this->status = 500;
             return response($this->data, $this->status);
         }
-        
-        
     }
 }
