@@ -38,8 +38,8 @@ class ReviewController extends Controller
     {
         try {
             $validated = $request->validate([
-                'place_name' => ['required'],
-                'address' => ['required'],
+                'nama_tempat' => ['required'],
+                'alamat' => ['required'],
                 'rating' => ['required', 'max:5', 'min:0'],
                 'review' => ['required'],
                 'latitude' => ['min:-90', 'max:90'],
