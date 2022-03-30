@@ -9,23 +9,21 @@ export default function Nav() {
 
   const handleLogout = async () => {
     let result = await authApi().post("/api/logout")
-    console.log(result)
     if (result.status == 200) {
       jsCookie.remove('auth')
       jsCookie.remove('main_token')
       jsCookie.remove('personal_token')
       jsCookie.remove('laravel_session')
-      window.location = "/login"
+      window.location.replace("login")
     }
   }
 
   useEffect(() => {
-    console.log(auth)
   }, [auth])
 
   return (
     <>
-      <nav className='fixed w-full bg-white h-[70px] px-[57px] flex items-center justify-between border-b border-black z-50'>
+      <nav className='fixed w-full bg-white h-[70px] px-[30px] flex items-center justify-between border-b border-black z-50'>
         <Link href="/">
           <a >
             <h1 className='font-bold text-[25px]'>
@@ -33,7 +31,7 @@ export default function Nav() {
             </h1>
           </a>
         </Link>
-        <div className='flex gap-[30px] items-center hidden md:flex'>
+        <div className='hidden gap-[30px] items-center md:flex'>
           <Link href="/">
             <a className='text-[17px]'>Timeline</a>
           </Link>
@@ -56,10 +54,10 @@ export default function Nav() {
           <MainButton href="/">Download</MainButton>
           
         </div>
-        <div>
-          <div class="dropdown dropdown-end ">
-            <label tabindex="0" class="btn btn-ghost rounded-btn"><BiMenu/></label>
-            <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+        <div className='md:hidden'>
+          <div className="dropdown dropdown-end ">
+            <label tabIndex="0" className="btn btn-ghost rounded-btn"><BiMenu/></label>
+            <ul tabIndex="0" className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
               <Link href="/">
                 <a className='text-[17px]  w-full h-[50px] flex items-center justify-center'>Timeline</a>
               </Link>

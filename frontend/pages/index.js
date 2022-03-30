@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import React from 'react'
-import { authApi } from "../utils/apiHelper";
+import { api, authApi } from "../utils/apiHelper";
+import CardTimeline from "../components/CardTimeline";
+import jsCookie from "js-cookie";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function index() {
   const [NameEmail, setNameEmail] = useState({
@@ -8,24 +11,31 @@ function index() {
     email: "",
   })
 
-  // useEffect(async () => {
-  //   let result = await authApi().get("/api/user")
-  //   if (result.status == 200) {
-  //     setNameEmail({
-  //       ...NameEmail,
-  //       name: result.data.name,
-  //       email: result.data.email
-  //     })
-  //     return
-  //   }
-  // }, [])
+  const [TimelineData, setTimelineData] = useState([])
+
+  useEffect(() => {
+    api().get("/api/review")
+    .then((res) => {
+      console.log(res)
+      setTimelineData(res.data)
+    })
+    .catch(e => {
+
+    }) 
+  }, [])
+
+  if (TimelineData.length == 0 ) {
+    return <LoadingSpinner/>
+  }
 
   return (
     <>
       <div>
-        {NameEmail.name == "" ? "Not Logged in" : "Logged in"}
-        {NameEmail.name}
-        {NameEmail.email}
+        {
+          TimelineData.map((val, idx) => {
+            return <CardTimeline key={idx} data={val} />
+          })
+        }
       </div>
     </>
   )

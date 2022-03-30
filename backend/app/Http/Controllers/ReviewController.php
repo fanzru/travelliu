@@ -16,9 +16,8 @@ class ReviewController extends Controller
     public function index()
     {
         try {
-            $review = Review::all();
-            // Lazy eager loading
-            $review->load('user');
+            $review = Review::with('user')->get();
+            $review->loadCount('komentar');
             return response($review, 200);
         } catch (\Exception $e) {
             return response("Internal Serer Error", 500);

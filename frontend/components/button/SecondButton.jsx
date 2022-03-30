@@ -8,12 +8,12 @@ function SecondButton({className="", onClick = null, href = null, children }) {
     href = "/"
   }
 
-  const doOnclick = () => {
+  const doOnclick = (e) => {
     if (onClick == null) {
       router.push(href)
       return
     }
-    onClick()
+    onClick(e)
   }
 
   return (
