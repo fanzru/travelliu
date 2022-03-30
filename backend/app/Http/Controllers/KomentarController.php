@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Komentar;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class KomentarController extends Controller
 {
-    public function __construct()
-    {
-        $this->status = 200;
-        $this->data = [];
-    }
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +16,13 @@ class KomentarController extends Controller
      */
     public function index()
     {
-        //
-        $komentar = Komentar::all();
-        // Lazy eager loading
-        $komentar->load('user');
-        return $komentar;
+        try {
+            $komentar = Komentar::all();
+            $komentar->load('user');
+            return response($komentar, 200);
+        } catch (\Exception $e) {
+            return response("Internal Server Error", 500);
+        }
     }
 
     /**
@@ -32,87 +30,40 @@ class KomentarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(int $review_id, Request $request)
     {
-        try{
-            $request->validate([
-                'komentar' =>['required'],
-                'review_id' =>['required']
+        try {
+            $this->validate($request, [
+                'komentar' => ['required'],
             ]);
             $user = Auth::user();
+            $review = Review::findOrFail($review_id);
             $komentar = Komentar::create([
                 "komentar" => $request->komentar,
-                "review_id" => $request->review_id,
+                "review_id" => $review->id,
                 "user_id" => $user->id
             ]);
-            $this->status = 200;
-            $this->data=[
-                "message"=> "Create Komentar Success",
-                "data"=> $komentar
-            ];
-            return response($this->data, $this->status);
-        }catch(\Exception $e){
-            $this->data=$e->getMessage();
-            $this->status = 500;
-            return response($this->data, $this->status);
+            return response($komentar, 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response("Review tidak valid", 400);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response("Request tidak valid", 400);
+        } catch (\Exception $e) {
+            return response("Internal Server Error", 500);
         }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Komentar  $komentar
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Komentar $komentar)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Komentar  $komentar
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Komentar $komentar)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Komentar  $komentar
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Komentar $komentar)
-    {
-        //
     }
 
     public function getAllKomentarByReviewId(int $review_id)
     {
-        $komentar = Komentar::where(array('review_id' => $review_id))->get();
-        // Lazy eager loading
-        $komentar->load('user');
-        $this->status = 200;
-        $this->data=[
-            "message"=> "Get Komentar Success",
-            "data" => $komentar,
-        ];
-        return response($this->data, $this->status);
+        try {
+            $review = Review::findOrFail($review_id);
+            $komentar = Komentar::where(array('review_id' => $review->id))->firstOrFail();
+            $komentar->load('user');
+            return response($komentar, 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response("Review tidak valid", 400);
+        } catch (\Exception $e) {
+            return response("Internal Server Error", 500);
+        }
     }
 }

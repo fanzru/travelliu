@@ -8,13 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->status = 200;
-        $this->data = [];
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,10 +15,14 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $review = Review::all();
-        // Lazy eager loading
-        $review->load('user');
-        return $review;
+        try {
+            $review = Review::all();
+            // Lazy eager loading
+            $review->load('user');
+            return response($review, 200);
+        } catch (\Exception $e) {
+            return response("Internal Serer Error", 500);
+        }
     }
 
     /**
@@ -37,7 +34,7 @@ class ReviewController extends Controller
     public function create(Request $request)
     {
         try {
-            $validated = $request->validate([
+            $validated = $this->validate($request, [
                 'nama_tempat' => ['required'],
                 'alamat' => ['required'],
                 'rating' => ['required', 'max:5', 'min:0'],
@@ -48,16 +45,11 @@ class ReviewController extends Controller
             ]);
             $user = Auth::user();
             $review = $user->review()->create($validated);
-            $this->status = 200;
-            $this->data = [
-                "message" => "Create Review Success",
-                "data" => $review,
-            ];
-            return response($this->data, $this->status);
+            return response($review, 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response("Request tidak valid", 400);
         } catch (\Exception $e) {
-            $this->data = $e->getMessage();
-            $this->status = 500;
-            return response($this->data, $this->status);
+            return response("Internal Server Error", 500);
         }
     }
 
@@ -70,27 +62,17 @@ class ReviewController extends Controller
      */
     public function show(int $id)
     {
-        $review = Review::where(array('id' => $id))->get();
-        // Lazy eager loading
-        $review->load('user');
-        $this->status = 200;
-        $this->data = [
-            "message" => "Get Review Success",
-            "data" => $review,
-        ];
-        return response($this->data, $this->status);
-    }
-
-    // NOTE: Oke ini gaada di use case tapi good la
-    public function getReviewByUserID(int $userid)
-    {
-        $review = Review::where(['user_id' => $userid])->get();
-        $this->status = 200;
-        $this->data = [
-            "message" => "Get Review Success",
-            "data" => $review,
-        ];
-        return response($this->data, $this->status);
+        try {
+            $review = Review::findOrFail($id);
+            // Lazy eager loading
+            $review->load('user');
+            $review->load('komentar');
+            return response($review, 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response("Review tidak ditemukan", 400);
+        } catch (\Exception $e) {
+            return response("Internal Server Error", 500);
+        }
     }
 
     /**
@@ -104,22 +86,16 @@ class ReviewController extends Controller
         //
         try {
             $user = Auth::user();
-            $review = Review::find($id);
+            $review = Review::findOrFail($id);
             if ($review->user_id !=  $user->id) {
-                $this->status = 403;
-                return response($this->data, $this->status);
+                return response("Review tidak valid", 403);
             }
             $review->delete();
-            $this->status = 200;
-            $this->data = [
-                'messege' => 'review deleted successfully',
-                // 'data' => $review
-            ];
-            return response($this->data, $this->status);
+            return response("Delete Review sukses", 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response("Review tidak valid", 400);
         } catch (\Exception $e) {
-            $this->data = $e->getMessage();
-            $this->status = 500;
-            return response($this->data, $this->status);
+            return response("Internal Server Error", 500);
         }
     }
 }

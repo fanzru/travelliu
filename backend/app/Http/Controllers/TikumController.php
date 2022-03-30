@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TikumController extends Controller
 {
-    public function __construct()
-    {
-        $this->status = 200;
-        $this->data = [];
-    }
     /**
      * Display a listing of the resource.
      *
@@ -20,10 +15,13 @@ class TikumController extends Controller
      */
     public function index()
     {
-        $tikum = Tikum::all();
-        $this->status = 200;
-        $this->data = $tikum;
-        return response($this->data,$this->status);
+        try {
+            $tikum = Tikum::all();
+            $tikum->load('user');
+            return response($tikum, 200);
+        } catch (\Exception $e) {
+            return response("Internal Server Error", 500);
+        }
     }
 
     /**
@@ -36,73 +34,20 @@ class TikumController extends Controller
         try {
             // Check on ERD of TIkum not all required
             $validated = $request->validate([
-                'tempat_tujuan'=>['required'],
-                'tempat_kumpul'=>['required'],
-                'waktu_kumpul'=>['required'],
-                'link_group'=>[],
-                'deskripsi'=>[]
+                'tempat_tujuan' => ['required'],
+                'tempat_kumpul' => ['required'],
+                'waktu_kumpul' => ['required'],
+                'link_group' => [],
+                'deskripsi' => []
             ]);
-
             $user = Auth::user();
-
             $tikum = $user->tikum()->create($validated);
-            $this->status = 200;
-            $this->data = [
-                "message"=> "Create Tikums Success",
-                "data" => $tikum,
-            ];
-            return response($this->data,$this->status);
-
-        } catch (\Exception $e) {
-            $this->data = $e->getMessage();
-            $this->status = 500;
-            return response($this->data, $this->status);
+            return response($tikum, 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response("Request tidak valid", 400);
+        }catch (\Exception $e) {
+            return response("Internal Server Error", 500);
         }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tikum  $tikum
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tikum $tikum)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Tikum  $tikum
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tikum $tikum)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tikum  $tikum
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Tikum $tikum)
-    {
-        //
     }
 
     /**
@@ -115,21 +60,16 @@ class TikumController extends Controller
     {
         try {
             $user = Auth::user();
-            $komentar = Tikum::find($id);
+            $komentar = Tikum::findOrFail($id);
             if ($komentar->user_id != $user->id) {
-                $this->status = 403;
-                return response($this->data, $this->status);
+                return response("Tikum tidak valid", 403);
             }
-
             $komentar->delete();
-            $this->status = 200;
-            $this->data = $komentar;
-            return response($this->data, $this->status);
-
+            return response("Delete Success", 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response("Tikum tidak ditemukan", 400);
         } catch (\Exception $e) {
-            $this->data = $e->getMessage();
-            $this->status = 500;
-            return response($this->data, $this->status); 
+            return response("Internal Server Error", 500);
         }
     }
 }
