@@ -110,6 +110,8 @@ class UserController extends Controller
             } else {
                 return response("Nama atau password salah", 400);
             }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response("Nama, Email, atau Password tidak valid", 400);
         } catch (\Exception $e) {
             return response("Internal Server Error", 500);
         }
