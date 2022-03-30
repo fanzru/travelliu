@@ -40,11 +40,16 @@ class TikumController extends Controller
                 'deskripsi' => []
             ]);
             $user = Auth::user();
+            if (strlen(trim($request->deskripsi)) != 0) {
+                if (predictTextIsSpam($request->deskripsi)) {
+                    return response("Deskripsi terdeteksi spam", 400);
+                }
+            }
             $tikum = $user->tikum()->create($validated);
             return response($tikum, 200);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response("Request tidak valid", 400);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response("Internal Server Error", 500);
         }
     }

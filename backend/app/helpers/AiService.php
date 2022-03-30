@@ -8,7 +8,6 @@ function predictTextIsSpam(string $txt) : bool {
   yang diberikan merupakan text spam ataupun tidak.
   */
 
-
   $txt = trim($txt);
   
   if (strlen($txt) == 0) {
@@ -18,7 +17,7 @@ function predictTextIsSpam(string $txt) : bool {
   $data = [
     "text" => $txt
   ];
-  $response = Http::post(env("AI_HOST").":".env("AI_POST")."/", $data);
+  $response = Http::post(env("AI_HOST").":".env("AI_PORT")."/", $data);
   if (!$response->successful() || $response->status() != 200) {
     throw new \Exception("Gagal dalam melakukan request ke AI node");
   }

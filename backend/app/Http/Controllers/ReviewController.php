@@ -42,6 +42,9 @@ class ReviewController extends Controller
                 'longitude' => ['min:-90', 'max:90'],
                 'photo' => ['required'],
             ]);
+            if (predictTextIsSpam($request->review)) {
+                return response("Review terdeteksi spam", 400);
+            }
             $user = Auth::user();
             $review = $user->review()->create($validated);
             return response($review, 200);

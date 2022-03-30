@@ -37,6 +37,9 @@ class KomentarController extends Controller
             ]);
             $user = Auth::user();
             $review = Review::findOrFail($review_id);
+            if (predictTextIsSpam($request->komentar)) {
+                return response("Komentar terdeteksi spam", 400);
+            }
             $komentar = Komentar::create([
                 "komentar" => $request->komentar,
                 "review_id" => $review->id,
