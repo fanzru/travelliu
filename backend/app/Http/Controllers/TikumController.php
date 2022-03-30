@@ -16,8 +16,7 @@ class TikumController extends Controller
     public function index()
     {
         try {
-            $tikum = Tikum::all();
-            $tikum->load('user');
+            $tikum = Tikum::with('user:id,name,created_at,updated_at')->get();
             return response($tikum, 200);
         } catch (\Exception $e) {
             return response("Internal Server Error", 500);

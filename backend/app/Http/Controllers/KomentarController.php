@@ -17,8 +17,7 @@ class KomentarController extends Controller
     public function index()
     {
         try {
-            $komentar = Komentar::all();
-            $komentar->load('user');
+            $komentar = Komentar::with('user:id,name')->get();
             return response($komentar, 200);
         } catch (\Exception $e) {
             return response("Internal Server Error", 500);

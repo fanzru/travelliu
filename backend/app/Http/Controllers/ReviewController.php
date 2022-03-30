@@ -67,6 +67,7 @@ class ReviewController extends Controller
             // Lazy eager loading
             $review->load('user');
             $review->load('komentar');
+            $review->load('komentar.user');
             return response($review, 200);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response("Review tidak ditemukan", 400);
