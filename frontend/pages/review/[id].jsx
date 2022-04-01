@@ -1,57 +1,80 @@
-import {BiTrash} from 'react-icons/bi'
 import { AiOutlineStar } from 'react-icons/ai'
-import CardTimeline from '../../components/CardTimeline'
 import {HiOutlineLocationMarker} from 'react-icons/hi'
+import { useRouter } from 'next/router'
+import { api } from "../../utils/apiHelper";
+import {useEffect,useState} from 'react'
 export default function ReviewById(){
+  const router = useRouter()
+  const [data,setData] = useState('')
+  const [loading,setLoading] = useState(true)
+  useEffect(() => {
+    const { id } = router.query
+    api().get(`/api/review/${id}`)
+    .then((res) => {
+      console.log(res)
+      setData(res.data)
+      setLoading(false)
+    })
+    .catch(e => {
+      console.log(e)
+    }) 
+  }, [])
+
+  if (loading) return <></>
+
+
   return (
     <>
       <div className="flex justify-center">
         <div className=" max-w-[720px] w-full min-h-screen">
-          <img src="/kiseki-no-sedai.jpeg" alt="" className="object-cover h-[300px] w-full"/>
-
+          <img src={data.photo} alt="" className="object-cover h-[300px] w-full"/>
           <div className="mt-[4px] flex items-center justify-between h-[50px] p-[12px]">
-
             <div className="flex items-center">
               <img src="/kiseki-no-sedai.jpeg" alt="" className="object-cover h-[35px] w-[35px] rounded-full"/>
-              <p className="ml-4 text-[18px] font-bold">Ananda Affan Fattahila</p>
+              <p className="ml-4 text-[18px] font-bold">{data.user?.name}</p>
             </div>
-
-            {/* <button className="text-[18px] text-red-500">
-              <BiTrash/>
-            </button> */}
 
           </div>
           <div className="flex px-[12px] items-center">
             <div className="flex  items-center  ">
               <AiOutlineStar/>
               <p className="ml-1">
-                {"4.4"}
+                {data.rating}
               </p>
             </div>
             <div className="font-bold ml-4">
-              {"Negeri Isekai"}
+              {data.nama_tempat}
             </div>
           </div>
           <div className="px-[12px] text-[14px]">
-            {"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh turpis, scelerisque ac felis non, gravida tempor velit. Quisque eget venenatis neque. Aliquam varius, leo et rhoncus feugiat, lorem risus vehicula ex, at pellentesque ipsum turpis non nibh. Sed at sagittis justo. Sed enim quam, rutrum ac mauris vel, condimentum volutpat metus. Praesent vulputate tincidunt nisl nec luctus. Quisque sollicitudin imperdiet nisl, eu facilisis diam scelerisque ac."}
+            {data.review}
           </div>
           <div className="flex px-[12px] mt-4">
             <div className="btn  ">
               <HiOutlineLocationMarker/>
             </div>
             <div className=" ml-[10px] w-full text-[14px]">
-              {"Alamat: Jl Kekcocakan yang sangat panjang sekali sehingga ini seharusnya bisa tiidak muat jadi  yang dilakukan adalah menambahkan text ini ke bawah dibatasi 200 karakter"}
+              {data.alamat}
             </div>
           </div>
           <form className="p-[12px] flex items-center">
-            <input type="text" placeholder="Maksimal 300 Karakter" class="input input-bordered w-full mr-4"/>
-            <button className="btn " >Button</button>
+            <input type="text" placeholder="Maksimal 300 Karakter" className="input input-bordered w-full mr-4"/>
+            <button className="btn " >Balas</button>
           </form>
-          <div className="border border-black mx-[12px] p-4 rounded-md">
-            <div className="font-bold">{"Shabrina Retno Ningsih"}</div>
-            <p className="line-clamp-1">{"Ini komen yang pendek jadi harus di klik dan setelah dibuka menjadi lebih lebar. Walaupun nanti dataniya yang dikirimkan dari backend harus full comment, jadi yang seperti ini harus dibatasi jumlah karakternya misalkan 300 karakter saja cukup untuk melakukan komentar"}</p>
-            <button className="font-semibold">Buka Lebih Jelas</button>
-          </div>
+          
+            {
+              data.komentar?.map((komen,idx)=>{
+                return (
+                  <div className="border border-black mx-[12px] p-4 rounded-md">
+                    <div className="font-bold">{komen.user?.name}</div>
+                      <p className="line-clamp-1">{komen.komentar}</p>
+                    
+                  </div>
+                )
+              })
+            }
+            
+          
         </div>
       </div>
     </>
