@@ -60,7 +60,7 @@ export default function login({ must_login }) {
         pauseOnHover
       />
       <div className=' flex flex-col justify-center items-center h-screen'>
-        <div className='w-[510px] flex flex-col gap-4'>
+        <div className='max-w-[510px] flex flex-col gap-4 mx-2'>
           <h1 className='font-bold text-[72px] text-center'>Bagikan Momentmu</h1>
 
           <p className='text-[18px] text-left'>Email</p>

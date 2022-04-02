@@ -27,9 +27,7 @@ export default function ProfilSendiri() {
             </div>
           </div>
         </div>
-
-
-
+      
 
         {/* <div className='mt-[4px] flex items-center justify-between h-[50px] p-[12px]'>
           <div className="flex items-center">

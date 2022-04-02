@@ -11,22 +11,21 @@ function index() {
     email: "",
   })
 
+  
   const [TimelineData, setTimelineData] = useState([])
 
   useEffect(() => {
     api().get("/api/review")
     .then((res) => {
-      console.log(res)
       setTimelineData(res.data)
     })
     .catch(e => {
 
-    }) 
+    })
+    
   }, [])
 
-  if (TimelineData.length == 0 ) {
-    return <LoadingSpinner/>
-  }
+  if (TimelineData.length == 0 ) return <LoadingSpinner/>
 
   return (
     <>

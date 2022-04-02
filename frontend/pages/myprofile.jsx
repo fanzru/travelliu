@@ -7,14 +7,12 @@ export default function ProfilSendiri() {
       <div className="border-2 max-w-[720px] w-full min-h-screen">
         <div className="hero container max-w-screen-lg justify-center pt-10">
           <img className="object-cover h-[160px] w-[160px] rounded-full" src="/kiseki-no-sedai.jpeg" alt="" />
-
         </div>
         <div className="hero container max-w-screen-lg justify-center pb-2 pt-2">
           <p className='text-[37.54px] font-bold'>
             Ananda Fatahilla
           </p>
         </div>
-
         <div className='flex justify-center'>
           <div className='w-[350px] grid grid-cols-2'>
             <div className='text-center'>
