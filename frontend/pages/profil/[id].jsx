@@ -1,7 +1,31 @@
 import { BiTrash } from 'react-icons/bi'
 import { AiOutlineStar } from 'react-icons/ai'
+import { useRouter } from 'next/router'
+import { authApi } from "../../utils/apiHelper";
+import {useEffect,useState} from 'react'
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function ProfilSendiri() {
+  const router = useRouter()
+  const [data,setData] = useState([])
+  const [loading,setLoading] = useState(true)
+  useEffect( () => {
+    let {id} = router.query
+    authApi().get(`/api/user/${id}`)
+    .then((res) => {
+      console.log("--------------------------",res.data.user)
+      setData(res.data)
+      setLoading(false)
+    })
+    .catch(e => {
+      // console.log(e)
+    }) 
+    
+  
+  }, [])
+
+  if ((data.length == 0 )) return <LoadingSpinner/>
+
   return (
     <div className="flex justify-center">
       <div className="border-2 max-w-[720px] w-full min-h-screen">
@@ -11,7 +35,7 @@ export default function ProfilSendiri() {
         </div>
         <div className="hero container max-w-screen-lg justify-center pb-2 pt-2">
           <p className='text-[37.54px] font-bold'>
-            Ananda Fatahilla
+            {data.user.name}
           </p>
         </div>
 
@@ -19,11 +43,11 @@ export default function ProfilSendiri() {
           <div className='w-[350px] grid grid-cols-2'>
             <div className='text-center'>
               <p className='underline'>Total Review</p>
-              <p>0</p>
+              <p>{data.total_review}</p>
             </div>
             <div className='text-center'>
               <p className='underline'>Rataan Rating</p>
-              <p>0</p>
+              <p>{data.avg_ratings}</p>
             </div>
           </div>
         </div>
