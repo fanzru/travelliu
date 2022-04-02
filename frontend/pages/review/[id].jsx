@@ -3,24 +3,26 @@ import {HiOutlineLocationMarker} from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import { api } from "../../utils/apiHelper";
 import {useEffect,useState} from 'react'
-export default function ReviewById(){
+import LoadingSpinner from "../../components/LoadingSpinner";
+export default function ReviewById(props){
   const router = useRouter()
-  const [data,setData] = useState('')
+  const [data,setData] = useState([])
   const [loading,setLoading] = useState(true)
-  useEffect(() => {
-    const { id } = router.query
+  useEffect( () => {
+    let {id} = router.query
     api().get(`/api/review/${id}`)
     .then((res) => {
-      console.log(res)
       setData(res.data)
       setLoading(false)
     })
     .catch(e => {
-      console.log(e)
+      // console.log(e)
     }) 
+    
+  
   }, [])
 
-  if (loading) return <></>
+  if ((data.length == 0 )) return <LoadingSpinner/>
 
 
   return (
@@ -61,11 +63,10 @@ export default function ReviewById(){
             <input type="text" placeholder="Maksimal 300 Karakter" className="input input-bordered w-full mr-4"/>
             <button className="btn " >Balas</button>
           </form>
-          
             {
               data.komentar?.map((komen,idx)=>{
                 return (
-                  <div className="border border-black mx-[12px] p-4 rounded-md">
+                  <div key={idx} className="border border-black mx-[12px] p-4 rounded-md">
                     <div className="font-bold">{komen.user?.name}</div>
                       <p className="line-clamp-1">{komen.komentar}</p>
                     
@@ -73,8 +74,6 @@ export default function ReviewById(){
                 )
               })
             }
-            
-          
         </div>
       </div>
     </>
