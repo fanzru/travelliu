@@ -17,7 +17,7 @@ const authApi = () => {
   })
   ax.interceptors.response.use(res => { return res }, e => {
     // Redirect to login page
-    if (e.response && e.response.status == 403) {
+    if (e.response && e.response.status == 401) {
       window.location.replace("/login?must_login")
       jsCookie.remove('auth')
     }
