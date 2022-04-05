@@ -22,6 +22,7 @@ const authApi = () => {
       jsCookie.remove('auth')
     }
     console.log(e)
+    return Promise.reject(e)
   })
 
   return ax
