@@ -12,7 +12,7 @@ export default function CardTimeline({ data }) {
             <Link href={"/profil/"+data.user.id}>
               <a className="flex items-center">
                 <img src={data.photo} alt="" className="object-cover h-[35px] w-[35px] rounded-full" />
-                <p className='mx-2 font-bold'>{data.user.name}</p>
+                <p className='mx-2 font-bold uppercase'>{data.user.name}</p>
               </a>
             </Link>
           </div>
@@ -35,10 +35,12 @@ export default function CardTimeline({ data }) {
               {text}
             </p>
             <div className='flex justify-end items-center mt-2 '>
-              <button className='flex items-center '>
-                <MdOutlineComment />
-                <p className='ml-2'>{data.komentar_count}</p>
-              </button>
+              <Link href={"/review/"+data.id}>
+                <a className='flex items-center'>
+                  <MdOutlineComment />
+                </a>
+              </Link>
+              <p className='ml-2'>{data.komentar_count}</p>
             </div>
           </div>
         </div>

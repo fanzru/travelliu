@@ -12,14 +12,13 @@ export default function ProfilSendiri() {
   useEffect(() => {
     authApi().get(`/api/user`)
       .then((res) => {
-        console.log("--------------------------", res.data.user)
         setData(res.data)
         setLoading(false)
       })
       .catch(e => {
         console.log(e)
       })
-  })
+  },[data])
 
   if ((data.length == 0)) return <LoadingSpinner />
 
