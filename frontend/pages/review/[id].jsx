@@ -21,23 +21,19 @@ export default function ReviewById(props){
       // console.log(e)
     }) 
   },[id])
-  useEffect( () => {
-    console.log("--------------------------------",{
-      "komentar": komen
-    })
-  })
   const onSubmitKomentar = (e) => {
     e.preventDefault()
+    
     api().get("/sanctum/csrf-cookie").then(
       authApi().post(`/api/komentar/${id}`,{
         "komentar":komen
-      })
-        .then(() => {
+      }).then(() => {
           router.push(`/review/${id}`)
         })
         .catch(e => {
           console.log("+++++++++",e)
         })
+        
     ).catch(e => {
       setErrorMessage("Server Error, Coba lagi nanti" )
     })
@@ -88,7 +84,7 @@ export default function ReviewById(props){
             {
               data.komentar?.map((komen,idx)=>{
                 return (
-                  <div key={idx} className="border border-black mx-[12px] p-4 rounded-md">
+                  <div key={idx} className="border border-black mx-[12px] mt-2 p-4 rounded-md">
                     <div className="font-bold">{komen.user?.name}</div>
                       <p className="line-clamp-1">{komen.komentar}</p>
                     
