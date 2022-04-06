@@ -64,7 +64,7 @@ export default function ProfilSendiri() {
                 <img src="/kiseki-no-sedai.jpeg" alt="" className='object-cover h-[300px] w-full' />
                 <div className='mt-[4px] flex items-center h-[50px] p-[12px]'>
                   <AiOutlineStar />
-                  4.4
+                  {review.rating}
                   <p className="mx-2 text-[18px] font-bold">{review.nama_tempat}</p>
                 </div>
                 <div className='mt-[2px] flex items-center h-[50px] p-[12px]'>
