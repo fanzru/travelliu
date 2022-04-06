@@ -27,8 +27,14 @@ export default function login({ must_login }) {
     api().get("/sanctum/csrf-cookie").then(
       api().post("/api/login", LoginForm)
         .then(() => {
+          setErrorMessage({
+            error: "Login Berhasil", 
+            message: "Mengarahkan ke laman utama"
+          })
           jsCookie.set("auth", true)
-          router.push("/")
+          setTimeout(() => {
+            router.push("/")
+          }, 2000);
         })
         .catch((e) => {
           if (e.response && e.response.status != 500) {
@@ -37,9 +43,7 @@ export default function login({ must_login }) {
           }
           toast.error("Server Error, Coba lagi nanti");
         })
-    ).catch(e => {
-      setErrorMessage("Server Error, Coba lagi nanti" )
-    })
+    )
   }
 
   const onDaftarButton = async () => {

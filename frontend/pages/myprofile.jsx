@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function ProfilSendiri() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -18,9 +18,9 @@ export default function ProfilSendiri() {
       .catch(e => {
         console.log(e)
       })
-  },[data])
+  },[])
 
-  if ((data.length == 0)) return <LoadingSpinner />
+  if ((data == null)) return <LoadingSpinner />
 
   return (
     <div className="flex justify-center">
@@ -50,12 +50,12 @@ export default function ProfilSendiri() {
             return (
               <div key={idx} className="mt-[20px] border-b border-black">
                 <div className='mt-[4px] flex items-center justify-between h-[50px] p-[12px]'>
-                  <link href="/myprofile">
+                  <a href="/myprofile">
                     <div className="flex items-center">
                       <img className="object-cover h-[35px] w-[35px] rounded-full" src="/kiseki-no-sedai.jpeg" alt="" />
                       <p className="mx-2 text-[18px] font-bold">{data.user.name}</p>
                     </div>
-                  </link>
+                  </a>
                   <button className='text-[18px] text-red-500'>
                     <BiTrash />
                   </button>
