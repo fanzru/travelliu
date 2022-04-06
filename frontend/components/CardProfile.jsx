@@ -1,9 +1,10 @@
 import React from 'react'
 import { BiTrash } from 'react-icons/bi'
 import { AiOutlineStar } from 'react-icons/ai'
-
+import {authApi} from "../utils/apiHelper"
+import {useRouter} from "next/router"
 function CardProfile({data,review}) {
-
+    const router = useRouter()
     return (
         <div className="mt-[20px] border-b border-black">
             <div className='mt-[4px] flex items-center justify-between h-[50px] p-[12px]'>
@@ -13,7 +14,17 @@ function CardProfile({data,review}) {
                         <p className="mx-2 text-[18px] font-bold">{data.user.name}</p>
                     </div>
                 </a>
-                <button className='text-[18px] text-red-500'>
+                <button 
+                    className='text-[18px] text-red-500' 
+                    onClick={()=>{
+                        authApi().delete(`/api/review/${review.id}`)
+                        .then(()=>{
+                            router.reload(window.location.pathname)
+                        })
+                        .catch(()=>{
+
+                        })
+                    }}>
                     <BiTrash />
                 </button>
             </div>
