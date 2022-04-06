@@ -9,20 +9,18 @@ export default function ProfilSendiri() {
   const router = useRouter()
   const [data,setData] = useState([])
   const [loading,setLoading] = useState(true)
+  let {id} = router.query
   useEffect( () => {
-    let {id} = router.query
+    if (id == undefined) return
     authApi().get(`/api/user/${id}`)
     .then((res) => {
-      console.log("--------------------------",res.data.user)
       setData(res.data)
       setLoading(false)
     })
     .catch(e => {
       // console.log(e)
     }) 
-    
-  
-  }, [])
+  }, [id])
 
   if ((data.length == 0 )) return <LoadingSpinner/>
 

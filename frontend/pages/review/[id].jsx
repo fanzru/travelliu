@@ -1,15 +1,17 @@
 import { AiOutlineStar } from 'react-icons/ai'
 import {HiOutlineLocationMarker} from 'react-icons/hi'
 import { useRouter } from 'next/router'
-import { api } from "../../utils/apiHelper";
+import { api,authApi } from "../../utils/apiHelper";
 import {useEffect,useState} from 'react'
 import LoadingSpinner from "../../components/LoadingSpinner";
 export default function ReviewById(props){
   const router = useRouter()
   const [data,setData] = useState([])
   const [loading,setLoading] = useState(true)
+  const [komen, setKomen] = useState();
+  let {id} = router.query
   useEffect( () => {
-    let {id} = router.query
+    if (id == undefined) return
     api().get(`/api/review/${id}`)
     .then((res) => {
       setData(res.data)
@@ -18,9 +20,29 @@ export default function ReviewById(props){
     .catch(e => {
       // console.log(e)
     }) 
+  },[id])
+  useEffect( () => {
+    console.log("--------------------------------",{
+      "komentar": komen
+    })
+  })
+  const onSubmitKomentar = (e) => {
+    e.preventDefault()
+    api().get("/sanctum/csrf-cookie").then(
+      authApi().post(`/api/komentar/${id}`,{
+        "komentar":komen
+      })
+        .then(() => {
+          router.push(`/review/${id}`)
+        })
+        .catch(e => {
+          console.log("+++++++++",e)
+        })
+    ).catch(e => {
+      setErrorMessage("Server Error, Coba lagi nanti" )
+    })
     
-  
-  }, [])
+  }
 
   if ((data.length == 0 )) return <LoadingSpinner/>
 
@@ -60,8 +82,8 @@ export default function ReviewById(props){
             </div>
           </div>
           <form className="p-[12px] flex items-center">
-            <input type="text" placeholder="Maksimal 300 Karakter" className="input input-bordered w-full mr-4"/>
-            <button className="btn " >Balas</button>
+            <input type="text" placeholder="Maksimal 300 Karakter" className="input input-bordered w-full mr-4" onChange={e => setKomen(e.target.value)} />
+            <button className="btn" onClick={onSubmitKomentar}>Balas</button>
           </form>
             {
               data.komentar?.map((komen,idx)=>{

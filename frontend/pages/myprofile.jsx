@@ -12,7 +12,6 @@ export default function ProfilSendiri() {
   useEffect(() => {
     authApi().get(`/api/user`)
       .then((res) => {
-        console.log("--------------------------", res.data.user)
         setData(res.data)
         setLoading(false)
       })
