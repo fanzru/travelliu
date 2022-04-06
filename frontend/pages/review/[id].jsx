@@ -27,12 +27,14 @@ export default function ReviewById(props){
     api().get("/sanctum/csrf-cookie").then(
       authApi().post(`/api/komentar/${id}`,{
         "komentar":komen
-      }).then(() => {
-          router.push(`/review/${id}`)
+      })
+      .then(() => {
+          router.reload(window.location.pathname)
         })
         .catch(e => {
           console.log("+++++++++",e)
-        })
+       }),
+       
         
     ).catch(e => {
       setErrorMessage("Server Error, Coba lagi nanti" )
@@ -87,7 +89,6 @@ export default function ReviewById(props){
                   <div key={idx} className="border border-black mx-[12px] mt-2 p-4 rounded-md">
                     <div className="font-bold">{komen.user?.name}</div>
                       <p className="line-clamp-1">{komen.komentar}</p>
-                    
                   </div>
                 )
               })
