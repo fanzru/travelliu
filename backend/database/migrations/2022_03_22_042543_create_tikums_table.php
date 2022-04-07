@@ -21,9 +21,10 @@ class CreateTikumsTable extends Migration
             $table->string("link_group")->nullable();
             $table->string("deskripsi")->nullable();
             $table->dateTime("waktu_kumpul");
+            $table->softDeletes();
             
             // Foreign key
-            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("user_id")->constrained();
         });
     }
 

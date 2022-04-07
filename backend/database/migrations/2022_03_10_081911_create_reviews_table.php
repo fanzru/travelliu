@@ -23,9 +23,10 @@ class CreateReviewsTable extends Migration
             $table->float('latitude')->nullable();
             $table->float('longitude')->nullable();
             $table->string('photo');
+            $table->softDeletes();
 
             // Foreign key
-            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("user_id")->constrained();
         });
     }
 
