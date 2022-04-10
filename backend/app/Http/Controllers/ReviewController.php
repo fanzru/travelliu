@@ -8,13 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->status = 200;
-        $this->data = [];
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,10 +15,13 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $review = Review::all();
-        // Lazy eager loading
-        $review->load('user');
-        return $review;
+        try {
+            $review = Review::with('user')->get();
+            $review->loadCount('komentar');
+            return response($review, 200);
+        } catch (\Exception $e) {
+            return response("Internal Serer Error", 500);
+        }
     }
 
     /**
@@ -34,26 +30,28 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create(Request $request)
     {
         try {
-            $validated = $request->validate([
-                'place_name' => ['required'],
-                'address' => ['required'],
+            $validated = $this->validate($request, [
+                'nama_tempat' => ['required'],
+                'alamat' => ['required'],
                 'rating' => ['required', 'max:5', 'min:0'],
                 'review' => ['required'],
                 'latitude' => ['min:-90', 'max:90'],
-                'longitude' => ['min:-90', 'max:90']
+                'longitude' => ['min:-90', 'max:90'],
+                'photo' => ['required'],
             ]);
-
+            if (predictTextIsSpam($request->review)) {
+                return response("Review terdeteksi spam", 400);
+            }
             $user = Auth::user();
-
             $review = $user->review()->create($validated);
-
-            return $review;
-
+            return response($review, 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response("Request tidak valid", 400);
         } catch (\Exception $e) {
-            return  $e;
+            return response("Internal Server Error", 500);
         }
     }
 
@@ -62,33 +60,22 @@ class ReviewController extends Controller
      *
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
+     * @param  string  $id
      */
-    public function show(Review $review)
+    public function show(int $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Review $review)
-    {
-        //
+        try {
+            $review = Review::findOrFail($id);
+            // Lazy eager loading
+            $review->load('user');
+            $review->load('komentar');
+            $review->load('komentar.user');
+            return response($review, 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response("Review tidak ditemukan", 400);
+        } catch (\Exception $e) {
+            return response("Internal Server Error", 500);
+        }
     }
 
     /**
@@ -97,8 +84,21 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(int $id)
     {
         //
+        try {
+            $user = Auth::user();
+            $review = Review::findOrFail($id);
+            if ($review->user_id !=  $user->id) {
+                return response("Review tidak valid", 403);
+            }
+            $review->delete();
+            return response("Delete Review sukses", 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response("Review tidak valid", 400);
+        } catch (\Exception $e) {
+            return response("Internal Server Error", 500);
+        }
     }
 }
