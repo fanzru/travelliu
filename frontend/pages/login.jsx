@@ -26,12 +26,13 @@ export default function Login({ must_login }) {
     // Bagian ini harus ada setidaknya sekali untuk sessioning, lebih aman kalau misalkan ada di setiap post request
     api().get("/sanctum/csrf-cookie").then(
       api().post("/api/login", LoginForm)
-        .then(() => {
+        .then((res) => {
           setErrorMessage({
             error: "Login Berhasil", 
             message: "Mengarahkan ke laman utama"
           })
           jsCookie.set("auth", true)
+	  jsCookie.set("token", res.data.token)
           setTimeout(() => {
             router.push("/")
           }, 2000);
