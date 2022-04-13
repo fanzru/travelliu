@@ -7,7 +7,7 @@ export default function CardTimeline({ data }) {
   return (
     <>
       <div className="flex justify-center">
-        <div className="border-2 max-w-[720px] w-full">
+        <div className="border-b-2 max-w-[720px] w-full">
           <div className="mt-[4px] flex items-center h-[50px] p-[12px]">
             <Link href={"/profil/"+data.user.id}>
               <a className="flex items-center">

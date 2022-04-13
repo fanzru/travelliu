@@ -26,9 +26,9 @@ export default function ProfilSendiri() {
 
   return (
     <div className="flex justify-center">
-      <div className="border-2 max-w-[720px] w-full min-h-screen">
+      <div className=" max-w-[720px] w-full min-h-screen">
         <div className="hero container max-w-screen-lg justify-center pt-10">
-          <img className="object-cover h-[262px] w-[262px] rounded-full" src="/kiseki-no-sedai.jpeg" alt="" />
+          <img className="object-cover h-[262px] w-[262px] rounded-full" src="/affan-imut.jpeg" alt="" />
 
         </div>
         <div className="hero container max-w-screen-lg justify-center pb-2 pt-2">
