@@ -8,12 +8,12 @@ function CardProfile({data,review}) {
     return (
         <div className="mt-[20px] border-b border-black">
             <div className='mt-[4px] flex items-center justify-between h-[50px] p-[12px]'>
-                <a href="/myprofile">
+                <button onClick={()=> {router.push("/myprofile")}}>
                     <div className="flex items-center">
                         <img className="object-cover h-[35px] w-[35px] rounded-full" src="/kiseki-no-sedai.jpeg" alt="" />
                         <p className="mx-2 text-[18px] font-bold">{data.user.name}</p>
                     </div>
-                </a>
+                </button>
                 <button 
                     className='text-[18px] text-red-500' 
                     onClick={()=>{

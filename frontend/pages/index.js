@@ -5,13 +5,13 @@ import CardTimeline from "../components/CardTimeline";
 import jsCookie from "js-cookie";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-function index() {  
-  const [TimelineData, setTimelineData] = useState([])
+function Index() {  
+  const [TimelineData, SetTimelineData] = useState([])
 
   useEffect(() => {
     api().get("/api/review")
     .then((res) => {
-      setTimelineData(res.data)
+      SetTimelineData(res.data)
     })
     .catch(e => {
 
@@ -50,4 +50,4 @@ function index() {
 
 // }
 
-export default index
+export default Index

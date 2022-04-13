@@ -7,7 +7,7 @@ import SecondButton from "../components/button/SecondButton"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function login({ must_login }) {
+export default function Login({ must_login }) {
   let router = useRouter()
   const [LoginForm, setLoginForm] = useState({
     email: '',
