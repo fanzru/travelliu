@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "travelliu_fe",
-      "script": "npm run dev"
+      "script": "npm run start"
     }
   ]
 }
