@@ -5,13 +5,7 @@ import CardTimeline from "../components/CardTimeline";
 import jsCookie from "js-cookie";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-function index() {
-  const [NameEmail, setNameEmail] = useState({
-    name: "",
-    email: "",
-  })
-
-  
+function index() {  
   const [TimelineData, setTimelineData] = useState([])
 
   useEffect(() => {

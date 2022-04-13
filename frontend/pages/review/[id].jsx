@@ -72,9 +72,11 @@ export default function ReviewById(props){
             {data.review}
           </div>
           <div className="flex px-[12px] mt-4">
-            <div className="btn  ">
-              <HiOutlineLocationMarker/>
-            </div>
+            <a href={`https://www.google.com/maps/search/?api=1&query=${data.longitude}%2C${data.latitude}`}>
+              <div className="btn  ">
+                <HiOutlineLocationMarker/>
+              </div>
+            </a>
             <div className=" ml-[10px] w-full text-[14px]">
               {data.alamat}
             </div>
@@ -87,7 +89,7 @@ export default function ReviewById(props){
               data.komentar?.map((komen,idx)=>{
                 return (
                   <div key={idx} className="border border-black mx-[12px] mt-2 p-4 rounded-md">
-                    <div className="font-bold">{komen.user?.name}</div>
+                    <div className="font-bold"><a href={`/profil/${komen.user?.id}`}>{komen.user?.name}</a></div>
                       <p className="line-clamp-1">{komen.komentar}</p>
                   </div>
                 )

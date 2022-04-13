@@ -20,6 +20,7 @@ class ReviewController extends Controller
             $review->loadCount('komentar');
             return response($review, 200);
         } catch (\Exception $e) {
+            dd($e);
             return response("Internal Serer Error", 500);
         }
     }
