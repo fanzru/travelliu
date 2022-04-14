@@ -1,0 +1,3 @@
+1. Username otomatis dari nama, gaboleh ada spasi // Ada pada folder backend/ ; Membuat model user, menambahkan fitur pada controller User (register), Migrasi
+2. Shadow di card timelines // Ada pada folder frontend/components/CardTimeline.jsx
+3. Cardnya buat rounded // Ada pada folder frontend/components/CardTimeline.jsx

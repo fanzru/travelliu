@@ -6,8 +6,10 @@ export default function CardTimeline({ data }) {
   let text = data.review.slice(0, 200) + " ..."
   return (
     <>
-      <div className="flex justify-center">
-        <div className="border-b-2 max-w-[720px] w-full">
+      {/* Soal COTS menambahkan shadow-md dan rounded-xl */}
+      <div className="flex justify-center shadow-md rounded-xl">
+      {/*  */}
+        <div className="max-w-[720px] w-full">
           <div className="mt-[4px] flex items-center h-[50px] p-[12px]">
             <Link href={"/profil/"+data.user.id}>
               <a className="flex items-center">

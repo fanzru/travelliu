@@ -78,8 +78,10 @@ class UserController extends Controller
                 'email' => 'required|email',
                 'password' => 'required',
             ]);
-
+            $username = $request->name;
+            $username = str_replace(" ", "_",$username);
             User::create([
+                "username" => $username,
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -88,6 +90,7 @@ class UserController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response("Nama, Email, atau Password tidak valid", 400);
         } catch (\Exception $e) {
+            dd($e);
             return response("Internal Server Error", 500);
         }
     }
