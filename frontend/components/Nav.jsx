@@ -65,7 +65,7 @@ export default function Nav() {
               {
                 auth == "true" ?
                   <>
-                    <Link href="/">
+                    <Link href="/myprofile">
                       <a className='text-[17px]  w-full h-[50px] flex items-center justify-center '>My Profile</a>
                     </Link>
                     {/* Need to make div because of  MainButton bug */}

@@ -70,7 +70,7 @@ export default function ReviewById(props){
         pauseOnHover
       />
       <div className="flex justify-center">
-        <div className=" max-w-[720px] w-full min-h-screen">
+        <div className=" max-w-[720px] w-full min-h-screen pb-3">
           <img src={data.photo} alt="" className="object-cover h-[300px] w-full"/>
           <div className="mt-[4px] flex items-center justify-between h-[50px] p-[12px]">
             <div className="flex items-center">

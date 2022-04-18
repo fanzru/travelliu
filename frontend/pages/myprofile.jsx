@@ -28,7 +28,7 @@ export default function ProfilSendiri() {
           <img className="object-cover h-[160px] w-[160px] rounded-full" src="/affan-imut.jpeg" alt="" />
         </div>
         <div className="hero container max-w-screen-lg justify-center pb-2 pt-2">
-          <p className='text-[37.54px] font-bold'>
+          <p className='text-center text-[37.54px] font-bold'>
             {data.user.name}
           </p>
         </div>

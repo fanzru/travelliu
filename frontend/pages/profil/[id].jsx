@@ -32,7 +32,7 @@ export default function ProfilSendiri() {
 
         </div>
         <div className="hero container max-w-screen-lg justify-center pb-2 pt-2">
-          <p className='text-[37.54px] font-bold'>
+          <p className='text-[37.54px] font-bold text-center'>
             {data.user.name}
           </p>
         </div>
