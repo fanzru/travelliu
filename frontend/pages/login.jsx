@@ -7,7 +7,7 @@ import SecondButton from "../components/button/SecondButton"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function login({ must_login }) {
+export default function Login({ must_login }) {
   let router = useRouter()
   const [LoginForm, setLoginForm] = useState({
     email: '',
@@ -26,12 +26,13 @@ export default function login({ must_login }) {
     // Bagian ini harus ada setidaknya sekali untuk sessioning, lebih aman kalau misalkan ada di setiap post request
     api().get("/sanctum/csrf-cookie").then(
       api().post("/api/login", LoginForm)
-        .then(() => {
+        .then((res) => {
           setErrorMessage({
             error: "Login Berhasil", 
             message: "Mengarahkan ke laman utama"
           })
           jsCookie.set("auth", true)
+	  jsCookie.set("token", res.data.token)
           setTimeout(() => {
             router.push("/")
           }, 2000);

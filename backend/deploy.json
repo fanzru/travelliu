@@ -1,0 +1,8 @@
+{
+  "apps": [
+    {
+      "name": "travelliu_be",
+      "script": "php artisan serve"
+    }
+  ]
+}

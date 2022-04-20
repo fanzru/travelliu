@@ -16,10 +16,11 @@ class ReviewController extends Controller
     public function index()
     {
         try {
-            $review = Review::with('user')->get();
+            $review = Review::with('user')->orderByDesc('id')->get();
             $review->loadCount('komentar');
             return response($review, 200);
         } catch (\Exception $e) {
+            dd($e);
             return response("Internal Serer Error", 500);
         }
     }

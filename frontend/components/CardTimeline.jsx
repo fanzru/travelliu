@@ -7,11 +7,11 @@ export default function CardTimeline({ data }) {
   return (
     <>
       <div className="flex justify-center">
-        <div className="border-2 max-w-[720px] w-full">
+        <div className="border-b-2 max-w-[720px] w-full">
           <div className="mt-[4px] flex items-center h-[50px] p-[12px]">
             <Link href={"/profil/"+data.user.id}>
               <a className="flex items-center">
-                <img src={data.photo} alt="" className="object-cover h-[35px] w-[35px] rounded-full" />
+                <img src="/affan-imut.jpeg" alt="" className="object-cover h-[35px] w-[35px] rounded-full" />
                 <p className='mx-2 font-bold uppercase'>{data.user.name}</p>
               </a>
             </Link>

@@ -1,0 +1,8 @@
+{
+  "apps": [
+    {
+      "name": "travelliu_fe",
+      "script": "npm run start"
+    }
+  ]
+}

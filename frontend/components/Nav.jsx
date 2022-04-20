@@ -14,6 +14,7 @@ export default function Nav() {
       jsCookie.remove('main_token')
       jsCookie.remove('personal_token')
       jsCookie.remove('laravel_session')
+      jsCookie.remove('token')
       window.location.replace("login")
     }
   }
@@ -23,7 +24,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className='fixed w-full bg-white h-[70px] px-[30px] flex items-center justify-between border-b border-black z-50'>
+      <nav className='fixed w-full bg-white h-[70px] px-[30px] flex items-center justify-between border-b-2 border-dashed border-black z-50'>
         <Link href="/">
           <a >
             <h1 className='font-bold text-[25px]'>
@@ -64,7 +65,7 @@ export default function Nav() {
               {
                 auth == "true" ?
                   <>
-                    <Link href="/">
+                    <Link href="/myprofile">
                       <a className='text-[17px]  w-full h-[50px] flex items-center justify-center '>My Profile</a>
                     </Link>
                     {/* Need to make div because of  MainButton bug */}

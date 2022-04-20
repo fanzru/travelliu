@@ -7,7 +7,7 @@ function Layout({ children }) {
     <>
       <Nav />
       <div className='flex justify-center'>
-        <main className='w-[720px] border-2 border-black relative z-0 min-h-full pt-2'>
+        <main className='w-[720px] relative z-0 min-h-full pt-2'>
           {children}
         </main>
       </div>
