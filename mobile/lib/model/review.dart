@@ -14,7 +14,7 @@ class Review {
       required this.namaTempat,
       required this.review,
       required this.alamat,
-      required this.user,
+      this.user = const User.empty(),
       this.longitude = 0,
       this.latitude = 0,
       this.numKomentar = 0});

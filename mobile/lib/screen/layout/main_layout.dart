@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screen/myprofile/my_profile.dart';
+import 'package:mobile/screen/test_screen/test_screen.dart';
 import 'package:mobile/screen/timeline/timeline.dart';
 
 class MainLayout extends StatefulWidget {
@@ -29,7 +30,7 @@ class _MainLayoutState extends State<MainLayout> {
 
         case 1:
           {
-            currentScreen = MyProfile();
+            currentScreen = TestScreen();
           }
           break;
 
