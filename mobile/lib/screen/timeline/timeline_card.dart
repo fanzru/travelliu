@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/review.dart';
+import 'package:mobile/screen/review/review_screen.dart';
 import '../../api/review.dart';
 
 class TimelineCard extends StatelessWidget {
   final Review data;
-  const TimelineCard({Key? key, required this.data}) : super(key: key);
+  final GlobalKey<NavigatorState> navKey;
+  const TimelineCard({Key? key, required this.data, required this.navKey})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,14 @@ class TimelineCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 5),
         child: Card(
             child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  navKey.currentState!
+                      .push(MaterialPageRoute(builder: (context) {
+                    return ReviewDetails(
+                      navkey: navKey,
+                    );
+                  }));
+                },
                 child: Column(children: [
                   Container(
                       margin:

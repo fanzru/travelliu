@@ -12,7 +12,14 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int bottomItemIdx = 0;
-  Widget currentScreen = const Timeline();
+
+  // Ini harus sesuai dengan urutan index bottom navigation barnya ya
+  final List<Widget> _screen = <Widget>[
+    const Timeline(),
+    const TestScreen(),
+    MyProfile(),
+    ProfilePage()
+  ];
 
   @override
   void initState() {
@@ -22,31 +29,6 @@ class _MainLayoutState extends State<MainLayout> {
   void changeBottomIdx(int idx) {
     setState(() {
       bottomItemIdx = idx;
-      switch (idx) {
-        case 0:
-          {
-            currentScreen = const Timeline();
-          }
-          break;
-
-        case 1:
-          {
-            currentScreen = TestScreen();
-          }
-          break;
-
-        case 2:
-          {
-            currentScreen = MyProfile();
-          }
-          break;
-
-        case 3:
-          {
-            currentScreen = ProfilePage();
-          }
-          break;
-      }
     });
   }
 
@@ -79,7 +61,7 @@ class _MainLayoutState extends State<MainLayout> {
                   icon: Icon(Icons.person_outline_rounded), label: "Profil"),
             ]),
         body: SafeArea(
-          child: currentScreen,
+          child: IndexedStack(index: bottomItemIdx, children: _screen),
         ));
   }
 }
