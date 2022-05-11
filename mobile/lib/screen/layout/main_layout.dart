@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/screen/myprofile/my_profile.dart';
 import 'package:mobile/screen/profile/profile_controller.dart';
 import 'package:mobile/screen/test_screen/test_screen.dart';
+import 'package:mobile/screen/tikum/layout.dart';
 import 'package:mobile/screen/timeline/timeline.dart';
 
 class MainLayout extends StatefulWidget {
@@ -17,7 +18,7 @@ class _MainLayoutState extends State<MainLayout> {
   final List<Widget> _screen = <Widget>[
     const Timeline(),
     const TestScreen(),
-    MyProfile(),
+    TikumLayout(),
     ProfilePage()
   ];
 

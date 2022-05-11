@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/review.dart';
 import 'package:mobile/screen/review/review_screen.dart';
-import '../../api/review.dart';
 
 class TimelineCard extends StatelessWidget {
   final Review data;
@@ -18,9 +17,7 @@ class TimelineCard extends StatelessWidget {
                 onTap: () {
                   navKey.currentState!
                       .push(MaterialPageRoute(builder: (context) {
-                    return ReviewDetails(
-                      navkey: navKey,
-                    );
+                    return ReviewDetails(navkey: navKey, id: data.id);
                   }));
                 },
                 child: Column(children: [
