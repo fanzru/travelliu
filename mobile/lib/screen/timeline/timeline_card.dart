@@ -12,7 +12,7 @@ class TimelineCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(bottom: 5),
-        child: Card(
+        child: Container(
             child: InkWell(
                 onTap: () {
                   navKey.currentState!
@@ -35,7 +35,13 @@ class TimelineCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 10),
-                          Text(data.user.name)
+                          InkWell(
+                            child: Text(data.user.name),
+                            splashColor: Colors.transparent,
+                            onTap: () {
+                              print("Open profile");
+                            },
+                          )
                         ],
                       )),
                   const SizedBox(height: 10),
@@ -83,6 +89,11 @@ class TimelineCard extends StatelessWidget {
                           )
                         ],
                       )),
+                  const Divider(
+                    color: Colors.black,
+                    height: 2.0,
+                    thickness: 1.0,
+                  )
                 ]))));
   }
 }

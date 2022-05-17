@@ -16,6 +16,16 @@ class _TikumLayoutState extends State<TikumLayout> {
         length: 2,
         child: Scaffold(
           backgroundColor: Colors.white,
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return TestScreen();
+              }));
+            },
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+          ),
           appBar: AppBar(
             backgroundColor: Colors.white,
             flexibleSpace: Column(

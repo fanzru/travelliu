@@ -107,7 +107,8 @@ class TikumCard extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all(Colors.black)),
                   onPressed: () async {
                     final Uri _url = await Uri.parse(tikum.linkGroup!);
-                    if (!await launchUrl(_url)) {
+                    if (!await launchUrl(_url,
+                        mode: LaunchMode.externalApplication)) {
                       throw const AlertDialog(
                           title: Text("Failed to open the link"));
                     }
