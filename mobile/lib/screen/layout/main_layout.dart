@@ -55,7 +55,7 @@ class _MainLayoutState extends State<MainLayout> {
                   icon: Icon(Icons.person_outline_rounded), label: "Profil"),
             ]),
         body: SafeArea(
-          child: IndexedStack(index: bottomItemIdx, children: _screen),
+          child: _screen[bottomItemIdx],
         ));
   }
 }

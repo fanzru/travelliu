@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/model/profile_secure.dart';
 import 'package:mobile/model/review.dart';
 import 'package:mobile/screen/timeline/timeline_card.dart';
 
@@ -16,53 +17,73 @@ class Timeline extends StatefulWidget {
 
 class _TimelineState extends State<Timeline> {
   late Future<List<Review>> futureReview;
+  late Future<SecureProfile> futureProfile;
+  bool loggedIn = false;
 
   @override
   void initState() {
     futureReview = getAllReview();
+    futureProfile = SecureProfile.getStorage();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          heroTag: "Buat Review",
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const TestScreen();
-            }));
-          },
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-        ),
+        floatingActionButton: _PlusBuilder(futureProfile),
         body: Navigator(
           key: _navKey,
           onGenerateRoute: (_) => MaterialPageRoute(builder: (_) {
-            return FutureBuilder<List<Review>>(
-              future: futureReview,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView(
-                    children: [
-                      for (var data in snapshot.data!)
-                        TimelineCard(
-                          data: data,
-                          navKey: _navKey,
-                        )
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return const Center(
-                      child: Text("Error when fetching all reviews"));
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            );
+            return _ReviewBuilder(futureReview);
           }),
         ));
   }
+}
+
+FutureBuilder<SecureProfile> _PlusBuilder(Future<SecureProfile> future) {
+  return FutureBuilder<SecureProfile>(
+      future: future,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          // Kalau misalkan logged in
+          if (snapshot.data!.getLoggedInStatus()) {
+            return FloatingActionButton(
+              child: const Icon(Icons.add),
+              heroTag: "Buat Review",
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const TestScreen();
+                }));
+              },
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+            );
+          }
+        }
+        return const SizedBox.shrink();
+      });
+}
+
+FutureBuilder<List<Review>> _ReviewBuilder(Future<List<Review>> future) {
+  return FutureBuilder<List<Review>>(
+    future: future,
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        return ListView(
+          children: [
+            for (var data in snapshot.data!)
+              TimelineCard(
+                data: data,
+                navKey: _navKey,
+              )
+          ],
+        );
+      } else if (snapshot.hasError) {
+        return const Center(child: Text("Error when fetching all reviews"));
+      }
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    },
+  );
 }
