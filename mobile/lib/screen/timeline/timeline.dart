@@ -18,7 +18,6 @@ class Timeline extends StatefulWidget {
 class _TimelineState extends State<Timeline> {
   late Future<List<Review>> futureReview;
   late Future<SecureProfile> futureProfile;
-  bool loggedIn = false;
 
   @override
   void initState() {
@@ -30,17 +29,17 @@ class _TimelineState extends State<Timeline> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: _PlusBuilder(futureProfile),
+        floatingActionButton: plusFloatingBuilder(futureProfile),
         body: Navigator(
           key: _navKey,
           onGenerateRoute: (_) => MaterialPageRoute(builder: (_) {
-            return _ReviewBuilder(futureReview);
+            return reviewBuilder(futureReview);
           }),
         ));
   }
 }
 
-FutureBuilder<SecureProfile> _PlusBuilder(Future<SecureProfile> future) {
+FutureBuilder<SecureProfile> plusFloatingBuilder(Future<SecureProfile> future) {
   return FutureBuilder<SecureProfile>(
       future: future,
       builder: (context, snapshot) {
@@ -64,7 +63,7 @@ FutureBuilder<SecureProfile> _PlusBuilder(Future<SecureProfile> future) {
       });
 }
 
-FutureBuilder<List<Review>> _ReviewBuilder(Future<List<Review>> future) {
+FutureBuilder<List<Review>> reviewBuilder(Future<List<Review>> future) {
   return FutureBuilder<List<Review>>(
     future: future,
     builder: (context, snapshot) {
