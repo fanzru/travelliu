@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screen/test_screen/test_screen.dart';
+import 'package:mobile/screen/tikum/global_tikum.dart';
 
 class TikumLayout extends StatefulWidget {
   TikumLayout({Key? key}) : super(key: key);
@@ -14,6 +15,18 @@ class _TikumLayoutState extends State<TikumLayout> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
+          backgroundColor: Colors.white,
+          floatingActionButton: FloatingActionButton(
+            heroTag: "Buat Tikum",
+            child: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return TestScreen();
+              }));
+            },
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+          ),
           appBar: AppBar(
             backgroundColor: Colors.white,
             flexibleSpace: Column(
@@ -30,7 +43,7 @@ class _TikumLayoutState extends State<TikumLayout> {
               ],
             ),
           ),
-          body: TabBarView(children: [TestScreen(), TestScreen()]),
+          body: TabBarView(children: [GlobalTikum(), TestScreen()]),
         ));
   }
 }
