@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/review.dart';
 import 'package:mobile/screen/review/review_screen.dart';
+import "dart:math" as math;
 
 class TimelineCard extends StatelessWidget {
   final Review data;
   final GlobalKey<NavigatorState> navKey;
-  const TimelineCard({Key? key, required this.data, required this.navKey})
+  final int randomForProfile = math.Random().nextInt(1000);
+  TimelineCard(
+      {Key? key,
+      required this.data,
+      required this.navKey,
+      int? randomForProfile})
       : super(key: key);
 
   @override
@@ -29,7 +35,7 @@ class TimelineCard extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: Image.network(
-                              "https://travelliu.yaudahlah.my.id/affan-imut.jpeg",
+                              "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
                               width: 40,
                               height: 40,
                             ),

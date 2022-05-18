@@ -17,6 +17,7 @@ class _TikumLayoutState extends State<TikumLayout> {
         child: Scaffold(
           backgroundColor: Colors.white,
           floatingActionButton: FloatingActionButton(
+            heroTag: "Buat Tikum",
             child: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
