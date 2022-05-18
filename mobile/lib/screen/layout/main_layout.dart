@@ -3,6 +3,8 @@ import 'package:mobile/screen/profile/profile_controller.dart';
 import 'package:mobile/screen/tikum/layout.dart';
 import 'package:mobile/screen/timeline/timeline.dart';
 
+import '../myprofile/my_profile.dart';
+
 class MainLayout extends StatefulWidget {
   const MainLayout({Key? key}) : super(key: key);
   @override
@@ -16,7 +18,7 @@ class _MainLayoutState extends State<MainLayout> {
   final List<Widget> _screen = <Widget>[
     const Timeline(),
     TikumLayout(),
-    ProfilePage()
+    MyProfile()
   ];
 
   @override
