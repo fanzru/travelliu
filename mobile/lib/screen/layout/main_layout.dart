@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screen/profile/profile_controller.dart';
 import 'package:mobile/screen/tikum/layout.dart';
 import 'package:mobile/screen/timeline/timeline.dart';
 
@@ -57,7 +56,7 @@ class _MainLayoutState extends State<MainLayout> {
                   icon: Icon(Icons.person_outline_rounded), label: "Profil"),
             ]),
         body: SafeArea(
-          child: IndexedStack(index: bottomItemIdx, children: _screen),
+          child: _screen[bottomItemIdx],
         ));
   }
 }

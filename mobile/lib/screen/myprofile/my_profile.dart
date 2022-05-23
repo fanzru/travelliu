@@ -36,13 +36,43 @@ class _MyProfile extends State<MyProfile> {
               if (snapshot.hasData) {
                 return ListView(
                   children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.white,
+                            backgroundColor: Colors.red,
+                          ),
+                          onPressed: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              Text(
+                                "logout ",
+                              ),
+                              Icon(
+                                Icons.logout_outlined,
+                                size: 15.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        )
+                      ],
+                    ),
                     Container(
                       margin: const EdgeInsets.only(
-                        top: 100,
+                        top: 50,
                         bottom: 30,
                       ),
                       height: 86,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(100)),
                       ),
                       child: ClipRRect(
