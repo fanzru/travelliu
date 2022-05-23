@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ReviewController extends Controller
 {
@@ -20,7 +21,6 @@ class ReviewController extends Controller
             $review->loadCount('komentar');
             return response($review, 200);
         } catch (\Exception $e) {
-            dd($e);
             return response("Internal Serer Error", 500);
         }
     }
@@ -41,13 +41,27 @@ class ReviewController extends Controller
                 'review' => ['required'],
                 'latitude' => ['min:-90', 'max:90'],
                 'longitude' => ['min:-90', 'max:90'],
-                'photo' => ['required'],
+                'photo' => ['required', 'mimes:jpg,png,jpeg', 'max:2000'],
             ]);
             if (predictTextIsSpam($request->review)) {
                 return response("Review terdeteksi spam", 400);
             }
             $user = Auth::user();
-            $review = $user->review()->create($validated);
+            $uuid = Str::uuid()->toString();
+            $extension = $request->photo->extension();
+            $imageName = $uuid.'.'.$extension;  
+            $request->photo->move(public_path('images'), $imageName);
+
+            $review = Review::create([
+                "nama_tempat" => $request->nama_tempat,
+                "alamat" => $request->alamat,
+                "rating" => $request->rating,
+                "review" => $request->review,
+                "latitude" => $request->latitude,
+                "longitude" => $request->longitude,
+                "photo" => "/images/".$imageName,
+                "user_id" => $user->id
+            ]);
             return response($review, 200);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response("Request tidak valid", 400);
