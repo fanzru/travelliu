@@ -27,25 +27,23 @@ class _FormReviewState extends State<FormReview> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
-                      child: Text(
-                        "Share Your Moment",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30),
-                      ),
+                    const Text(
+                      "Share Your Moment",
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
                         "Nama Tempat Wisata",
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     TextFormField(
