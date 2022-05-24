@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screen/myprofile/my_profile.dart';
 import 'package:mobile/screen/profile/profile_controller.dart';
-import 'package:mobile/screen/test_screen/test_screen.dart';
 import 'package:mobile/screen/tikum/layout.dart';
 import 'package:mobile/screen/timeline/timeline.dart';
 import 'package:mobile/screen/review/form_review_screen.dart';
@@ -18,7 +16,6 @@ class _MainLayoutState extends State<MainLayout> {
   // Ini harus sesuai dengan urutan index bottom navigation barnya ya
   final List<Widget> _screen = <Widget>[
     const Timeline(),
-    const TestScreen(),
     TikumLayout(),
     ProfilePage()
   ];
@@ -54,16 +51,12 @@ class _MainLayoutState extends State<MainLayout> {
                 label: "Timeline",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.border_color_outlined),
-                label: "Review",
-              ),
-              BottomNavigationBarItem(
                   icon: Icon(Icons.people_outlined), label: "Tikum"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person_outline_rounded), label: "Profil"),
             ]),
         body: SafeArea(
-          child: IndexedStack(index: bottomItemIdx, children: _screen),
+          child: _screen[bottomItemIdx],
         ));
   }
 }

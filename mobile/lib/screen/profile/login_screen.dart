@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mobile/model/profile_secure.dart';
 import 'package:mobile/screen/profile/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -50,9 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               ElevatedButton(
-                  onPressed: () {
-                    print("email: $email");
-                    print("password: $password");
+                  onPressed: () async {
+                    print("Tertekan!");
                   },
                   child: const Text("Masuk")),
               Row(
