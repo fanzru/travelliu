@@ -36,7 +36,7 @@ class _MyProfile extends State<MyProfile> {
               if (snapshot.hasData) {
                 return ListView(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -66,70 +66,68 @@ class _MyProfile extends State<MyProfile> {
                         )
                       ],
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 50,
-                        bottom: 30,
-                      ),
-                      height: 86,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image.network(
-                          "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
-                          width: 86,
-                          height: 86,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "Ananda Affan Fattahila",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 15,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 20,
-                            ),
-                            child: Column(
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                const Text("Total Review"),
-                                const Text("100"),
-                              ],
+                    Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 30),
+                          height: 100,
+                          width: 100,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.network(
+                              "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 20,
-                            ),
-                            child: Column(
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                const Text("Rataan Rating"),
-                                const Text("100"),
-                              ],
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: const Text(
+                            "Ananda Affan Fattahila",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 20,
+                            horizontal: 15,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 20,
+                                ),
+                                child: Column(
+                                  // ignore: prefer_const_literals_to_create_immutables
+                                  children: [
+                                    const Text("Total Review"),
+                                    const Text("100"),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 20,
+                                ),
+                                child: Column(
+                                  // ignore: prefer_const_literals_to_create_immutables
+                                  children: [
+                                    const Text("Rataan Rating"),
+                                    const Text("100"),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     for (var data in snapshot.data!)
                       TimelineCard(
