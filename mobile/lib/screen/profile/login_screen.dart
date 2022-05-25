@@ -15,6 +15,12 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = "";
   String password = "";
 
+  void _handleMasuk() async {
+    var profile = await SecureProfile.getStorage();
+    profile.setLoggedIn(100, "ajsdlajkldsjklasjkl");
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,10 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               ElevatedButton(
-                  onPressed: () async {
-                    print("Tertekan!");
-                  },
-                  child: const Text("Masuk")),
+                  onPressed: _handleMasuk, child: const Text("Masuk")),
               Row(
                 children: [
                   const Text("Belum punya akun ? "),
