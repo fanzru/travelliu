@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screen/tikum/layout.dart';
 import 'package:mobile/screen/timeline/timeline.dart';
+import 'package:mobile/screen/profile/profile_controller.dart';
 
 import '../myprofile/my_profile.dart';
 
@@ -17,7 +18,8 @@ class _MainLayoutState extends State<MainLayout> {
   final List<Widget> _screen = <Widget>[
     const Timeline(),
     TikumLayout(),
-    MyProfile()
+    //MyProfile()
+    ProfilePage(),
   ];
 
   @override

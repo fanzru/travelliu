@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/review.dart';
-import 'package:mobile/screen/timeline/timeline_card.dart';
+import 'package:mobile/screen/profile/card_profile.dart';
 
 import '../../api/review.dart';
+import '../../api/user.dart';
+import '../../model/profile.dart';
+
 import "dart:math" as math;
 
 final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
 class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
-
   @override
   State<MyProfile> createState() => _MyProfile();
 }
 
 class _MyProfile extends State<MyProfile> {
-  late Future<List<Review>> futureReview;
+  late Future<List<ReviewProfile>> futureReview;
+  late Future<Profile> futureProfile;
   final int randomForProfile = math.Random().nextInt(1000);
   @override
   void initState() {
-    futureReview = getAllReview();
+    futureReview = getMyReviewById();
+    futureProfile = getMyProfileById();
     super.initState();
   }
 
@@ -30,7 +34,7 @@ class _MyProfile extends State<MyProfile> {
       key: _navKey,
       onGenerateRoute: (_) => MaterialPageRoute(
         builder: (_) {
-          return FutureBuilder<List<Review>>(
+          return FutureBuilder<List<ReviewProfile>>(
             future: futureReview,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -80,53 +84,28 @@ class _MyProfile extends State<MyProfile> {
                             ),
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.center,
-                          child: const Text(
-                            "Ananda Affan Fattahila",
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 20,
-                            horizontal: 15,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 20,
-                                ),
-                                child: Column(
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: [
-                                    const Text("Total Review"),
-                                    const Text("100"),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 20,
-                                ),
-                                child: Column(
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: [
-                                    const Text("Rataan Rating"),
-                                    const Text("100"),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        FutureBuilder(
+                            future: futureProfile,
+                            builder: (context, snapshot) {
+                              if (snapshot.data == null) {
+                                return Container(
+                                  child: Center(
+                                    child: Text("Loading ..."),
+                                  ),
+                                );
+                              } else {
+                                return ProfileCard(data: snapshot.data);
+                              }
+                            }),
+                        // Navigator(
+                        //   key: _navKey,
+                        //   onGenerateRoute: (_) =>
+                        //       MaterialPageRoute(builder: (_) {
+                        //     return FutureBuilder<Profile>(
+                        //       builder: futureProfile,
+                        //     );
+                        //   }),
+                        // )
                       ],
                     ),
                     for (var data in snapshot.data!)
@@ -147,6 +126,73 @@ class _MyProfile extends State<MyProfile> {
           );
         },
       ),
+    );
+  }
+}
+
+class ProfileCard extends StatelessWidget {
+  final data;
+  // final GlobalKey<NavigatorState> navKey;
+  final int randomForProfile = math.Random().nextInt(1000);
+  ProfileCard({
+    Key? key,
+    required this.data,
+    // required this.navKey
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 5),
+      child: Column(children: [
+        Container(
+          alignment: Alignment.center,
+          child: Text(
+            data.user.name.toString(),
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 15,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                child: Column(
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    const Text("Total Review"),
+                    Text(data.totalReview.toString()),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                child: Column(
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    const Text("Rataan Rating"),
+                    Text(data.avgRating.toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
     );
   }
 }

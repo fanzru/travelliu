@@ -51,7 +51,9 @@ class TimelineCard extends StatelessWidget {
                         ],
                       )),
                   const SizedBox(height: 10),
-                  Image.network(data.photo),
+                  Image.network(data.photo[0] == "/"
+                      ? "https://travelliu.yaudahlah.my.id${data.photo}"
+                      : data.photo),
                   Container(
                       margin: const EdgeInsets.only(
                           left: 10, right: 10, bottom: 10),
