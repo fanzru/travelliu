@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/component/show_snackbar.dart';
 import 'package:mobile/model/profile_secure.dart';
 
 class MyProfile extends StatelessWidget {
@@ -15,6 +16,7 @@ class MyProfile extends StatelessWidget {
               onPressed: () async {
                 var profile = await SecureProfile.getStorage();
                 profile.setLoggedOut();
+                ShowSnackBar(context, "Berhasil keluar, harap pindah halaman");
               },
               child: const Text("Log Out"))
         ],
