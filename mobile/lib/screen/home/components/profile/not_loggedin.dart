@@ -16,11 +16,8 @@ class NotLoggedIn extends StatelessWidget {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.black)),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return LoginScreen();
-                    },
-                  ));
+                  Navigator.pushNamed(context, LoginScreen.routeName,
+                      arguments: LoginScreenArguments());
                 },
                 child: const Text(
                   "Masuk",
@@ -32,12 +29,10 @@ class NotLoggedIn extends StatelessWidget {
                     side: MaterialStateProperty.all(
                         const BorderSide(color: Colors.black)),
                     backgroundColor: MaterialStateProperty.all(Colors.white)),
-                onPressed: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return RegisterScreen();
-                      }))
-                    },
+                onPressed: () {
+                  Navigator.pushNamed(context, RegisterScreen.routeName,
+                      arguments: RegisterScreenArguments());
+                },
                 child: const Text(
                   "Daftar",
                   style: TextStyle(

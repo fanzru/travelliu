@@ -8,6 +8,8 @@ class FormReviewScreenArguments {
 }
 
 class FormReviewScreen extends StatefulWidget {
+  static String routeName = "/form-review";
+
   const FormReviewScreen({Key? key}) : super(key: key);
 
   @override
@@ -121,18 +123,16 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Container(
+                        SizedBox(
                           width: 100,
-                          child: Flexible(
-                            child: TextFormField(
-                              controller: _ratingController,
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                hintText: "Rating",
-                              ),
+                          child: TextFormField(
+                            controller: _ratingController,
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              hintText: "Rating",
                             ),
                           ),
                         ),

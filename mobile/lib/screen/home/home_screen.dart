@@ -25,18 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
   var sectionidx = 0;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  void changeBottomIdx(int idx) {
-    setState(() {
-      sectionidx = idx;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    void changeBottomIdx(int idx) {
+      setState(() {
+        sectionidx = idx;
+      });
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Travelliu"),

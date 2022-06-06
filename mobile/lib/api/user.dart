@@ -70,21 +70,46 @@ Future<Profile> getMyProfileById() async {
   }
 }
 
-Future<bool> deleteMyReview(int id) async {
-  if (id == 0) {
-    return false;
+Future<void> deleteMyReview(int id) async {
+  var profile = await SecureProfile.getStorage();
+
+  if (!profile.isLoggedIn) {
+    throw "User is not logged in";
   }
+
   final http.Response response = await http.delete(
     Uri.parse("https://travelliu.yaudahlah.my.id/api/review/$id"),
     headers: {
       "Content-Type": "application/json",
-      'Authorization': 'Bearer 55|7O6jSGXSFJyK8i9rnnlPmDrzLPsQmj4wfiIIgjyF',
+      'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
-  if (response.statusCode == 200) {
-    return true;
+
+  if (response.statusCode != 200) {
+    throw "Gagal menghapus post";
   }
-  return false;
+}
+
+Future<void> userLogout() async {
+  var profile = await SecureProfile.getStorage();
+
+  if (!profile.isLoggedIn) {
+    throw "User is not logged in";
+  }
+
+  var res = await http.post(
+    Uri.parse("https://travelliu.yaudahlah.my.id/api/logout"),
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ${profile.getApiKey()}',
+    },
+  );
+
+  if (res.statusCode != 200) {
+    throw "Failed to logout";
+  }
+
+  profile.setLoggedOut();
 }
 
 // Future<Profile> getMyReviewById() async {
