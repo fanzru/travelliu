@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/profile_secure.dart';
-import 'package:mobile/screen/profile/not_loggedin.dart';
+import 'package:mobile/screen/home/components/profile/not_loggedin.dart';
 
 class MyTikum extends StatefulWidget {
   MyTikum({Key? key}) : super(key: key);

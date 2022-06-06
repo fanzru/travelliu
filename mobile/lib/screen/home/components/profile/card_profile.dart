@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/api/user.dart';
 import 'package:mobile/model/review.dart';
-import 'package:mobile/screen/review/review_screen.dart';
 import "dart:math" as math;
+
+import 'package:mobile/screen/review_detail/review_detail_screen.dart';
 
 // final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 class TimelineCard extends StatefulWidget {
@@ -23,6 +24,7 @@ class TimelineCard extends StatefulWidget {
 class _TimelineCardState extends State<TimelineCard> {
   late Future<bool> _futureStatus;
 
+  @override
   void initState() {
     super.initState();
   }

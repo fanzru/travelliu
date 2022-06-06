@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screen/layout/main_layout.dart';
+import 'package:mobile/screen/home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +12,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Travelliu',
-        theme: ThemeData(
-          primarySwatch: Colors.cyan,
-          fontFamily: "Poppins",
-        ),
-        home: const MainLayout());
+      title: 'Travelliu',
+      theme: ThemeData(
+        primarySwatch: Colors.cyan,
+        fontFamily: "Poppins",
+      ),
+      routes: {
+        Home.routeName: (context) => const Home(),
+      },
+      initialRoute: Home.routeName,
+    );
   }
 }

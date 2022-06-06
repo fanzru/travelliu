@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screen/profile/register_screen.dart';
-
-import 'login_screen.dart';
+import 'package:mobile/screen/form_login/login_screen.dart';
+import 'package:mobile/screen/form_register/register_screen.dart';
 
 class NotLoggedIn extends StatelessWidget {
   const NotLoggedIn({Key? key}) : super(key: key);
@@ -31,7 +30,7 @@ class NotLoggedIn extends StatelessWidget {
             OutlinedButton(
                 style: ButtonStyle(
                     side: MaterialStateProperty.all(
-                        BorderSide(color: Colors.black)),
+                        const BorderSide(color: Colors.black)),
                     backgroundColor: MaterialStateProperty.all(Colors.white)),
                 onPressed: () => {
                       Navigator.push(context,

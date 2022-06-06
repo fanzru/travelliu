@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screen/tikum/layout.dart';
-import 'package:mobile/screen/timeline/timeline.dart';
-import 'package:mobile/screen/profile/profile_controller.dart';
+import 'package:mobile/screen/home/components/profile/profile_controller.dart';
+import 'package:mobile/screen/home/components/tikum/tikum.dart';
+import 'package:mobile/screen/home/components/timeline/timeline.dart';
 
-import '../myprofile/my_profile.dart';
-import 'package:mobile/screen/review/form_review_screen.dart';
+class Home extends StatefulWidget {
+  static String routeName = "/";
 
-class MainLayout extends StatefulWidget {
-  const MainLayout({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
+
   @override
-  State<MainLayout> createState() => _MainLayoutState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MainLayoutState extends State<MainLayout> {
-  int bottomItemIdx = 0;
-
-  // Ini harus sesuai dengan urutan index bottom navigation barnya ya
-  final List<Widget> _screen = <Widget>[
-    // const FormReview(),
+class _HomeState extends State<Home> {
+  final List<Widget> section = [
     const Timeline(),
     TikumLayout(),
-    //MyProfile()
-    ProfilePage(),
+    ProfileSection()
   ];
+  var sectionidx = 0;
 
   @override
   void initState() {
@@ -31,7 +27,7 @@ class _MainLayoutState extends State<MainLayout> {
 
   void changeBottomIdx(int idx) {
     setState(() {
-      bottomItemIdx = idx;
+      sectionidx = idx;
     });
   }
 
@@ -47,7 +43,7 @@ class _MainLayoutState extends State<MainLayout> {
             backgroundColor: Colors.white,
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.black26,
-            currentIndex: bottomItemIdx,
+            currentIndex: sectionidx,
             onTap: changeBottomIdx,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
@@ -60,7 +56,7 @@ class _MainLayoutState extends State<MainLayout> {
                   icon: Icon(Icons.person_outline_rounded), label: "Profil"),
             ]),
         body: SafeArea(
-          child: _screen[bottomItemIdx],
+          child: section[sectionidx],
         ));
   }
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/api/review.dart';
 import 'package:mobile/model/profile_secure.dart';
 import 'package:mobile/model/review.dart';
-import 'package:mobile/screen/review/form_review_screen.dart';
-import 'package:mobile/screen/timeline/timeline_card.dart';
-
-import '../../api/review.dart';
-import '../test_screen/test_screen.dart';
+import 'package:mobile/screen/form_review/form_review_screen.dart';
+import 'package:mobile/screen/home/components/timeline/timeline_card.dart';
 
 final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
