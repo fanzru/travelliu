@@ -24,7 +24,7 @@ class TimelineCard extends StatelessWidget {
                 onTap: () {
                   navKey.currentState!
                       .push(MaterialPageRoute(builder: (context) {
-                    return ReviewDetails(navkey: navKey, id: data.id);
+                    return ReviewDetailsScreen(navkey: navKey, id: data.id);
                   }));
                 },
                 child: Column(children: [

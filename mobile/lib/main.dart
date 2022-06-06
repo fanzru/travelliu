@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
         fontFamily: "Poppins",
       ),
       routes: {
-        Home.routeName: (context) => const Home(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
       },
-      initialRoute: Home.routeName,
+      initialRoute: HomeScreen.routeName,
     );
   }
 }

@@ -3,16 +3,16 @@ import 'package:mobile/screen/home/components/profile/profile_controller.dart';
 import 'package:mobile/screen/home/components/tikum/tikum.dart';
 import 'package:mobile/screen/home/components/timeline/timeline.dart';
 
-class Home extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   static String routeName = "/";
 
-  const Home({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> section = [
     const Timeline(),
     TikumLayout(),

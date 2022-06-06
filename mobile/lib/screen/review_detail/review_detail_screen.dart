@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ReviewDetails extends StatelessWidget {
+class ReviewDetailsScreen extends StatelessWidget {
   final GlobalKey<NavigatorState> navkey;
   final int id;
-  const ReviewDetails({Key? key, required this.navkey, required this.id})
+  const ReviewDetailsScreen({Key? key, required this.navkey, required this.id})
       : super(key: key);
 
   @override

@@ -38,7 +38,8 @@ class _TimelineCardState extends State<TimelineCard> {
           onTap: () {
             widget.navKey.currentState!
                 .push(MaterialPageRoute(builder: (context) {
-              return ReviewDetails(navkey: widget.navKey, id: widget.data.id);
+              return ReviewDetailsScreen(
+                  navkey: widget.navKey, id: widget.data.id);
             }));
           },
           child: Column(

@@ -2,14 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class FormTikum extends StatefulWidget {
-  const FormTikum({Key? key}) : super(key: key);
+class FormTikumScreen extends StatefulWidget {
+  const FormTikumScreen({Key? key}) : super(key: key);
 
   @override
-  State<FormTikum> createState() => _FormTikumState();
+  State<FormTikumScreen> createState() => _FormTikumScreenState();
 }
 
-class _FormTikumState extends State<FormTikum> {
+class _FormTikumScreenState extends State<FormTikumScreen> {
   final TextEditingController _tujuanController = TextEditingController();
   final TextEditingController _kumpulController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();

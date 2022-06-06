@@ -85,10 +85,8 @@ class _MyProfile extends State<MyProfile> {
                             future: futureProfile,
                             builder: (context, snapshot) {
                               if (snapshot.data == null) {
-                                return Container(
-                                  child: Center(
-                                    child: Text("Loading ..."),
-                                  ),
+                                return const Center(
+                                  child: Text("Loading ..."),
                                 );
                               } else {
                                 return ProfileCard(data: snapshot.data);

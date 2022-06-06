@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-class FormReview extends StatefulWidget {
-  const FormReview({Key? key}) : super(key: key);
+class FormReviewScreen extends StatefulWidget {
+  const FormReviewScreen({Key? key}) : super(key: key);
 
   @override
-  State<FormReview> createState() => _FormReviewState();
+  State<FormReviewScreen> createState() => _FormReviewScreenState();
 }
 
-class _FormReviewState extends State<FormReview> {
+class _FormReviewScreenState extends State<FormReviewScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _alamatController = TextEditingController();
   final TextEditingController _reviewController = TextEditingController();
@@ -54,16 +54,17 @@ class _FormReviewState extends State<FormReview> {
                     TextFormField(
                       controller: _nameController,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 12),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
                         hintText: "Enter Name",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
                         "Alamat Tempat Wisata",
@@ -73,16 +74,17 @@ class _FormReviewState extends State<FormReview> {
                     TextFormField(
                       controller: _alamatController,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 12),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
                         hintText: "Alamat",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
                         "Review Kamu!",
@@ -94,18 +96,18 @@ class _FormReviewState extends State<FormReview> {
                       maxLines: 4,
                       controller: _reviewController,
                       decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 10),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         hintText: "Tulis review",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
                         "Beri Rating 0-5",
@@ -122,7 +124,7 @@ class _FormReviewState extends State<FormReview> {
                               controller: _ratingController,
                               decoration: InputDecoration(
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 12),
+                                    const EdgeInsets.symmetric(horizontal: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 hintText: "Rating",
@@ -132,7 +134,7 @@ class _FormReviewState extends State<FormReview> {
                         ),
                         Row(
                           children: [
-                            Text("Tambahkan Lokasi Saat Ini"),
+                            const Text("Tambahkan Lokasi Saat Ini"),
                             Switch(
                               value: isSwitched,
                               onChanged: (value) {
@@ -149,7 +151,7 @@ class _FormReviewState extends State<FormReview> {
                       ],
                     ),
                     ElevatedButton(
-                      child: Text('UPLOAD FILE'),
+                      child: const Text('UPLOAD FILE'),
                       onPressed: () async {
                         FilePickerResult? result = await FilePicker.platform
                             .pickFiles(type: FileType.image);
@@ -166,7 +168,7 @@ class _FormReviewState extends State<FormReview> {
                         }
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     ElevatedButton(
