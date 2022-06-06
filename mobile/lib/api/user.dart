@@ -28,6 +28,24 @@ Future<User> loginUser(String email, String password) async {
   }
 }
 
+Future<String> registerUser(String nama,String email, String password) async {
+  var response = await http.post(
+    Uri.parse("https://travelliu.yaudahlah.my.id/api/register"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{'name' : nama,'email': email, "password": password}),
+  );
+
+  if (response.statusCode == 200) {
+    return "Sukses";
+  } else if (response.statusCode == 400) {
+    throw "Nama, Email, atau Password tidak valid";
+  } else {
+    throw "Server sedang bermasalah";
+  }
+}
+
 Future<List<ReviewProfile>> getMyReviewById() async {
   var profile = await SecureProfile.getStorage();
   var response = await http.get(
