@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/review.dart';
-import 'package:mobile/screen/review/review_screen.dart';
+import 'package:mobile/screen/form_review/form_review_screen.dart';
 import "dart:math" as math;
+
+import 'package:mobile/screen/review_detail/review_detail_screen.dart';
 
 class TimelineCard extends StatelessWidget {
   final Review data;
-  final GlobalKey<NavigatorState> navKey;
   final int randomForProfile = math.Random().nextInt(1000);
-  TimelineCard(
-      {Key? key,
-      required this.data,
-      required this.navKey,
-      int? randomForProfile})
+  TimelineCard({Key? key, required this.data, int? randomForProfile})
       : super(key: key);
 
   @override
@@ -21,10 +18,8 @@ class TimelineCard extends StatelessWidget {
         child: Container(
             child: InkWell(
                 onTap: () {
-                  navKey.currentState!
-                      .push(MaterialPageRoute(builder: (context) {
-                    return ReviewDetails(navkey: navKey, id: data.id);
-                  }));
+                  Navigator.pushNamed(context, ReviewDetailScreen.routeName,
+                      arguments: ReviewDetailScreenArguments(id: data.id));
                 },
                 child: Column(children: [
                   Container(
@@ -51,7 +46,9 @@ class TimelineCard extends StatelessWidget {
                         ],
                       )),
                   const SizedBox(height: 10),
-                  Image.network(data.photo),
+                  Image.network(data.photo[0] == "/"
+                      ? "https://travelliu.yaudahlah.my.id${data.photo}"
+                      : data.photo),
                   Container(
                       margin: const EdgeInsets.only(
                           left: 10, right: 10, bottom: 10),

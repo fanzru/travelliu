@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/api/tikum.dart';
 import 'package:mobile/model/tikum.dart';
-import 'package:mobile/screen/tikum/tikum_card.dart';
+import 'package:mobile/screen/home/components/tikum/tikum_card.dart';
 
 class GlobalTikum extends StatefulWidget {
   GlobalTikum({Key? key}) : super(key: key);

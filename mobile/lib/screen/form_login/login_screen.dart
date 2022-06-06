@@ -2,11 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mobile/api/user.dart';
-import 'package:mobile/component/show_snackbar.dart';
+import 'package:mobile/screen/form_register/register_screen.dart';
+import 'package:mobile/utils/show_snackbar.dart';
 import 'package:mobile/model/profile_secure.dart';
-import 'package:mobile/screen/profile/register_screen.dart';
+
+class LoginScreenArguments {
+  LoginScreenArguments();
+}
 
 class LoginScreen extends StatefulWidget {
+  static String routeName = "/login";
+
   LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -66,7 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.white,
           body: SafeArea(
             child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

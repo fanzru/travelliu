@@ -1,15 +1,20 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class FormTikum extends StatefulWidget {
-  const FormTikum({Key? key}) : super(key: key);
-
-  @override
-  State<FormTikum> createState() => _FormTikumState();
+class FormTikumScreenArguments {
+  FormTikumScreenArguments();
 }
 
-class _FormTikumState extends State<FormTikum> {
+class FormTikumScreen extends StatefulWidget {
+  static String routeName = "/form-tikum";
+
+  const FormTikumScreen({Key? key}) : super(key: key);
+
+  @override
+  State<FormTikumScreen> createState() => _FormTikumScreenState();
+}
+
+class _FormTikumScreenState extends State<FormTikumScreen> {
   final TextEditingController _tujuanController = TextEditingController();
   final TextEditingController _kumpulController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
@@ -68,16 +73,17 @@ class _FormTikumState extends State<FormTikum> {
                     TextFormField(
                       controller: _tujuanController,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 12),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
                         hintText: "Enter Name",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
                         "Tempat Kumpul",
@@ -90,16 +96,17 @@ class _FormTikumState extends State<FormTikum> {
                     TextFormField(
                       controller: _kumpulController,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 12),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
                         hintText: "Enter",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
                         "Waktu Kumpul",
@@ -110,22 +117,23 @@ class _FormTikumState extends State<FormTikum> {
                       height: 8,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 200,
                           child: Flexible(
                             child: TextFormField(
                               controller:
                                   _dateController, //editing controller of this TextField
                               decoration: InputDecoration(
-                                prefixIcon: Padding(
+                                prefixIcon: const Padding(
                                   padding: EdgeInsets.all(0.0),
                                   child: Icon(
                                     Icons.calendar_today,
                                   ), // icon is 48px widget.
                                 ),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 12),
+                                    const EdgeInsets.symmetric(horizontal: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 hintText: "Enter Date",
@@ -161,64 +169,63 @@ class _FormTikumState extends State<FormTikum> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 30),
-                          width: 150,
-                          child: Flexible(
-                            child: TextField(
-                              controller:
-                                  _timeController, //editing controller of this TextField
-                              decoration: InputDecoration(
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.all(0.0),
-                                  child: Icon(
-                                    Icons.timer,
-                                  ), // icon is 48px widget.
-                                ),
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 12),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                hintText: "Time",
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Flexible(
+                          child: TextField(
+                            controller:
+                                _timeController, //editing controller of this TextField
+                            decoration: InputDecoration(
+                              prefixIcon: const Padding(
+                                padding: EdgeInsets.all(0.0),
+                                child: Icon(
+                                  Icons.timer,
+                                ), // icon is 48px widget.
                               ),
-                              readOnly:
-                                  true, //set it true, so that user will not able to edit text
-                              onTap: () async {
-                                TimeOfDay? pickedTime = await showTimePicker(
-                                  initialTime: TimeOfDay.now(),
-                                  context: context,
-                                );
-
-                                if (pickedTime != null) {
-                                  print(pickedTime
-                                      .format(context)); //output 10:51 PM
-                                  DateTime parsedTime = DateFormat.jm().parse(
-                                      pickedTime.format(context).toString());
-                                  //converting to DateTime so that we can further format on different pattern.
-                                  print(
-                                      parsedTime); //output 1970-01-01 22:53:00.000
-                                  String formattedTime =
-                                      DateFormat('HH:mm').format(parsedTime);
-                                  print(formattedTime); //output 14:59:00
-                                  //DateFormat() is from intl package, you can format the time on any pattern you need.
-
-                                  setState(() {
-                                    _timeController.text =
-                                        formattedTime; //set the value of text field.
-                                  });
-                                } else {
-                                  print("Time is not selected");
-                                }
-                              },
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              hintText: "Time",
                             ),
+                            readOnly:
+                                true, //set it true, so that user will not able to edit text
+                            onTap: () async {
+                              TimeOfDay? pickedTime = await showTimePicker(
+                                initialTime: TimeOfDay.now(),
+                                context: context,
+                              );
+
+                              if (pickedTime != null) {
+                                print(pickedTime
+                                    .format(context)); //output 10:51 PM
+                                DateTime parsedTime = DateFormat.jm().parse(
+                                    pickedTime.format(context).toString());
+                                //converting to DateTime so that we can further format on different pattern.
+                                print(
+                                    parsedTime); //output 1970-01-01 22:53:00.000
+                                String formattedTime =
+                                    DateFormat('HH:mm').format(parsedTime);
+                                print(formattedTime); //output 14:59:00
+                                //DateFormat() is from intl package, you can format the time on any pattern you need.
+
+                                setState(() {
+                                  _timeController.text =
+                                      formattedTime; //set the value of text field.
+                                });
+                              } else {
+                                print("Time is not selected");
+                              }
+                            },
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
                         "Link Group",
@@ -231,16 +238,17 @@ class _FormTikumState extends State<FormTikum> {
                     TextFormField(
                       controller: _grupController,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 12),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
                         hintText: "Enter",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
                         "Deskripsi",
@@ -255,15 +263,15 @@ class _FormTikumState extends State<FormTikum> {
                       maxLines: 4,
                       controller: _deskripsiController,
                       decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 10),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         hintText: "Tulis deskripsi",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     ElevatedButton(
