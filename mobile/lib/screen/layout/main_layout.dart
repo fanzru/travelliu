@@ -17,8 +17,8 @@ class _MainLayoutState extends State<MainLayout> {
 
   // Ini harus sesuai dengan urutan index bottom navigation barnya ya
   final List<Widget> _screen = <Widget>[
-    const FormReview(),
-    // const Timeline(),
+    // const FormReview(),
+    const Timeline(),
     TikumLayout(),
     //MyProfile()
     ProfilePage(),

@@ -27,7 +27,6 @@ class _ProfilePageState extends State<ProfilePage> {
         if (snapshot.hasData) {
           // Kalau misalkan logged in
           if (snapshot.data!.getLoggedInStatus()) {
-            print(snapshot.data!.isLoggedIn);
             return MyProfile();
           } else {
             return const NotLoggedIn();

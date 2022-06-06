@@ -113,6 +113,7 @@ class _FormReviewState extends State<FormReview> {
                       ),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
                           width: 100,
@@ -129,21 +130,22 @@ class _FormReviewState extends State<FormReview> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 100),
-                          child: Text("Tambahkan Lokasi Saat Ini"),
-                        ),
-                        Switch(
-                          value: isSwitched,
-                          onChanged: (value) {
-                            setState(() {
-                              isSwitched = value;
-                              print(isSwitched);
-                            });
-                          },
-                          activeTrackColor: Colors.black,
-                          activeColor: Colors.white,
-                        ),
+                        Row(
+                          children: [
+                            Text("Tambahkan Lokasi Saat Ini"),
+                            Switch(
+                              value: isSwitched,
+                              onChanged: (value) {
+                                setState(() {
+                                  isSwitched = value;
+                                  print(isSwitched);
+                                });
+                              },
+                              activeTrackColor: Colors.black,
+                              activeColor: Colors.white,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                     ElevatedButton(
