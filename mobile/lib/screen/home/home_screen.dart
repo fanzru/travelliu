@@ -3,6 +3,10 @@ import 'package:mobile/screen/home/components/profile/profile_controller.dart';
 import 'package:mobile/screen/home/components/tikum/tikum.dart';
 import 'package:mobile/screen/home/components/timeline/timeline.dart';
 
+class HomeScreenArguments {
+  HomeScreenArguments();
+}
+
 class HomeScreen extends StatefulWidget {
   static String routeName = "/";
 

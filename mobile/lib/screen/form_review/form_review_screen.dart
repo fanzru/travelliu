@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+class FormReviewScreenArguments {
+  FormReviewScreenArguments();
+}
+
 class FormReviewScreen extends StatefulWidget {
   const FormReviewScreen({Key? key}) : super(key: key);
 

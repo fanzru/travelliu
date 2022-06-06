@@ -2,6 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+class FormTikumScreenArguments {
+  FormTikumScreenArguments();
+}
+
 class FormTikumScreen extends StatefulWidget {
   const FormTikumScreen({Key? key}) : super(key: key);
 

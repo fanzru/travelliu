@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+class RegisterScreenArguments {
+  RegisterScreenArguments();
+}
+
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key? key}) : super(key: key);
 

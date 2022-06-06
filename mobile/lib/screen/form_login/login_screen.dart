@@ -6,6 +6,10 @@ import 'package:mobile/screen/form_register/register_screen.dart';
 import 'package:mobile/utils/show_snackbar.dart';
 import 'package:mobile/model/profile_secure.dart';
 
+class LoginScreenArguments {
+  LoginScreenArguments();
+}
+
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
 

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+class ReviewDetailsScreenArguments {
+  final int id;
+  ReviewDetailsScreenArguments({required this.id});
+}
+
 class ReviewDetailsScreen extends StatelessWidget {
   final GlobalKey<NavigatorState> navkey;
   final int id;
