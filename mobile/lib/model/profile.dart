@@ -20,7 +20,6 @@ class Profile {
   });
   factory Profile.fromJson(Map<String, dynamic> json) {
     var user = User.fromJson(json["user"]);
-    print(user);
     return Profile(
       user: user,
       // reviews: json["reviews"],
