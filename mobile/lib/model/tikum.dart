@@ -30,3 +30,33 @@ class Tikum {
         user: user);
   }
 }
+
+class TikumProfile {
+  final int id;
+  final String tempatTujuan, tempatKumpul;
+  final String? deskripsi, linkGroup, name;
+  final DateTime waktuKumpul;
+
+  const TikumProfile({
+    required this.name,
+    required this.id,
+    required this.tempatKumpul,
+    required this.tempatTujuan,
+    this.deskripsi,
+    this.linkGroup,
+    required this.waktuKumpul,
+  });
+
+  factory TikumProfile.fromJson(Map<String, dynamic> json, String name) {
+    var user = User.fromJson(json["user"]);
+    return TikumProfile(
+      name: name,
+      id: json['id'],
+      deskripsi: json["deskripsi"],
+      linkGroup: json["link_group"],
+      tempatKumpul: json["tempat_kumpul"],
+      tempatTujuan: json["tempat_tujuan"],
+      waktuKumpul: DateTime.parse(json["waktu_kumpul"]),
+    );
+  }
+}

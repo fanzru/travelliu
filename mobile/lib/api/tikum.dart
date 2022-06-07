@@ -1,6 +1,7 @@
-import 'dart:convert';
 import "../model/tikum.dart";
 import 'package:http/http.dart' as http;
+import "../model/profile_secure.dart";
+import 'dart:convert';
 
 Future<List<Tikum>> getAllTikum() async {
   var response =
@@ -13,6 +14,27 @@ Future<List<Tikum>> getAllTikum() async {
     }
     return tikums;
   } else {
-    throw Exception('Failed to load all reviews');
+    throw Exception('Failed to load all tikums');
+  }
+}
+
+Future<List<TikumProfile>> getMyTikum() async {
+  var profile = await SecureProfile.getStorage();
+  var response = await http.get(
+    Uri.https('travelliu.yaudahlah.my.id', '/api/user'),
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ${profile.getApiKey()}',
+    },
+  );
+  if (response.statusCode == 200) {
+    Map<String, dynamic> decoded = jsonDecode(response.body);
+    List<TikumProfile> tikums = [];
+    for (var tikum in decoded["tikum"]) {
+      tikums.add(TikumProfile.fromJson(tikum, decoded["user"]["name"]));
+    }
+    return tikums;
+  } else {
+    throw Exception('Failed to load my tikums');
   }
 }

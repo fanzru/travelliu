@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/profile_secure.dart';
+import 'package:mobile/model/tikum.dart';
 import 'package:mobile/screen/home/components/profile/not_loggedin.dart';
+import 'package:mobile/api/tikum.dart';
 
 class MyTikum extends StatefulWidget {
   MyTikum({Key? key}) : super(key: key);
@@ -11,10 +13,12 @@ class MyTikum extends StatefulWidget {
 
 class _MyTikumState extends State<MyTikum> {
   late Future<SecureProfile> futureProfile;
+  late Future<List<TikumProfile>> futureTikumProfile;
 
   @override
   void initState() {
     futureProfile = SecureProfile.getStorage();
+    futureTikumProfile = getMyTikum();
     super.initState();
   }
 
@@ -47,6 +51,6 @@ class MyTikumList extends StatefulWidget {
 class _MyTikumListState extends State<MyTikumList> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(body: Container());
   }
 }
