@@ -2,9 +2,10 @@ import "./user.dart";
 
 class Review {
   final int userId, id, numKomentar;
-  final double longitude, latitude, rating;
+  final double rating;
   final String namaTempat, alamat, review, photo;
   final User user;
+  final double? longitude, latitude;
 
   const Review(
       {required this.userId,
@@ -15,8 +16,8 @@ class Review {
       required this.review,
       required this.alamat,
       this.user = const User.empty(),
-      this.longitude = 0,
-      this.latitude = 0,
+      this.longitude,
+      this.latitude,
       this.numKomentar = 0});
 
   factory Review.fromJson(Map<String, dynamic> json, bool concatReview) {
@@ -28,6 +29,23 @@ class Review {
         review = review + " ...";
       }
     }
+
+    if (json["latitude"] != null) {
+      if (json["latitude"] is int) {
+        json["latitude"] = json["latitude"] as int;
+        json["latitude"] = json["latitude"].toDouble();
+      }
+      json["latitude"] = json["latitude"] as double;
+    }
+
+    if (json["longitude"] != null) {
+      if (json["longitude"] is int) {
+        json["longitude"] = json["longitude"] as int;
+        json["longitude"] = json["longitude"].toDouble();
+      }
+      json["longitude"] = json["longitude"] as double;
+    }
+
     return Review(
         userId: json['user_id'],
         id: json['id'],
@@ -36,8 +54,8 @@ class Review {
         photo: json["photo"],
         rating: json["rating"].toDouble(),
         review: review,
-        latitude: json["latitude"].toDouble(),
-        longitude: json["longitude"].toDouble(),
+        latitude: json["latitude"],
+        longitude: json["longitude"],
         numKomentar: json["komentar_count"],
         user: user);
   }
@@ -45,8 +63,9 @@ class Review {
 
 class ReviewProfile {
   final int userId, id, numKomentar;
-  final double longitude, latitude, rating;
+  final double rating;
   final String namaTempat, alamat, review, photo, nameUser;
+  final double? longitude, latitude;
 
   const ReviewProfile(
       {required this.nameUser,
@@ -82,6 +101,23 @@ class ReviewProfile {
         review = review + " ...";
       }
     }
+
+    if (json["latitude"] != null) {
+      if (json["latitude"] is int) {
+        json["latitude"] = json["latitude"] as int;
+        json["latitude"] = json["latitude"].toDouble();
+      }
+      json["latitude"] = json["latitude"] as double;
+    }
+
+    if (json["longitude"] != null) {
+      if (json["longitude"] is int) {
+        json["longitude"] = json["longitude"] as int;
+        json["longitude"] = json["longitude"].toDouble();
+      }
+      json["longitude"] = json["longitude"] as double;
+    }
+
     return ReviewProfile(
       nameUser: name,
       userId: json['user_id'],
@@ -91,8 +127,8 @@ class ReviewProfile {
       photo: json["photo"],
       rating: json["rating"].toDouble(),
       review: review,
-      latitude: json["latitude"].toDouble(),
-      longitude: json["longitude"].toDouble(),
+      latitude: json["latitude"],
+      longitude: json["longitude"],
     );
   }
 }
