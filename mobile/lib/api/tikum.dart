@@ -38,3 +38,23 @@ Future<List<TikumProfile>> getMyTikum() async {
     throw Exception('Failed to load my tikums');
   }
 }
+
+Future<void> deleteMyTikum(int id) async {
+  var profile = await SecureProfile.getStorage();
+
+  if (!profile.isLoggedIn) {
+    throw "User is not logged in";
+  }
+
+  final http.Response response = await http.delete(
+    Uri.parse("https://travelliu.yaudahlah.my.id/api/tikum/$id"),
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ${profile.getApiKey()}',
+    },
+  );
+
+  if (response.statusCode != 200) {
+    throw "Gagal menghapus post";
+  }
+}

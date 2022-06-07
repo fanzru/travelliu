@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile/model/tikum.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/show_snackbar.dart';
+import 'package:mobile/api/tikum.dart';
 
 class MyTikumCard extends StatelessWidget {
   final TikumProfile tikum;
@@ -17,19 +19,67 @@ class MyTikumCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.network(
-                    "https://travelliu.yaudahlah.my.id/affan-imut.jpeg",
-                    width: 40,
-                    height: 40,
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.network(
+                        "https://travelliu.yaudahlah.my.id/affan-imut.jpeg",
+                        width: 40,
+                        height: 40,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Text(tikum.name.toString())
+                  ],
+                ),
+                TextButton(
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
                   ),
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Hapus Titik Kumpul'),
+                      content: const Text(
+                          'Jika anda menghapus titik kumpul ini akan hilang dari my tikum anda!'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            try {
+                              await deleteMyTikum(tikum.id);
+                              ShowSnackBar(context,
+                                  "Berhasil menghapus titik kumpul, harap pindah halaman untuk melihat perubahan");
+                            } catch (err) {
+                              ShowSnackBar(context, err.toString());
+                            }
+                            Navigator.pop(context, "OK");
+                          },
+                          child: const Text(
+                            'OK',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // onPressed: () async {
+                  //   setState(() {
+                  //     _futureStatus = deleteMyReview(widget.data.id);
+                  //   });
+                  // },
                 ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Text(tikum.name.toString())
               ],
             ),
             const SizedBox(
@@ -92,6 +142,7 @@ class MyTikumCard extends StatelessWidget {
                     ),
                   ),
                   Container(
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 1),
                         borderRadius:

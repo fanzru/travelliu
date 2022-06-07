@@ -2,6 +2,10 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:mobile/api/review.dart';
+import 'package:mobile/screen/home/home_screen.dart';
+import 'package:mobile/utils/show_snackbar.dart';
 
 class FormReviewScreenArguments {
   FormReviewScreenArguments();
@@ -23,10 +27,62 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
   final TextEditingController _ratingController = TextEditingController();
   bool isSwitched = false;
   final _formKey = GlobalKey<FormState>();
-  String fullName = '';
+
+  String? photoPath;
+  Position? _currentPosition;
+
+  _getCurrentLocation() async {
+    try {
+      await Geolocator.requestPermission();
+      var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+        forceAndroidLocationManager: true,
+      );
+      setState(() {
+        _currentPosition = position;
+      });
+    } on PermissionDefinitionsNotFoundException catch (err) {
+      throw "Permission tidak diberikan";
+    } catch (err) {
+      setState(() {
+        isSwitched = false;
+      });
+      throw "Gagal dalam mendapatkan lokasi";
+    }
+  }
+
+  String? _textRequired(String? txt) {
+    if (txt == null || txt.isEmpty) {
+      return "Masukkan text";
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
+    void submitReview() async {
+      if (_formKey.currentState!.validate()) {
+        try {
+          if (photoPath == null) throw "Need to upload a photo";
+          await createReview(
+              nama: _nameController.text,
+              alamat: _alamatController.text,
+              review: _reviewController.text,
+              rating: _ratingController.text,
+              photoPath: photoPath!,
+              latitude: _currentPosition!.latitude,
+              longitude: _currentPosition!.longitude);
+          ShowSnackBar(context, "Review berhasil terunggah");
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreen.routeName, (route) => false);
+        } catch (err) {
+          ShowSnackBar(context, "$err");
+        }
+      } else {
+        ShowSnackBar(context, "There's some form not filled properly");
+      }
+    }
+
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -58,6 +114,7 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                       height: 8,
                     ),
                     TextFormField(
+                      validator: _textRequired,
                       controller: _nameController,
                       decoration: InputDecoration(
                         contentPadding:
@@ -78,6 +135,7 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                       ),
                     ),
                     TextFormField(
+                      validator: _textRequired,
                       controller: _alamatController,
                       decoration: InputDecoration(
                         contentPadding:
@@ -98,6 +156,7 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                       ),
                     ),
                     TextFormField(
+                      validator: _textRequired,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       controller: _reviewController,
@@ -126,6 +185,7 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                         SizedBox(
                           width: 100,
                           child: TextFormField(
+                            validator: _textRequired,
                             controller: _ratingController,
                             decoration: InputDecoration(
                               contentPadding:
@@ -144,7 +204,11 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
-                                  print(isSwitched);
+                                  if (isSwitched) {
+                                    _getCurrentLocation();
+                                  } else {
+                                    _currentPosition = null;
+                                  }
                                 });
                               },
                               activeTrackColor: Colors.black,
@@ -155,18 +219,22 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                       ],
                     ),
                     ElevatedButton(
-                      child: const Text('UPLOAD FILE'),
+                      child: Column(
+                        children: [
+                          const Text('Upload Photo'),
+                          photoPath != null
+                              ? const Text("Photo Choosed")
+                              : const SizedBox.shrink(),
+                        ],
+                      ),
                       onPressed: () async {
                         FilePickerResult? result = await FilePicker.platform
                             .pickFiles(type: FileType.image);
-
                         if (result != null) {
                           PlatformFile file = result.files.first;
-
-                          print(file.name);
-                          print(file.size);
-                          print(file.extension);
-                          print(file.path);
+                          setState(() {
+                            photoPath = file.path;
+                          });
                         } else {
                           // User canceled the picker
                         }
@@ -179,16 +247,7 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(Colors.black)),
-                      onPressed: () {
-                        // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
-                        }
-                      },
+                      onPressed: submitReview,
                       child: const Text('Submit'),
                     ),
                   ],

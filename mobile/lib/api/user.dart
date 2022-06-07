@@ -1,12 +1,11 @@
 import 'dart:convert';
 import "../model/review.dart";
-import "../model/user.dart";
 import "../model/profile.dart";
 import "../model/profile_secure.dart";
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-Future<User> loginUser(String email, String password) async {
+Future<void> loginUser(String email, String password) async {
   var response = await http.post(
     Uri.parse("https://travelliu.yaudahlah.my.id/api/login"),
     headers: <String, String>{
@@ -19,8 +18,9 @@ Future<User> loginUser(String email, String password) async {
     var decoded = jsonDecode(response.body);
     var token = decoded["token"];
     var id = decoded["user"]["id"];
-    var name = decoded["user"]["name"];
-    return User(id: id, name: name, token: token);
+
+    var profile = await SecureProfile.getStorage();
+    profile.setLoggedIn(id, token);
   } else if (response.statusCode == 400) {
     throw "Email atau password salah";
   } else {
@@ -28,13 +28,14 @@ Future<User> loginUser(String email, String password) async {
   }
 }
 
-Future<String> registerUser(String nama,String email, String password) async {
+Future<String> registerUser(String nama, String email, String password) async {
   var response = await http.post(
     Uri.parse("https://travelliu.yaudahlah.my.id/api/register"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{'name' : nama,'email': email, "password": password}),
+    body: jsonEncode(
+        <String, String>{'name': nama, 'email': email, "password": password}),
   );
 
   if (response.statusCode == 200) {

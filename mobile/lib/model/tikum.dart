@@ -48,7 +48,6 @@ class TikumProfile {
   });
 
   factory TikumProfile.fromJson(Map<String, dynamic> json, String name) {
-    var user = User.fromJson(json["user"]);
     return TikumProfile(
       name: name,
       id: json['id'],

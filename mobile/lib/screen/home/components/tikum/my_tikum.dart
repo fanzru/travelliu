@@ -3,6 +3,7 @@ import 'package:mobile/model/profile_secure.dart';
 import 'package:mobile/model/tikum.dart';
 import 'package:mobile/screen/home/components/profile/not_loggedin.dart';
 import 'package:mobile/api/tikum.dart';
+import 'package:mobile/screen/home/components/tikum/mytikum_card.dart';
 
 class MyTikum extends StatefulWidget {
   MyTikum({Key? key}) : super(key: key);
@@ -13,12 +14,10 @@ class MyTikum extends StatefulWidget {
 
 class _MyTikumState extends State<MyTikum> {
   late Future<SecureProfile> futureProfile;
-  late Future<List<TikumProfile>> futureTikumProfile;
 
   @override
   void initState() {
     futureProfile = SecureProfile.getStorage();
-    futureTikumProfile = getMyTikum();
     super.initState();
   }
 
@@ -49,8 +48,33 @@ class MyTikumList extends StatefulWidget {
 }
 
 class _MyTikumListState extends State<MyTikumList> {
+  late Future<List<TikumProfile>> futureTikumProfile;
+  void initState() {
+    futureTikumProfile = getMyTikum();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container());
+    return FutureBuilder<List<TikumProfile>>(
+      future: futureTikumProfile,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView(
+            children: [
+              for (var data in snapshot.data!)
+                MyTikumCard(
+                  tikum: data,
+                )
+            ],
+          );
+        } else if (snapshot.hasError) {
+          return const Center(child: Text("Error when fetching all reviews"));
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }
