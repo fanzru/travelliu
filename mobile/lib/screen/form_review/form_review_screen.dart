@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mobile/api/review.dart';
 import 'package:mobile/screen/home/home_screen.dart';
 import 'package:mobile/utils/show_snackbar.dart';
@@ -28,6 +29,27 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
   final _formKey = GlobalKey<FormState>();
 
   String? photoPath;
+  Position? _currentPosition;
+
+  _getCurrentLocation() async {
+    try {
+      await Geolocator.requestPermission();
+      var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+        forceAndroidLocationManager: true,
+      );
+      setState(() {
+        _currentPosition = position;
+      });
+    } on PermissionDefinitionsNotFoundException catch (err) {
+      throw "Permission tidak diberikan";
+    } catch (err) {
+      setState(() {
+        isSwitched = false;
+      });
+      throw "Gagal dalam mendapatkan lokasi";
+    }
+  }
 
   String? _textRequired(String? txt) {
     if (txt == null || txt.isEmpty) {
@@ -47,7 +69,9 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
               alamat: _alamatController.text,
               review: _reviewController.text,
               rating: _ratingController.text,
-              photoPath: photoPath!);
+              photoPath: photoPath!,
+              latitude: _currentPosition!.latitude,
+              longitude: _currentPosition!.longitude);
           ShowSnackBar(context, "Review berhasil terunggah");
           Navigator.pushNamedAndRemoveUntil(
               context, HomeScreen.routeName, (route) => false);
@@ -180,7 +204,11 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
-                                  print(isSwitched);
+                                  if (isSwitched) {
+                                    _getCurrentLocation();
+                                  } else {
+                                    _currentPosition = null;
+                                  }
                                 });
                               },
                               activeTrackColor: Colors.black,
