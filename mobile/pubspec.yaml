@@ -39,6 +39,8 @@ dependencies:
   url_launcher: ^6.0.0
   shared_preferences: ^2.0.15
   file_picker: ^4.5.1
+  dio: ^4.0.6
+  geolocator: ^8.2.1
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import "../model/review.dart";
-import "../model/user.dart";
 import "../model/profile.dart";
 import "../model/profile_secure.dart";
 import 'package:http/http.dart' as http;
