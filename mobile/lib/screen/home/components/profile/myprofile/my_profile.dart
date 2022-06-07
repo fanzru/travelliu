@@ -3,6 +3,7 @@ import 'package:mobile/api/user.dart';
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/model/review.dart';
 import 'package:mobile/screen/home/components/profile/myprofile/card_profile.dart';
+import 'package:mobile/screen/home/home_screen.dart';
 import "dart:math" as math;
 
 import 'package:mobile/utils/show_snackbar.dart';
@@ -47,8 +48,9 @@ class _MyProfile extends State<MyProfile> {
                     onPressed: () async {
                       try {
                         await userLogout();
-                        ShowSnackBar(
-                            context, "Logout berhasil, harap pindah halaman");
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, HomeScreen.routeName, (route) => false);
+                        ShowSnackBar(context, "Logout berhasil");
                       } catch (err) {
                         ShowSnackBar(context, err.toString());
                       }
