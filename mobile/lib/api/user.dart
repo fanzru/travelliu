@@ -58,6 +58,11 @@ Future<List<ReviewProfile>> getMyReviewById() async {
     },
   );
 
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired, please login again");
+  }
+
   if (response.statusCode == 200) {
     Map<String, dynamic> decoded = jsonDecode(response.body);
     List<ReviewProfile> reviews = [];
@@ -81,6 +86,11 @@ Future<Profile> getMyProfileById() async {
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
+
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired, please login again");
+  }
 
   if (response.statusCode == 200) {
     var decoded = jsonDecode(response.body);
@@ -107,6 +117,11 @@ Future<void> deleteMyReview(int id) async {
     },
   );
 
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired, please login again");
+  }
+
   if (response.statusCode != 200) {
     throw "Gagal menghapus post";
   }
@@ -127,6 +142,11 @@ Future<void> userLogout() async {
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
+
+  if (res.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired, please login again");
+  }
 
   if (res.statusCode != 200) {
     throw "Failed to logout";

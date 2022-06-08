@@ -28,6 +28,12 @@ Future<List<TikumProfile>> getMyTikum() async {
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
+
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    throw "Session expired";
+  }
+
   if (response.statusCode == 200) {
     Map<String, dynamic> decoded = jsonDecode(response.body);
     List<TikumProfile> tikums = [];
@@ -55,6 +61,11 @@ Future<void> deleteMyTikum(int id) async {
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
+
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    throw "Session expired";
+  }
 
   if (response.statusCode != 200) {
     throw "Gagal menghapus post";

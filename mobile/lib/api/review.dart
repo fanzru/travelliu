@@ -16,7 +16,7 @@ Future<List<Review>> getAllReview() async {
     }
     return reviews;
   } else {
-    throw Exception('Failed to load all reviews');
+    throw 'Failed to load all reviews';
   }
 }
 
@@ -58,6 +58,10 @@ Future<void> createReview(
             },
           ),
           data: formData);
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    throw "Session expired";
+  }
   if (response.statusCode != 200) {
     throw "Failed to post a review";
   }
