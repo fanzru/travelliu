@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/review.dart';
 import 'package:mobile/screen/form_review/form_review_screen.dart';
+import 'package:mobile/screen/profile_detail/profile_detail_screen.dart';
 import "dart:math" as math;
 
 import 'package:mobile/screen/review_detail/review_detail_screen.dart';
@@ -40,7 +41,12 @@ class TimelineCard extends StatelessWidget {
                             child: Text(data.user.name),
                             splashColor: Colors.transparent,
                             onTap: () {
-                              print("Open profile");
+                              Navigator.pushNamed(
+                                context,
+                                ProfilePeopleScreen.routeName,
+                                arguments: ProfilePeopleScreenArguments(
+                                    id: data.userId),
+                              );
                             },
                           )
                         ],
