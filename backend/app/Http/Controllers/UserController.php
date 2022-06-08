@@ -117,11 +117,11 @@ class UserController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         try {
             Auth::guard('web')->logout();
-            auth()->user()->tokens()->delete();
+            $request->user()->currentAccessToken()->delete();
             return response("Sukses", 200);
         } catch (\Exception $e) {
             return response("Internal Server Error", 500);
