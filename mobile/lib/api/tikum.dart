@@ -24,6 +24,7 @@ Future<List<TikumProfile>> getMyTikum() async {
     Uri.https('travelliu.yaudahlah.my.id', '/api/user'),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
@@ -50,6 +51,7 @@ Future<void> deleteMyTikum(int id) async {
     Uri.parse("https://travelliu.yaudahlah.my.id/api/tikum/$id"),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );

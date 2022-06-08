@@ -52,7 +52,10 @@ Future<void> createReview(
   var response =
       await Dio().post("https://travelliu.yaudahlah.my.id/api/review",
           options: Options(
-            headers: {'Authorization': 'Bearer $token'},
+            headers: {
+              'Authorization': 'Bearer $token',
+              "Accept": "application/json",
+            },
           ),
           data: formData);
   if (response.statusCode != 200) {

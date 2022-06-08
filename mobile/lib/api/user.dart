@@ -53,6 +53,7 @@ Future<List<ReviewProfile>> getMyReviewById() async {
     Uri.https('travelliu.yaudahlah.my.id', '/api/user'),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
@@ -76,6 +77,7 @@ Future<Profile> getMyProfileById() async {
     Uri.https('travelliu.yaudahlah.my.id', '/api/user'),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
@@ -100,6 +102,7 @@ Future<void> deleteMyReview(int id) async {
     Uri.parse("https://travelliu.yaudahlah.my.id/api/review/$id"),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
@@ -120,6 +123,7 @@ Future<void> userLogout() async {
     Uri.parse("https://travelliu.yaudahlah.my.id/api/logout"),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
