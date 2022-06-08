@@ -14,7 +14,7 @@ Future<List<Tikum>> getAllTikum() async {
     }
     return tikums;
   } else {
-    throw Exception('Failed to load all tikums');
+    return Future.error('Failed to load all tikums');
   }
 }
 
@@ -31,7 +31,7 @@ Future<List<TikumProfile>> getMyTikum() async {
 
   if (response.statusCode == 401) {
     profile.setLoggedOut();
-    throw "Session expired";
+    return Future.error("Session expired");
   }
 
   if (response.statusCode == 200) {
@@ -50,7 +50,7 @@ Future<void> deleteMyTikum(int id) async {
   var profile = await SecureProfile.getStorage();
 
   if (!profile.isLoggedIn) {
-    throw "User is not logged in";
+    return Future.error("User is not logged in");
   }
 
   final http.Response response = await http.delete(
@@ -64,10 +64,10 @@ Future<void> deleteMyTikum(int id) async {
 
   if (response.statusCode == 401) {
     profile.setLoggedOut();
-    throw "Session expired";
+    return Future.error("Session expired");
   }
 
   if (response.statusCode != 200) {
-    throw "Gagal menghapus post";
+    return Future.error("Gagal menghapus post");
   }
 }

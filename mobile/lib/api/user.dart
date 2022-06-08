@@ -24,7 +24,7 @@ Future<void> loginUser(String email, String password) async {
   } else if (response.statusCode == 400) {
     return Future.error("Email atau password salah");
   } else {
-    throw "Server sedang bermasalah";
+    return Future.error("Server sedang bermasalah");
   }
 }
 
@@ -41,9 +41,9 @@ Future<String> registerUser(String nama, String email, String password) async {
   if (response.statusCode == 200) {
     return "Sukses";
   } else if (response.statusCode == 400) {
-    throw "Nama, Email, atau Password tidak valid";
+    return Future.error("Nama, Email, atau Password tidak valid");
   } else {
-    throw "Server sedang bermasalah";
+    return Future.error("Server sedang bermasalah");
   }
 }
 
@@ -72,7 +72,7 @@ Future<List<ReviewProfile>> getMyReviewById() async {
     }
     return reviews;
   } else {
-    throw Exception('Failed to load all reviews');
+    return Future.error('Failed to load all reviews');
   }
 }
 
@@ -97,7 +97,7 @@ Future<Profile> getMyProfileById() async {
     Profile profile = Profile.fromJson(decoded);
     return profile;
   } else {
-    throw Exception('Failed to load all reviews');
+    return Future.error('Failed to load all reviews');
   }
 }
 
@@ -105,6 +105,7 @@ Future<void> deleteMyReview(int id) async {
   var profile = await SecureProfile.getStorage();
 
   if (!profile.isLoggedIn) {
+    return Future.error("User is not logged in");
     throw "User is not logged in";
   }
 
@@ -123,7 +124,7 @@ Future<void> deleteMyReview(int id) async {
   }
 
   if (response.statusCode != 200) {
-    throw "Gagal menghapus post";
+    return Future.error("Gagal menghapus post");
   }
 }
 
@@ -131,7 +132,7 @@ Future<void> userLogout() async {
   var profile = await SecureProfile.getStorage();
 
   if (!profile.isLoggedIn) {
-    throw "User is not logged in";
+    return Future.error("User is not logged in");
   }
 
   var res = await http.post(
@@ -149,7 +150,7 @@ Future<void> userLogout() async {
   }
 
   if (res.statusCode != 200) {
-    throw "Failed to logout";
+    return Future.error("Failed to logout");
   }
 
   profile.setLoggedOut();

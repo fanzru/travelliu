@@ -16,7 +16,7 @@ Future<List<Review>> getAllReview() async {
     }
     return reviews;
   } else {
-    throw 'Failed to load all reviews';
+    return Future.error('Failed to load all reviews');
   }
 }
 
@@ -30,7 +30,7 @@ Future<void> createReview(
     double? longitude}) async {
   if (latitude != null || longitude != null) {
     if (latitude == null || longitude == null) {
-      throw "Longitude and Latitude needs to be filled";
+      return Future.error("Longitude and Latitude needs to be filled");
     }
   }
 
@@ -60,9 +60,9 @@ Future<void> createReview(
           data: formData);
   if (response.statusCode == 401) {
     profile.setLoggedOut();
-    throw "Session expired";
+    return Future.error("Session expired");
   }
   if (response.statusCode != 200) {
-    throw "Failed to post a review";
+    return Future.error("Failed to post a review");
   }
 }
