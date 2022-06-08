@@ -34,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Travelliu"),
+          actions: [Image(image: AssetImage("assets/Logos.png"))],
+          title: const Text("Travelliu",
+              style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.white,
         ),
         bottomNavigationBar: BottomNavigationBar(

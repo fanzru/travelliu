@@ -22,7 +22,7 @@ Future<void> loginUser(String email, String password) async {
     var profile = await SecureProfile.getStorage();
     profile.setLoggedIn(id, token);
   } else if (response.statusCode == 400) {
-    throw "Email atau password salah";
+    return Future.error("Email atau password salah");
   } else {
     throw "Server sedang bermasalah";
   }

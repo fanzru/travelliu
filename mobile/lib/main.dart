@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mobile/screen/form_login/login_screen.dart';
 import 'package:mobile/screen/form_register/register_screen.dart';
 import 'package:mobile/screen/form_review/form_review_screen.dart';
 import 'package:mobile/screen/form_tikum/form_tikum_screen.dart';
 import 'package:mobile/screen/home/home_screen.dart';
 import 'package:mobile/screen/review_detail/review_detail_screen.dart';
+import "dart:async";
 
-void main() {
+// Future timeoutTest10s() {
+//   Future foo = Future.delayed(const Duration(seconds: 5));
+//   return foo.timeout(Duration(seconds: 5), onTimeout: () {});
+// }
+
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // await timeoutTest10s();
   runApp(const MyApp());
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
