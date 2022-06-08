@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screen/profile/profile_controller.dart';
-import 'package:mobile/screen/tikum/layout.dart';
-import 'package:mobile/screen/timeline/timeline.dart';
+import 'package:mobile/screen/home/components/profile/profile_controller.dart';
+import 'package:mobile/screen/home/components/tikum/tikum.dart';
+import 'package:mobile/screen/home/components/timeline/timeline.dart';
 
-class MainLayout extends StatefulWidget {
-  const MainLayout({Key? key}) : super(key: key);
-  @override
-  State<MainLayout> createState() => _MainLayoutState();
+class HomeScreenArguments {
+  HomeScreenArguments();
 }
 
-class _MainLayoutState extends State<MainLayout> {
-  int bottomItemIdx = 0;
+class HomeScreen extends StatefulWidget {
+  static String routeName = "/";
 
-  // Ini harus sesuai dengan urutan index bottom navigation barnya ya
-  final List<Widget> _screen = <Widget>[
-    const Timeline(),
-    TikumLayout(),
-    ProfilePage()
-  ];
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-  void changeBottomIdx(int idx) {
-    setState(() {
-      bottomItemIdx = idx;
-    });
-  }
+class _HomeScreenState extends State<HomeScreen> {
+  final List<Widget> section = [
+    const Timeline(),
+    TikumLayout(),
+    ProfileSection()
+  ];
+  var sectionidx = 0;
 
   @override
   Widget build(BuildContext context) {
+    void changeBottomIdx(int idx) {
+      setState(() {
+        sectionidx = idx;
+      });
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Travelliu"),
@@ -42,7 +42,7 @@ class _MainLayoutState extends State<MainLayout> {
             backgroundColor: Colors.white,
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.black26,
-            currentIndex: bottomItemIdx,
+            currentIndex: sectionidx,
             onTap: changeBottomIdx,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
@@ -55,7 +55,7 @@ class _MainLayoutState extends State<MainLayout> {
                   icon: Icon(Icons.person_outline_rounded), label: "Profil"),
             ]),
         body: SafeArea(
-          child: _screen[bottomItemIdx],
+          child: section[sectionidx],
         ));
   }
 }

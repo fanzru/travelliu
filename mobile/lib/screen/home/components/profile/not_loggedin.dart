@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screen/profile/register_screen.dart';
-
-import 'login_screen.dart';
+import 'package:mobile/screen/form_login/login_screen.dart';
+import 'package:mobile/screen/form_register/register_screen.dart';
 
 class NotLoggedIn extends StatelessWidget {
   const NotLoggedIn({Key? key}) : super(key: key);
@@ -17,11 +16,8 @@ class NotLoggedIn extends StatelessWidget {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.black)),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return LoginScreen();
-                    },
-                  ));
+                  Navigator.pushNamed(context, LoginScreen.routeName,
+                      arguments: LoginScreenArguments());
                 },
                 child: const Text(
                   "Masuk",
@@ -31,14 +27,12 @@ class NotLoggedIn extends StatelessWidget {
             OutlinedButton(
                 style: ButtonStyle(
                     side: MaterialStateProperty.all(
-                        BorderSide(color: Colors.black)),
+                        const BorderSide(color: Colors.black)),
                     backgroundColor: MaterialStateProperty.all(Colors.white)),
-                onPressed: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return RegisterScreen();
-                      }))
-                    },
+                onPressed: () {
+                  Navigator.pushNamed(context, RegisterScreen.routeName,
+                      arguments: RegisterScreenArguments());
+                },
                 child: const Text(
                   "Daftar",
                   style: TextStyle(

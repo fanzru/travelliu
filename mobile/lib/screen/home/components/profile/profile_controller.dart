@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/profile_secure.dart';
-import 'package:mobile/screen/myprofile/my_profile.dart';
-import 'package:mobile/screen/profile/not_loggedin.dart';
+import 'package:mobile/screen/home/components/profile/myprofile/my_profile.dart';
+import 'package:mobile/screen/home/components/profile/not_loggedin.dart';
 
-class ProfilePage extends StatefulWidget {
-  ProfilePage({Key? key}) : super(key: key);
+class ProfileSection extends StatefulWidget {
+  ProfileSection({Key? key}) : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProfileSection> createState() => _ProfileSectionState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileSectionState extends State<ProfileSection> {
   late Future<SecureProfile> futureProfile;
 
   @override
@@ -27,8 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
         if (snapshot.hasData) {
           // Kalau misalkan logged in
           if (snapshot.data!.getLoggedInStatus()) {
-            print(snapshot.data!.isLoggedIn);
-            return MyProfile();
+            return const MyProfile();
           } else {
             return const NotLoggedIn();
           }

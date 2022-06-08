@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/api/review.dart';
 import 'package:mobile/model/profile_secure.dart';
 import 'package:mobile/model/review.dart';
-import 'package:mobile/screen/timeline/timeline_card.dart';
-
-import '../../api/review.dart';
-import '../test_screen/test_screen.dart';
-
-final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
+import 'package:mobile/screen/form_review/form_review_screen.dart';
+import 'package:mobile/screen/home/components/timeline/timeline_card.dart';
 
 class Timeline extends StatefulWidget {
   const Timeline({Key? key}) : super(key: key);
@@ -30,12 +27,7 @@ class _TimelineState extends State<Timeline> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: plusFloatingBuilder(futureProfile),
-        body: Navigator(
-          key: _navKey,
-          onGenerateRoute: (_) => MaterialPageRoute(builder: (_) {
-            return reviewBuilder(futureReview);
-          }),
-        ));
+        body: reviewBuilder(futureReview));
   }
 }
 
@@ -50,9 +42,8 @@ FutureBuilder<SecureProfile> plusFloatingBuilder(Future<SecureProfile> future) {
               child: const Icon(Icons.add),
               heroTag: "Buat Review",
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const TestScreen();
-                }));
+                Navigator.pushNamed(context, FormReviewScreen.routeName,
+                    arguments: FormReviewScreenArguments());
               },
               backgroundColor: Colors.black,
               foregroundColor: Colors.white,
@@ -73,7 +64,6 @@ FutureBuilder<List<Review>> reviewBuilder(Future<List<Review>> future) {
             for (var data in snapshot.data!)
               TimelineCard(
                 data: data,
-                navKey: _navKey,
               )
           ],
         );
