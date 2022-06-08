@@ -9,7 +9,9 @@ import "dart:math" as math;
 import 'package:mobile/utils/show_snackbar.dart';
 
 class MyProfile extends StatefulWidget {
-  const MyProfile({Key? key}) : super(key: key);
+  const MyProfile({
+    Key? key,
+  }) : super(key: key);
   @override
   State<MyProfile> createState() => _MyProfile();
 }
@@ -88,25 +90,17 @@ class _MyProfile extends State<MyProfile> {
                     ),
                   ),
                   FutureBuilder(
-                      future: futureProfile,
-                      builder: (context, snapshot) {
-                        if (snapshot.data == null) {
-                          return const Center(
-                            child: Text("Loading ..."),
-                          );
-                        } else {
-                          return ProfileCard(data: snapshot.data);
-                        }
-                      }),
-                  // Navigator(
-                  //   key: _navKey,
-                  //   onGenerateRoute: (_) =>
-                  //       MaterialPageRoute(builder: (_) {
-                  //     return FutureBuilder<Profile>(
-                  //       builder: futureProfile,
-                  //     );
-                  //   }),
-                  // )
+                    future: futureProfile,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Center(
+                          child: Text("Loading ..."),
+                        );
+                      } else {
+                        return ProfileCard(data: snapshot.data);
+                      }
+                    },
+                  ),
                 ],
               ),
               for (var data in snapshot.data!)
@@ -141,14 +135,12 @@ class ProfileCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: Column(children: [
-        Container(
-          alignment: Alignment.center,
-          child: Text(
-            data.user.name.toString(),
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
+        Text(
+          data.user.name.toString(),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
           ),
         ),
         Container(

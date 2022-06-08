@@ -5,6 +5,7 @@ import 'package:mobile/screen/form_review/form_review_screen.dart';
 import 'package:mobile/screen/form_tikum/form_tikum_screen.dart';
 import 'package:mobile/screen/home/home_screen.dart';
 import 'package:mobile/screen/review_detail/review_detail_screen.dart';
+import 'package:mobile/screen/profile_detail/profile_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         FormReviewScreen.routeName: (context) => const FormReviewScreen(),
         FormTikumScreen.routeName: (context) => const FormTikumScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        LoginScreen.routeName: (context) => LoginScreen()
+        LoginScreen.routeName: (context) => LoginScreen(),
+        ProfilePeopleScreen.routeName: (context) => ProfilePeopleScreen(),
       },
       initialRoute: HomeScreen.routeName,
     );

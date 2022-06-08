@@ -131,6 +131,22 @@ Future<void> userLogout() async {
   profile.setLoggedOut();
 }
 
+Future<Profile> getUserProfileById(int id) async {
+  var response = await http.get(
+    Uri.parse('https://travelliu.yaudahlah.my.id/api/user/${id}'),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  );
+  if (response.statusCode == 200) {
+    var decoded = jsonDecode(response.body);
+    Profile profile = Profile.fromJson(decoded);
+    return profile;
+  } else {
+    throw Exception('Failed to load all reviews');
+  }
+}
+
 // Future<Profile> getMyReviewById() async {
 //   var response = await http.get(
 //     Uri.https('travelliu.yaudahlah.my.id', '/api/user/2'),
