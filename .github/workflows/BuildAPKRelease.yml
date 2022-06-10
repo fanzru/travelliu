@@ -39,7 +39,11 @@ jobs:
         run: |
           flutter pub get
           flutter build apk
-          mv ./build/app/outputs/flutter-apk/app-release.apk ./travelliu.apk
+      
+      - name: "Prepare artifacts"
+        run: |
+          mkdir android
+          mv ./build/app/outputs/flutter-apk/app-release.apk ./android/travelliu.apk
       
       - name: "Create Release"
         uses: ncipollo/release-action@v1
