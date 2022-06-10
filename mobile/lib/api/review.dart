@@ -24,7 +24,7 @@ Future<void> createReview(
     {required String nama,
     required String alamat,
     required String review,
-    required String rating,
+    required double rating,
     required String photoPath,
     double? latitude,
     double? longitude}) async {
@@ -42,7 +42,7 @@ Future<void> createReview(
   var formData = FormData.fromMap({
     "nama_tempat": nama,
     "alamat": alamat,
-    "rating": rating.toString(),
+    "rating": rating,
     "review": review,
     "latitude": latitude,
     "longitude": longitude,

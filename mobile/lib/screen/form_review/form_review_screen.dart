@@ -116,7 +116,7 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
               nama: _nameController.text,
               alamat: _alamatController.text,
               review: _reviewController.text,
-              rating: _ratingController.text,
+              rating: double.parse(_ratingController.text),
               photoPath: photoPath!,
               latitude:
                   _currentPosition == null ? null : _currentPosition!.latitude,
