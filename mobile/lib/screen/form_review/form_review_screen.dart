@@ -68,6 +68,20 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
     return null;
   }
 
+  String? _ratingValidator(String? text) {
+    if (text == null || text.isEmpty) {
+      return "Masukkan angka";
+    }
+    double? val = double.tryParse(text);
+    if (val == null) {
+      return "Angka tidak valid";
+    }
+    if (val < 0 || val > 5) {
+      return "Angka harus diantara 0 - 5";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     void _handleFilePicks() async {
@@ -75,7 +89,6 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
           await FilePicker.platform.pickFiles(type: FileType.image);
       if (result != null) {
         PlatformFile file = result.files.first;
-        print(file.size);
         if (file.size > 5000000) {
           ShowSnackBar(context, "File terlalu besar");
           return;
@@ -242,7 +255,8 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                             SizedBox(
                               width: 100,
                               child: TextFormField(
-                                validator: _textRequired,
+                                keyboardType: TextInputType.number,
+                                validator: _ratingValidator,
                                 controller: _ratingController,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
