@@ -106,7 +106,6 @@ Future<void> deleteMyReview(int id) async {
 
   if (!profile.isLoggedIn) {
     return Future.error("User is not logged in");
-    throw "User is not logged in";
   }
 
   final http.Response response = await http.delete(
