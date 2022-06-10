@@ -37,10 +37,10 @@ class ReviewController extends Controller
             $validated = $this->validate($request, [
                 'nama_tempat' => ['required'],
                 'alamat' => ['required'],
-                'rating' => ['required', 'max:5', 'min:0'],
+                'rating' => ['required', 'numeric', 'max:5', 'min:0'],
                 'review' => ['required'],
-                'latitude' => ['min:-90', 'max:90'],
-                'longitude' => ['min:-90', 'max:90'],
+                'latitude' => ['numeric','min:-90', 'max:90'],
+                'longitude' => ['numeric','min:-90', 'max:90'],
                 'photo' => ['required', 'mimes:jpg,png,jpeg', 'max:2000'],
             ]);
             if (predictTextIsSpam($request->review)) {
