@@ -9,7 +9,9 @@ import "dart:math" as math;
 import 'package:mobile/utils/show_snackbar.dart';
 
 class MyProfile extends StatefulWidget {
-  const MyProfile({Key? key}) : super(key: key);
+  const MyProfile({
+    Key? key,
+  }) : super(key: key);
   @override
   State<MyProfile> createState() => _MyProfile();
 }
@@ -26,11 +28,37 @@ class _MyProfile extends State<MyProfile> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
+    void _handleLogout() async {
+      try {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: CircularProgressIndicator(),
+                  ),
+                ));
+        await userLogout();
+        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (route) => false);
+        ShowSnackBar(context, "Logout berhasil");
+      } catch (err) {
+        Navigator.pop(context);
+        ShowSnackBar(context, err.toString());
+      }
+    }
+
+    ;
+
     return FutureBuilder<List<ReviewProfile>>(
       future: futureReview,
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        }
         if (snapshot.hasData) {
           return ListView(
             children: [
@@ -45,16 +73,7 @@ class _MyProfile extends State<MyProfile> {
                       primary: Colors.white,
                       backgroundColor: Colors.red,
                     ),
-                    onPressed: () async {
-                      try {
-                        await userLogout();
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, HomeScreen.routeName, (route) => false);
-                        ShowSnackBar(context, "Logout berhasil");
-                      } catch (err) {
-                        ShowSnackBar(context, err.toString());
-                      }
-                    },
+                    onPressed: _handleLogout,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: const [
@@ -88,25 +107,17 @@ class _MyProfile extends State<MyProfile> {
                     ),
                   ),
                   FutureBuilder(
-                      future: futureProfile,
-                      builder: (context, snapshot) {
-                        if (snapshot.data == null) {
-                          return const Center(
-                            child: Text("Loading ..."),
-                          );
-                        } else {
-                          return ProfileCard(data: snapshot.data);
-                        }
-                      }),
-                  // Navigator(
-                  //   key: _navKey,
-                  //   onGenerateRoute: (_) =>
-                  //       MaterialPageRoute(builder: (_) {
-                  //     return FutureBuilder<Profile>(
-                  //       builder: futureProfile,
-                  //     );
-                  //   }),
-                  // )
+                    future: futureProfile,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Center(
+                          child: Text("Loading ..."),
+                        );
+                      } else {
+                        return ProfileCard(data: snapshot.data);
+                      }
+                    },
+                  ),
                 ],
               ),
               for (var data in snapshot.data!)
@@ -115,8 +126,6 @@ class _MyProfile extends State<MyProfile> {
                 )
             ],
           );
-        } else if (snapshot.hasError) {
-          return const Center(child: Text("Error when fetching all reviews"));
         }
         return const Center(
           child: CircularProgressIndicator(),
@@ -141,14 +150,12 @@ class ProfileCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: Column(children: [
-        Container(
-          alignment: Alignment.center,
-          child: Text(
-            data.user.name.toString(),
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
+        Text(
+          data.user.name.toString(),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
           ),
         ),
         Container(

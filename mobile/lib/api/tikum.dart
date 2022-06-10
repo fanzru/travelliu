@@ -14,7 +14,7 @@ Future<List<Tikum>> getAllTikum() async {
     }
     return tikums;
   } else {
-    throw Exception('Failed to load all tikums');
+    return Future.error('Failed to load all tikums');
   }
 }
 
@@ -24,9 +24,16 @@ Future<List<TikumProfile>> getMyTikum() async {
     Uri.https('travelliu.yaudahlah.my.id', '/api/user'),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
+
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired");
+  }
+
   if (response.statusCode == 200) {
     Map<String, dynamic> decoded = jsonDecode(response.body);
     List<TikumProfile> tikums = [];
@@ -43,18 +50,24 @@ Future<void> deleteMyTikum(int id) async {
   var profile = await SecureProfile.getStorage();
 
   if (!profile.isLoggedIn) {
-    throw "User is not logged in";
+    return Future.error("User is not logged in");
   }
 
   final http.Response response = await http.delete(
     Uri.parse("https://travelliu.yaudahlah.my.id/api/tikum/$id"),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
 
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired");
+  }
+
   if (response.statusCode != 200) {
-    throw "Gagal menghapus post";
+    return Future.error("Gagal menghapus post");
   }
 }

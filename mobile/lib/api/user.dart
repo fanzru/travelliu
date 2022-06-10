@@ -22,9 +22,9 @@ Future<void> loginUser(String email, String password) async {
     var profile = await SecureProfile.getStorage();
     profile.setLoggedIn(id, token);
   } else if (response.statusCode == 400) {
-    throw "Email atau password salah";
+    return Future.error("Email atau password salah");
   } else {
-    throw "Server sedang bermasalah";
+    return Future.error("Server sedang bermasalah");
   }
 }
 
@@ -41,9 +41,9 @@ Future<String> registerUser(String nama, String email, String password) async {
   if (response.statusCode == 200) {
     return "Sukses";
   } else if (response.statusCode == 400) {
-    throw "Nama, Email, atau Password tidak valid";
+    return Future.error("Nama, Email, atau Password tidak valid");
   } else {
-    throw "Server sedang bermasalah";
+    return Future.error("Server sedang bermasalah");
   }
 }
 
@@ -53,9 +53,15 @@ Future<List<ReviewProfile>> getMyReviewById() async {
     Uri.https('travelliu.yaudahlah.my.id', '/api/user'),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
+
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired, please login again");
+  }
 
   if (response.statusCode == 200) {
     Map<String, dynamic> decoded = jsonDecode(response.body);
@@ -66,7 +72,7 @@ Future<List<ReviewProfile>> getMyReviewById() async {
     }
     return reviews;
   } else {
-    throw Exception('Failed to load all reviews');
+    return Future.error('Failed to load all reviews');
   }
 }
 
@@ -76,16 +82,22 @@ Future<Profile> getMyProfileById() async {
     Uri.https('travelliu.yaudahlah.my.id', '/api/user'),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
+
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired, please login again");
+  }
 
   if (response.statusCode == 200) {
     var decoded = jsonDecode(response.body);
     Profile profile = Profile.fromJson(decoded);
     return profile;
   } else {
-    throw Exception('Failed to load all reviews');
+    return Future.error('Failed to load all reviews');
   }
 }
 
@@ -93,19 +105,25 @@ Future<void> deleteMyReview(int id) async {
   var profile = await SecureProfile.getStorage();
 
   if (!profile.isLoggedIn) {
-    throw "User is not logged in";
+    return Future.error("User is not logged in");
   }
 
   final http.Response response = await http.delete(
     Uri.parse("https://travelliu.yaudahlah.my.id/api/review/$id"),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
 
+  if (response.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired, please login again");
+  }
+
   if (response.statusCode != 200) {
-    throw "Gagal menghapus post";
+    return Future.error("Gagal menghapus post");
   }
 }
 
@@ -113,22 +131,44 @@ Future<void> userLogout() async {
   var profile = await SecureProfile.getStorage();
 
   if (!profile.isLoggedIn) {
-    throw "User is not logged in";
+    return Future.error("User is not logged in");
   }
 
   var res = await http.post(
     Uri.parse("https://travelliu.yaudahlah.my.id/api/logout"),
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       'Authorization': 'Bearer ${profile.getApiKey()}',
     },
   );
 
+  if (res.statusCode == 401) {
+    profile.setLoggedOut();
+    return Future.error("Session expired, please login again");
+  }
+
   if (res.statusCode != 200) {
-    throw "Failed to logout";
+    return Future.error("Failed to logout");
   }
 
   profile.setLoggedOut();
+}
+
+Future<Profile> getUserProfileById(int id) async {
+  var response = await http.get(
+    Uri.parse('https://travelliu.yaudahlah.my.id/api/user/${id}'),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  );
+  if (response.statusCode == 200) {
+    var decoded = jsonDecode(response.body);
+    Profile profile = Profile.fromJson(decoded);
+    return profile;
+  } else {
+    throw Exception('Failed to load all reviews');
+  }
 }
 
 // Future<Profile> getMyReviewById() async {
