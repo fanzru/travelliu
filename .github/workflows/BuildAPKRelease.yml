@@ -13,15 +13,15 @@ jobs:
       run:
         working-directory: "./mobile"
     steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+
       - name: Create Tags
         id: tags
         run: echo "::set-output name=sha_short::${GITHUB_SHA::7}" 
 
       - name: Check outputs
         run: echo ${{ steps.tags.outputs.sha_short }}
-
-      # - name: Checkout latest code
-      #   uses: actions/checkout@v2
 
       # - name: Setup Java and JDK
       #   uses: actions/setup-java@v2
