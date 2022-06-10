@@ -41,6 +41,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: "Release Auto Build - ${{ steps.date.outputs.date }}"
+          tag: "auto-build-${{ steps.date.outputs.date }}"
           artifacts: "./travelliu.apk"
           body: "An auto build on main at ${{ steps.date.outputs.date }}"
           token: ${{ secrets.GITHUB_TOKEN }}
