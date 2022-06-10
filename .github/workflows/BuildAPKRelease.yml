@@ -32,7 +32,6 @@ jobs:
       
       - name: "Build Mobile - Android"
         run: |
-          flutter upgrade
           flutter pub get
           flutter build apk
           mv ./build/app/outputs/flutter-apk/app-release.apk ./travelliu.apk
@@ -41,7 +40,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: "Release Auto Build - ${{ steps.date.outputs.date }}"
-          tag: "auto-build-${{ steps.date.outputs.date }}"
+          tag: ${{ github.sha }}
           commit: "main"
           artifacts: "./travelliu.apk"
           body: "An auto build on main at ${{ steps.date.outputs.date }}"
