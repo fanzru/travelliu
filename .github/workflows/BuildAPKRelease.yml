@@ -51,6 +51,6 @@ jobs:
           name: "Release Auto Build - ${{ steps.date.outputs.date }}"
           tag: ${{ steps.tags.outputs.sha_short }}
           commit: "main"
-          artifacts: "./artifacts/*.apk"
+          artifacts: "mobile/artifacts/*.apk"
           body: "An auto build on main at ${{ steps.date.outputs.date }}"
           token: ${{ secrets.GITHUB_TOKEN }}
