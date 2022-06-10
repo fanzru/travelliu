@@ -10,7 +10,7 @@ env:
   TAGS: ${{ github.sha }}
 
 jobs: 
-  DockerImagingService:
+  BuildRelease:
     runs-on: ubuntu-20.04
     defaults:
       run:
@@ -32,6 +32,7 @@ jobs:
       
       - name: "Build Mobile - Android"
         run: |
+          flutter upgrade
           flutter pub get
           flutter build apk
           mv ./build/app/outputs/flutter-apk/app-release.apk ./travelliu.apk
