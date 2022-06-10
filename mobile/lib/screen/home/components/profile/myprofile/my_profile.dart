@@ -33,6 +33,9 @@ class _MyProfile extends State<MyProfile> {
     return FutureBuilder<List<ReviewProfile>>(
       future: futureReview,
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        }
         if (snapshot.hasData) {
           return ListView(
             children: [
@@ -109,8 +112,6 @@ class _MyProfile extends State<MyProfile> {
                 )
             ],
           );
-        } else if (snapshot.hasError) {
-          return const Center(child: Text("Error when fetching all reviews"));
         }
         return const Center(
           child: CircularProgressIndicator(),
