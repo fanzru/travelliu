@@ -6,9 +6,6 @@ on:
       # Only run when there's a push / commits on main branch
       - "main"
 
-env:
-  TAGS: ${{ github.sha }}
-
 jobs: 
   BuildRelease:
     runs-on: ubuntu-20.04
@@ -16,32 +13,39 @@ jobs:
       run:
         working-directory: "./mobile"
     steps:
-      - name: Checkout latest code
-        uses: actions/checkout@v2
+      - name: Create Tags
+        id: tags
+        run: echo "::set-output name=sha_short::${GITHUB_SHA::7}" 
 
-      - name: Setup Java and JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '11'
+      - name: Check outputs
+        run: echo ${{ steps.tags.outputs.sha_short }}
+
+      # - name: Checkout latest code
+      #   uses: actions/checkout@v2
+
+      # - name: Setup Java and JDK
+      #   uses: actions/setup-java@v2
+      #   with:
+      #     distribution: 'zulu'
+      #     java-version: '11'
       
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.0.1'
+      # - name: Setup Flutter
+      #   uses: subosito/flutter-action@v2
+      #   with:
+      #     flutter-version: '3.0.1'
       
-      - name: "Build Mobile - Android"
-        run: |
-          flutter pub get
-          flutter build apk
-          mv ./build/app/outputs/flutter-apk/app-release.apk ./travelliu.apk
+      # - name: "Build Mobile - Android"
+      #   run: |
+      #     flutter pub get
+      #     flutter build apk
+      #     mv ./build/app/outputs/flutter-apk/app-release.apk ./travelliu.apk
       
-      - name: "Create Release"
-        uses: ncipollo/release-action@v1
-        with:
-          name: "Release Auto Build - ${{ steps.date.outputs.date }}"
-          tag: ${{ github.sha }}
-          commit: "main"
-          artifacts: "./travelliu.apk"
-          body: "An auto build on main at ${{ steps.date.outputs.date }}"
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: "Create Release"
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     name: "Release Auto Build - ${{ steps.date.outputs.date }}"
+      #     tag: ${{ github.sha }}
+      #     commit: "main"
+      #     artifacts: "./travelliu.apk"
+      #     body: "An auto build on main at ${{ steps.date.outputs.date }}"
+      #     token: ${{ secrets.GITHUB_TOKEN }}
