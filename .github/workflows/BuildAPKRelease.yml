@@ -19,6 +19,10 @@ jobs:
       - name: Create Tags
         id: tags
         run: echo "::set-output name=sha_short::${GITHUB_SHA::7}" 
+      
+      - name: Get Current Date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       - name: Setup Java and JDK
         uses: actions/setup-java@v2
@@ -43,6 +47,6 @@ jobs:
           name: "Release Auto Build - ${{ steps.date.outputs.date }}"
           tag: ${{ steps.tags.outputs.sha_short }}
           commit: "main"
-          artifacts: "./travelliu.apk"
+          artifacts: "travelliu.apk"
           body: "An auto build on main at ${{ steps.date.outputs.date }}"
           token: ${{ secrets.GITHUB_TOKEN }}
