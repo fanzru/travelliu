@@ -42,8 +42,8 @@ jobs:
       
       - name: "Prepare artifacts"
         run: |
-          mkdir android
-          mv ./build/app/outputs/flutter-apk/app-release.apk ./android/travelliu.apk
+          mkdir artifacts
+          mv ./build/app/outputs/flutter-apk/app-release.apk ./artifacts/travelliu.apk
       
       - name: "Create Release"
         uses: ncipollo/release-action@v1
@@ -51,6 +51,6 @@ jobs:
           name: "Release Auto Build - ${{ steps.date.outputs.date }}"
           tag: ${{ steps.tags.outputs.sha_short }}
           commit: "main"
-          artifacts: "travelliu.apk"
+          artifacts: "artifacts/*"
           body: "An auto build on main at ${{ steps.date.outputs.date }}"
           token: ${{ secrets.GITHUB_TOKEN }}
