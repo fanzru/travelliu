@@ -24,7 +24,7 @@ Future<void> createReview(
     {required String nama,
     required String alamat,
     required String review,
-    required String rating,
+    required double rating,
     required String photoPath,
     double? latitude,
     double? longitude}) async {
@@ -42,27 +42,34 @@ Future<void> createReview(
   var formData = FormData.fromMap({
     "nama_tempat": nama,
     "alamat": alamat,
-    "rating": rating.toString(),
+    "rating": rating,
     "review": review,
     "latitude": latitude,
     "longitude": longitude,
     "photo": file
   });
 
-  var response =
-      await Dio().post("https://travelliu.yaudahlah.my.id/api/review",
-          options: Options(
-            headers: {
-              'Authorization': 'Bearer $token',
-              "Accept": "application/json",
-            },
-          ),
-          data: formData);
-  if (response.statusCode == 401) {
-    profile.setLoggedOut();
-    return Future.error("Session expired");
-  }
-  if (response.statusCode != 200) {
-    return Future.error("Failed to post a review");
+  try {
+    var response =
+        await Dio().post("https://travelliu.yaudahlah.my.id/api/review",
+            options: Options(
+              headers: {
+                'Authorization': 'Bearer $token',
+                "Accept": "application/json",
+              },
+            ),
+            data: formData);
+  } on DioError catch (e) {
+    if (e.response != null) {
+      var response = e.response!;
+      if (response.statusCode == 401) {
+        profile.setLoggedOut();
+        return Future.error("Session expired");
+      }
+      if (response.statusCode == 400) {
+        return Future.error(response.data);
+      }
+    }
+    return Future.error("Gagal untuk mempost review");
   }
 }

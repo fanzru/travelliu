@@ -29,7 +29,7 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
   final _formKey = GlobalKey<FormState>();
   bool submitActive = true;
 
-  String? photoPath = null;
+  String? photoPath;
   Position? _currentPosition;
 
   _getCurrentLocation() async {
@@ -68,6 +68,20 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
     return null;
   }
 
+  String? _ratingValidator(String? text) {
+    if (text == null || text.isEmpty) {
+      return "Masukkan angka";
+    }
+    double? val = double.tryParse(text);
+    if (val == null) {
+      return "Angka tidak valid";
+    }
+    if (val < 0 || val > 5) {
+      return "Angka harus diantara 0 - 5";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     void _handleFilePicks() async {
@@ -75,7 +89,6 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
           await FilePicker.platform.pickFiles(type: FileType.image);
       if (result != null) {
         PlatformFile file = result.files.first;
-        print(file.size);
         if (file.size > 5000000) {
           ShowSnackBar(context, "File terlalu besar");
           return;
@@ -89,19 +102,33 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
     void submitReview() async {
       if (_formKey.currentState!.validate()) {
         try {
+          showDialog(
+              context: context,
+              builder: (context) => const Center(
+                    child: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ));
           if (photoPath == null) throw "Need to upload a photo";
           await createReview(
               nama: _nameController.text,
               alamat: _alamatController.text,
               review: _reviewController.text,
-              rating: _ratingController.text,
+              rating: double.parse(_ratingController.text),
               photoPath: photoPath!,
-              latitude: _currentPosition!.latitude,
-              longitude: _currentPosition!.longitude);
+              latitude:
+                  _currentPosition == null ? null : _currentPosition!.latitude,
+              longitude: _currentPosition == null
+                  ? null
+                  : _currentPosition!.longitude);
+          Navigator.pop(context);
           ShowSnackBar(context, "Review berhasil terunggah");
           Navigator.pushNamedAndRemoveUntil(
               context, HomeScreen.routeName, (route) => false);
         } catch (err) {
+          Navigator.pop(context);
           ShowSnackBar(context, "$err");
         }
       } else {
@@ -228,7 +255,8 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                             SizedBox(
                               width: 100,
                               child: TextFormField(
-                                validator: _textRequired,
+                                keyboardType: TextInputType.number,
+                                validator: _ratingValidator,
                                 controller: _ratingController,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
@@ -281,12 +309,12 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                                     minimumSize: const Size.fromHeight(50),
                                     primary: Colors.black),
                                 child: Column(
-                                  children: [
-                                    const Text(
+                                  children: const [
+                                    Text(
                                       'Upload Photo',
                                       style: TextStyle(color: Colors.white),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Max 5MB',
                                       style: TextStyle(color: Colors.white),
                                     ),
@@ -297,8 +325,8 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                           height: 20,
                         ),
                         !submitActive
-                            ? Text("Sedang mengambil lokasi")
-                            : SizedBox.shrink(),
+                            ? const Text("Sedang mengambil lokasi")
+                            : const SizedBox.shrink(),
                         submitActive
                             ? ElevatedButton(
                                 style: ButtonStyle(
