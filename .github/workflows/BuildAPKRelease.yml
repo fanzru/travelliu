@@ -28,7 +28,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.5'
+          flutter-version: '3.0.1'
       
       - name: "Build Mobile - Android"
         run: |
@@ -42,6 +42,7 @@ jobs:
         with:
           name: "Release Auto Build - ${{ steps.date.outputs.date }}"
           tag: "auto-build-${{ steps.date.outputs.date }}"
+          commit: "main"
           artifacts: "./travelliu.apk"
           body: "An auto build on main at ${{ steps.date.outputs.date }}"
           token: ${{ secrets.GITHUB_TOKEN }}
