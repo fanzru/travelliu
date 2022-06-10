@@ -20,32 +20,29 @@ jobs:
         id: tags
         run: echo "::set-output name=sha_short::${GITHUB_SHA::7}" 
 
-      - name: Check outputs
-        run: echo ${{ steps.tags.outputs.sha_short }}
-
-      # - name: Setup Java and JDK
-      #   uses: actions/setup-java@v2
-      #   with:
-      #     distribution: 'zulu'
-      #     java-version: '11'
+      - name: Setup Java and JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
       
-      # - name: Setup Flutter
-      #   uses: subosito/flutter-action@v2
-      #   with:
-      #     flutter-version: '3.0.1'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.1'
       
-      # - name: "Build Mobile - Android"
-      #   run: |
-      #     flutter pub get
-      #     flutter build apk
-      #     mv ./build/app/outputs/flutter-apk/app-release.apk ./travelliu.apk
+      - name: "Build Mobile - Android"
+        run: |
+          flutter pub get
+          flutter build apk
+          mv ./build/app/outputs/flutter-apk/app-release.apk ./travelliu.apk
       
-      # - name: "Create Release"
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     name: "Release Auto Build - ${{ steps.date.outputs.date }}"
-      #     tag: ${{ github.sha }}
-      #     commit: "main"
-      #     artifacts: "./travelliu.apk"
-      #     body: "An auto build on main at ${{ steps.date.outputs.date }}"
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Create Release"
+        uses: ncipollo/release-action@v1
+        with:
+          name: "Release Auto Build - ${{ steps.date.outputs.date }}"
+          tag: ${{ steps.tags.outputs.sha_short }}
+          commit: "main"
+          artifacts: "./travelliu.apk"
+          body: "An auto build on main at ${{ steps.date.outputs.date }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
