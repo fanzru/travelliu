@@ -63,20 +63,31 @@ class RegisterScreenState extends State<RegisterScreen> {
     return null;
   }
 
-  void _handleSubmit() async {
-    try {
-      var respon = await registerUser(_namaController.text,
-          _emailController.text, _passwordController.text);
-      Navigator.pushNamedAndRemoveUntil(
-          context, HomeScreen.routeName, (route) => false);
-      ShowSnackBar(context, "Akun ${_namaController.text} berhasil dibuat");
-    } catch (err) {
-      ShowSnackBar(context, "$err");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    void _handleSubmit() async {
+      try {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: CircularProgressIndicator(),
+                  ),
+                ));
+        await registerUser(_namaController.text, _emailController.text,
+            _passwordController.text);
+        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (route) => false);
+        ShowSnackBar(context, "Akun ${_namaController.text} berhasil dibuat");
+      } catch (err) {
+        Navigator.pop(context);
+        ShowSnackBar(context, "$err");
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

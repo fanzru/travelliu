@@ -25,20 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void _handleMasuk() async {
-    if (_formKey.currentState!.validate()) {
-      // If valid
-      try {
-        await loginUser(_emailController.text, _passwordController.text);
-        ShowSnackBar(context, "Login berhasil");
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.routeName, (route) => false);
-      } catch (err) {
-        ShowSnackBar(context, "$err");
-      }
-    }
-  }
-
   void _handleKembaliButton() {
     Navigator.pop(context);
   }
@@ -64,6 +50,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void _handleMasuk() async {
+      if (_formKey.currentState!.validate()) {
+        // If valid
+        try {
+          showDialog(
+              context: context,
+              builder: (context) => const Center(
+                    child: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ));
+          await loginUser(_emailController.text, _passwordController.text);
+          ShowSnackBar(context, "Login berhasil");
+          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreen.routeName, (route) => false);
+        } catch (err) {
+          Navigator.pop(context);
+          ShowSnackBar(context, "$err");
+        }
+      }
+    }
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(

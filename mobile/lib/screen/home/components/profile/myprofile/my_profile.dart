@@ -28,8 +28,31 @@ class _MyProfile extends State<MyProfile> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
+    void _handleLogout() async {
+      try {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: CircularProgressIndicator(),
+                  ),
+                ));
+        await userLogout();
+        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (route) => false);
+        ShowSnackBar(context, "Logout berhasil");
+      } catch (err) {
+        Navigator.pop(context);
+        ShowSnackBar(context, err.toString());
+      }
+    }
+
+    ;
+
     return FutureBuilder<List<ReviewProfile>>(
       future: futureReview,
       builder: (context, snapshot) {
@@ -50,16 +73,7 @@ class _MyProfile extends State<MyProfile> {
                       primary: Colors.white,
                       backgroundColor: Colors.red,
                     ),
-                    onPressed: () async {
-                      try {
-                        await userLogout();
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, HomeScreen.routeName, (route) => false);
-                        ShowSnackBar(context, "Logout berhasil");
-                      } catch (err) {
-                        ShowSnackBar(context, err.toString());
-                      }
-                    },
+                    onPressed: _handleLogout,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: const [
