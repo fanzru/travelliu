@@ -5,9 +5,6 @@ on:
     branches:
       # Only run when there's a push / commits on main branch
       - "main"
-    paths:
-      # Only run when there's a changes in API-Hotel Folders
-      - "mobile"
 
 env:
   TAGS: ${{ github.sha }}
