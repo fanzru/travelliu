@@ -38,17 +38,18 @@ Future<void> createReview(
   var token = profile.getApiKey();
 
   MultipartFile file = await MultipartFile.fromFile(photoPath);
-
-  var formData = FormData.fromMap({
+  Map<String, dynamic> request = {
     "nama_tempat": nama,
     "alamat": alamat,
     "rating": rating,
     "review": review,
-    "latitude": latitude,
-    "longitude": longitude,
     "photo": file
-  });
-
+  };
+  if (latitude != null && longitude != null) {
+    request["latitude"] = latitude;
+    request["longitude"] = longitude;
+  }
+  var formData = FormData.fromMap(request);
   try {
     var response =
         await Dio().post("https://travelliu.yaudahlah.my.id/api/review",
