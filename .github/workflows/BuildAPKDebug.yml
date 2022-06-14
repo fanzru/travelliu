@@ -18,6 +18,11 @@ jobs:
       - name: Checkout latest code
         uses: actions/checkout@v2
 
+      - name: Setup Timezone
+        uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Asia/Jakarta"
+
       - name: Create Tags
         id: tags
         run: echo "::set-output name=sha_short::${GITHUB_SHA::7}" 
