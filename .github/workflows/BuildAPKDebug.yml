@@ -65,5 +65,5 @@ jobs:
           tag: ${{ steps.tags.outputs.sha_short }}
           commit: "main"
           artifacts: "mobile/artifacts/*.apk"
-          body: "An auto build on main at ${{ steps.date.outputs.date }}"
+          body: "An auto build on staging at ${{ steps.date.outputs.date }}"
           token: ${{ secrets.GITHUB_TOKEN }}
