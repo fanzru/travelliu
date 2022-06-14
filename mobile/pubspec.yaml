@@ -42,6 +42,8 @@ dependencies:
   dio: ^4.0.6
   geolocator: ^8.2.1
   flutter_native_splash: ^2.2.3
+  provider: ^6.0.3
+  permission_handler: ^9.2.0
 
 dev_dependencies:
   flutter_test:

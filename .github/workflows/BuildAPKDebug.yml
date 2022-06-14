@@ -51,7 +51,7 @@ jobs:
       - name: "Build Mobile - Android"
         run: |
           flutter pub get
-          flutter build apk
+          flutter build apk --debug
       
       - name: "Prepare artifacts"
         run: |

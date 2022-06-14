@@ -5,9 +5,11 @@ import 'package:mobile/screen/form_register/register_screen.dart';
 import 'package:mobile/screen/form_review/form_review_screen.dart';
 import 'package:mobile/screen/form_tikum/form_tikum_screen.dart';
 import 'package:mobile/screen/home/home_screen.dart';
+import 'package:mobile/screen/permission/permission_screen.dart';
 import 'package:mobile/screen/review_detail/review_detail_screen.dart';
 import "dart:async";
 import 'package:mobile/screen/profile_detail/profile_detail_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 Future timeoutTest10s() {
   Future foo = Future.delayed(const Duration(seconds: 2));
@@ -18,13 +20,28 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await timeoutTest10s();
-  runApp(const MyApp());
+  // await timeoutTest10s();
+
+  bool isHomeScreen = await checkShowPermission();
+
+  String initialRoute = PermissionScreen.routeName;
+  if (isHomeScreen) initialRoute = HomeScreen.routeName;
+  runApp(MyApp(
+    initialRoute: initialRoute,
+  ));
   FlutterNativeSplash.remove();
 }
 
+Future<bool> checkShowPermission() async {
+  var storage = await Permission.storage.isGranted;
+  var location = await Permission.location.isGranted;
+
+  return storage && location;
+}
+
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  String initialRoute = HomeScreen.routeName;
+  MyApp({Key? key, required this.initialRoute}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -43,8 +60,9 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName: (context) => RegisterScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
         ProfilePeopleScreen.routeName: (context) => ProfilePeopleScreen(),
+        PermissionScreen.routeName: (context) => PermissionScreen()
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: initialRoute,
     );
   }
 }
