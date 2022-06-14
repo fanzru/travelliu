@@ -340,10 +340,13 @@ class _FormReviewScreenState extends State<FormReviewScreen> {
                               )
                             : OutlinedButton(
                                 onPressed: () {},
-                                child: const Text('Submit',
-                                    style: TextStyle(
-                                        color: Colors.black12,
-                                        fontWeight: FontWeight.bold))),
+                                child: const Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                      color: Colors.black12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                       ],
                     ),
                   ),

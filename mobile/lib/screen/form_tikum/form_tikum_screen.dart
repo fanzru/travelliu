@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/screen/home/home_screen.dart';
+import 'package:mobile/utils/show_snackbar.dart';
+import 'package:mobile/api/tikum.dart';
 
 class FormTikumScreenArguments {
   FormTikumScreenArguments();
@@ -25,7 +28,7 @@ class _FormTikumScreenState extends State<FormTikumScreen> {
   bool isSwitched = false;
   final _formKey = GlobalKey<FormState>();
   String fullName = '';
-
+  bool submitActive = true;
   @override
   void initState() {
     _dateController.text = ""; //set the initial value of text field
@@ -36,6 +39,43 @@ class _FormTikumScreenState extends State<FormTikumScreen> {
   void secondState() {
     _timeController.text = ""; //set the initial value of text field
     super.initState();
+  }
+
+  void submitTikum() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: CircularProgressIndicator(),
+                  ),
+                ));
+        await createTikum(
+          tujuan: _tujuanController.text,
+          kumpul: _kumpulController.text,
+          date: _dateController.text,
+          time: _timeController.text,
+          grup: _grupController.text,
+          deskripsi: _deskripsiController.text,
+        );
+        Navigator.pop(context);
+        ShowSnackBar(context, "Tikum berhasil dibuat");
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (route) => false);
+      } catch (err) {
+        Navigator.pop(context);
+        ShowSnackBar(context, "$err");
+      }
+    } else {
+      ShowSnackBar(context, "There's some form not filled properly");
+    }
+  }
+
+  void _handleKembaliButton() {
+    Navigator.pop(context);
   }
 
   @override
@@ -51,6 +91,23 @@ class _FormTikumScreenState extends State<FormTikumScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    Row(
+                      children: [
+                        TextButton(
+                          style: ButtonStyle(
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.black12)),
+                          onPressed: _handleKembaliButton,
+                          child: const Text(
+                            "Kembali",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
                     const Text(
                       "Share Your Tikum",
                       textAlign: TextAlign.center,
@@ -278,16 +335,17 @@ class _FormTikumScreenState extends State<FormTikumScreen> {
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(Colors.black)),
-                      onPressed: () {
-                        // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
-                        }
-                      },
+                      onPressed: submitTikum,
+                      // {
+                      //   // Validate returns true if the form is valid, or false otherwise.
+                      //   if (_formKey.currentState!.validate()) {
+                      //     // If the form is valid, display a snackbar. In the real world,
+                      //     // you'd often call a server or save the information in a database.
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(content: Text('Processing Data')),
+                      //     );
+                      //   }
+                      // },
                       child: const Text('Submit'),
                     ),
                   ],
