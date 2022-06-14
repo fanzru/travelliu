@@ -6,7 +6,7 @@ on:
       # Only run when there's a push / commits on main branch
       - "staging"
     paths:
-      - "mobile"
+      - "mobile/**"
 
 jobs: 
   BuildDebug:
