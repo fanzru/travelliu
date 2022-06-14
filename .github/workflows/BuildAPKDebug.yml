@@ -1,15 +1,15 @@
-name: Build Mobile Release
+name: Build Mobile Debug Staging
 
 on:
   push:
     branches:
       # Only run when there's a push / commits on main branch
-      - "main"
+      - "staging"
     paths:
       - "mobile"
 
 jobs: 
-  BuildRelease:
+  BuildDebug:
     runs-on: ubuntu-20.04
     defaults:
       run:
@@ -51,12 +51,12 @@ jobs:
       - name: "Prepare artifacts"
         run: |
           mkdir artifacts
-          mv ./build/app/outputs/flutter-apk/app-release.apk ./artifacts/travelliu.apk
+          mv ./build/app/outputs/flutter-apk/app-debug.apk ./artifacts/travelliu-debug.apk
       
       - name: "Create Release"
         uses: ncipollo/release-action@v1
         with:
-          name: "Release Auto Build - ${{ steps.date.outputs.date }}"
+          name: "Debug Auto Build - ${{ steps.date.outputs.date }}"
           tag: ${{ steps.tags.outputs.sha_short }}
           commit: "main"
           artifacts: "mobile/artifacts/*.apk"
