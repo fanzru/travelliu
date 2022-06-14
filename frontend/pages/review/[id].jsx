@@ -94,8 +94,8 @@ export default function ReviewById(props){
             {data.review}
           </div>
           <div className="flex px-[12px] mt-4">
-            <a href={`https://www.google.com/maps/search/?api=1&query=${data.latitude}%2C${data.longitude}`}>
-              <div className="btn  ">
+            <a href={ (data.latitude != null || data.longitude != null) && `https://www.google.com/maps/search/?api=1&query=${data.latitude}%2C${data.longitude}`}>
+              <div className="btn">
                 <HiOutlineLocationMarker/>
               </div>
             </a>
