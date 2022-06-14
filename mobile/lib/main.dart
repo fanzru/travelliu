@@ -9,16 +9,16 @@ import 'package:mobile/screen/review_detail/review_detail_screen.dart';
 import "dart:async";
 import 'package:mobile/screen/profile_detail/profile_detail_screen.dart';
 
-Future timeoutTest10s() {
-  Future foo = Future.delayed(const Duration(seconds: 5));
-  return foo.timeout(Duration(seconds: 5), onTimeout: () {});
-}
+// Future timeoutTest10s() {
+//   Future foo = Future.delayed(const Duration(seconds: 5));
+//   return foo.timeout(Duration(seconds: 5), onTimeout: () {});
+// }
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await timeoutTest10s();
+  // await timeoutTest10s();
   runApp(const MyApp());
   FlutterNativeSplash.remove();
 }
