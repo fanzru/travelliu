@@ -83,7 +83,7 @@ class TikumCard extends StatelessWidget {
             ),
             if (tikum.deskripsi != null)
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text(
                     "Deskripsi",
