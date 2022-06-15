@@ -24,6 +24,7 @@ class _MyTikumState extends State<MyTikum> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: FutureBuilder<SecureProfile>(
         future: futureProfile,
         builder: (context, snapshot) {

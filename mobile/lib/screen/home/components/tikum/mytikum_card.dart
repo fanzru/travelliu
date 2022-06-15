@@ -152,7 +152,8 @@ class MyTikumCard extends StatelessWidget {
                   )
                 ],
               ),
-            if (tikum.linkGroup != null)
+            if (tikum.linkGroup != null &&
+                Uri.tryParse(tikum.linkGroup!)!.isAbsolute)
               ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.black)),
