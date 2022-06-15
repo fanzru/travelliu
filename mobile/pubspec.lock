@@ -289,6 +289,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.6"
+  permission:
+    dependency: "direct main"
+    description:
+      name: permission
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.7"
   permission_handler:
     dependency: "direct main"
     description:
