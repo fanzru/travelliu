@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Tikum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class TikumController extends Controller
 {
@@ -17,10 +16,9 @@ class TikumController extends Controller
     public function index()
     {
         try {
-            $tikum = Tikum::with('user:id,name,created_at,updated_at')->where('waktu_kumpul', '>', DB::raw('NOW()'))->orderByDesc('waktu_kumpul')->get();
+            $tikum = Tikum::with('user:id,name,created_at,updated_at')->get();
             return response($tikum, 200);
         } catch (\Exception $e) {
-            error_log($e);
             return response("Internal Server Error", 500);
         }
     }
