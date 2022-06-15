@@ -2,6 +2,7 @@ import "../model/tikum.dart";
 import 'package:http/http.dart' as http;
 import "../model/profile_secure.dart";
 import 'dart:convert';
+import 'package:dio/dio.dart';
 
 Future<List<Tikum>> getAllTikum() async {
   var response =
@@ -69,5 +70,50 @@ Future<void> deleteMyTikum(int id) async {
 
   if (response.statusCode != 200) {
     return Future.error("Gagal menghapus post");
+  }
+}
+
+Future<void> createTikum({
+  required String tujuan,
+  required String kumpul,
+  required String date,
+  required String time,
+  required String grup,
+  required String deskripsi,
+}) async {
+  var profile = await SecureProfile.getStorage();
+  var token = profile.getApiKey();
+
+  Map<String, dynamic> request = {
+    "tempat_tujuan": tujuan,
+    "tempat_kumpul": kumpul,
+    "waktu_kumpul": DateTime.parse("${date + "T" + time + ":00"}"),
+    "link_group": grup,
+    "deskripsi": deskripsi,
+  };
+  var formData = FormData.fromMap(request);
+  try {
+    var response =
+        await Dio().post("https://travelliu.yaudahlah.my.id/api/tikum",
+            options: Options(
+              headers: {
+                'Authorization': 'Bearer $token',
+                "Accept": "application/json",
+              },
+            ),
+            data: formData);
+  } on DioError catch (e) {
+    if (e.response != null) {
+      var response = e.response!;
+      if (response.statusCode == 401) {
+        profile.setLoggedOut();
+        return Future.error("Session expired");
+      }
+      if (response.statusCode == 400) {
+        return Future.error(response.data);
+      }
+    }
+
+    return Future.error("Gagal untuk mempost tikum");
   }
 }
