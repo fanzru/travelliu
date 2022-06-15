@@ -170,7 +170,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
               children: [
                 _requestPermissionBox(
                     !(_permissionLocation && _permissionStroage)),
-                _lanjutkanBox(_permissionLocation && _permissionStroage)
+                _lanjutkanBox(_permissionStroage)
               ],
             )
           ],
