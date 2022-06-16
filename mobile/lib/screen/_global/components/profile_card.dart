@@ -67,7 +67,7 @@ class ProfileCard extends StatelessWidget {
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     const Text("Rataan Rating"),
-                    Text(data.avgRating.toStringAsPrecision(3)),
+                    Text(data.avgRating.toStringAsFixed(2)),
                   ],
                 ),
               ),
