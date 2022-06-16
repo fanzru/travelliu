@@ -31,10 +31,10 @@ class _MyTikumState extends State<MyTikum> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.getLoggedInStatus()) {
-              return MyTikumList();
+              return const MyTikumList();
             }
           }
-          return NotLoggedIn();
+          return const NotLoggedIn();
         },
       ),
     );
@@ -42,7 +42,7 @@ class _MyTikumState extends State<MyTikum> {
 }
 
 class MyTikumList extends StatefulWidget {
-  MyTikumList({Key? key}) : super(key: key);
+  const MyTikumList({Key? key}) : super(key: key);
 
   @override
   State<MyTikumList> createState() => _MyTikumListState();
@@ -50,9 +50,17 @@ class MyTikumList extends StatefulWidget {
 
 class _MyTikumListState extends State<MyTikumList> {
   late Future<List<TikumProfile>> futureTikumProfile;
+
+  @override
   void initState() {
     futureTikumProfile = getMyTikum();
     super.initState();
+  }
+
+  void refreshList() {
+    setState(() {
+      futureTikumProfile = getMyTikum();
+    });
   }
 
   @override
@@ -61,11 +69,30 @@ class _MyTikumListState extends State<MyTikumList> {
       future: futureTikumProfile,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "Wah sepertinya kamu belum membuat \nTitik Kumpul",
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    "Tikum",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            );
+          }
+
           return ListView(
             children: [
               for (var data in snapshot.data!)
                 MyTikumCard(
                   tikum: data,
+                  refreshParent: refreshList,
                 )
             ],
           );

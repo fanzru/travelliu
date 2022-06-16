@@ -8,10 +8,49 @@ import 'package:mobile/api/tikum.dart';
 
 class MyTikumCard extends StatelessWidget {
   final TikumProfile tikum;
-  const MyTikumCard({Key? key, required this.tikum}) : super(key: key);
+  Function? refreshParent;
+  MyTikumCard({Key? key, required this.tikum, this.refreshParent})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    void _handleDelete() async {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Hapus Titik Kumpul'),
+          content: const Text(
+              'Jika anda menghapus titik kumpul ini akan hilang dari my tikum anda!'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  await deleteMyTikum(tikum.id);
+                  ShowSnackBar(context, "Berhasil menghapus titik kumpul");
+                  if (refreshParent != null) {
+                    refreshParent!();
+                  }
+                } catch (err) {
+                  ShowSnackBar(context, err.toString());
+                }
+                Navigator.pop(context, "OK");
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Column(children: [
       Container(
         padding:
@@ -40,48 +79,11 @@ class MyTikumCard extends StatelessWidget {
                   ],
                 ),
                 TextButton(
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                  onPressed: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Hapus Titik Kumpul'),
-                      content: const Text(
-                          'Jika anda menghapus titik kumpul ini akan hilang dari my tikum anda!'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, 'Cancel'),
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            try {
-                              await deleteMyTikum(tikum.id);
-                              ShowSnackBar(context,
-                                  "Berhasil menghapus titik kumpul, harap pindah halaman untuk melihat perubahan");
-                            } catch (err) {
-                              ShowSnackBar(context, err.toString());
-                            }
-                            Navigator.pop(context, "OK");
-                          },
-                          child: const Text(
-                            'OK',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
                     ),
-                  ),
-                  // onPressed: () async {
-                  //   setState(() {
-                  //     _futureStatus = deleteMyReview(widget.data.id);
-                  //   });
-                  // },
-                ),
+                    onPressed: _handleDelete),
               ],
             ),
             const SizedBox(

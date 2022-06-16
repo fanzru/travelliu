@@ -17,27 +17,21 @@ class MyProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: const [
-          SizedBox(
+        children: [
+          const SizedBox(
             height: 10,
           ),
           _ProfileSection(),
-          _ReviewSection(),
+          const _ReviewSection(),
         ],
       ),
     );
   }
 }
 
-class _ProfileSection extends StatefulWidget {
-  const _ProfileSection({Key? key}) : super(key: key);
-
-  @override
-  State<_ProfileSection> createState() => _ProfileSectionState();
-}
-
-class _ProfileSectionState extends State<_ProfileSection> {
-  Future<Profile> futureProfile = getMyProfileById();
+class _ProfileSection extends StatelessWidget {
+  final Future<Profile> futureProfile = getMyProfileById();
+  _ProfileSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +95,7 @@ class _ProfileSectionState extends State<_ProfileSection> {
 
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.4,
-              child: Center(child: ShimmerProfile()),
+              child: const Center(child: ShimmerProfile()),
             );
           },
         ),
@@ -120,6 +114,12 @@ class _ReviewSection extends StatefulWidget {
 class __ReviewSectionState extends State<_ReviewSection> {
   Future<List<ReviewProfile>> futureReview = getMyReviewById();
 
+  void refreshList() {
+    setState(() {
+      futureReview = getMyReviewById();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<ReviewProfile>>(
@@ -129,11 +129,29 @@ class __ReviewSectionState extends State<_ReviewSection> {
           return Center(child: Text(snapshot.error.toString()));
         }
         if (snapshot.hasData) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: SizedBox(
+                width: 350,
+                child: Column(
+                  children: const [
+                    Text(
+                      "Oops.. kamu masih belum membagikan apapun",
+                      textAlign: TextAlign.center,
+                    ),
+                    Text("Bagikan cerita perjalananmu sekarang!")
+                  ],
+                ),
+              ),
+            );
+          }
+
           return Column(
             children: [
               for (var data in snapshot.data!)
-                TimelineCard(
+                MyReviewCard(
                   data: data,
+                  refreshParent: refreshList,
                 )
             ],
           );
