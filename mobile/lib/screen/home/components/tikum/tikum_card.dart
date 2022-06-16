@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/tikum.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/screen/_global/components/image_network.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TikumCard extends StatelessWidget {
@@ -20,8 +21,8 @@ class TikumCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: Image.network(
-                    "https://travelliu.yaudahlah.my.id/affan-imut.jpeg",
+                  child: ImageNetworkWShimmer(
+                    link: "https://travelliu.yaudahlah.my.id/affan-imut.jpeg",
                     width: 40,
                     height: 40,
                   ),

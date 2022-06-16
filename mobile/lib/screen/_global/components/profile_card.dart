@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile/model/profile.dart';
 import "dart:math" as math;
 
+import 'package:mobile/screen/_global/components/image_network.dart';
+
 class ProfileCard extends StatelessWidget {
   final Profile data;
   // final GlobalKey<NavigatorState> navKey;
@@ -20,8 +22,9 @@ class ProfileCard extends StatelessWidget {
           width: 100,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.network(
-              "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
+            child: ImageNetworkWShimmer(
+              link:
+                  "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
               fit: BoxFit.cover,
             ),
           ),

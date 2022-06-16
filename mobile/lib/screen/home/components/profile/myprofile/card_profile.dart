@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/api/user.dart';
 import 'package:mobile/model/review.dart';
+import 'package:mobile/screen/_global/components/image_network.dart';
 import "dart:math" as math;
 
 import 'package:mobile/screen/review_detail/review_detail_screen.dart';
@@ -18,8 +19,6 @@ class TimelineCard extends StatefulWidget {
 }
 
 class _TimelineCardState extends State<TimelineCard> {
-  late Future<bool> _futureStatus;
-
   @override
   void initState() {
     super.initState();
@@ -44,20 +43,15 @@ class _TimelineCardState extends State<TimelineCard> {
                     Row(children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: Image.network(
-                          "https://www.thiswaifudoesnotexist.net/example-${widget.randomForProfile}.jpg",
+                        child: ImageNetworkWShimmer(
+                          link:
+                              "https://www.thiswaifudoesnotexist.net/example-${widget.randomForProfile}.jpg",
                           width: 40,
                           height: 40,
                         ),
                       ),
                       const SizedBox(width: 10),
-                      InkWell(
-                        child: Text(widget.data.nameUser),
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          print("Open profile");
-                        },
-                      ),
+                      Text(widget.data.nameUser)
                     ]),
                     TextButton(
                       child: const Icon(
@@ -105,9 +99,10 @@ class _TimelineCardState extends State<TimelineCard> {
                   ],
                 )),
             const SizedBox(height: 10),
-            Image.network(widget.data.photo[0] == "/"
-                ? "https://travelliu.yaudahlah.my.id${widget.data.photo}"
-                : widget.data.photo),
+            ImageNetworkWShimmer(
+                link: widget.data.photo[0] == "/"
+                    ? "https://travelliu.yaudahlah.my.id${widget.data.photo}"
+                    : widget.data.photo),
             Container(
                 margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/review.dart';
+import 'package:mobile/screen/_global/components/image_network.dart';
 import 'package:mobile/screen/form_review/form_review_screen.dart';
 import 'package:mobile/screen/profile_detail/profile_detail_screen.dart';
 import "dart:math" as math;
@@ -28,13 +29,13 @@ class TimelineCard extends StatelessWidget {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(
-                        "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
-                        width: 40,
-                        height: 40,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(50),
+                        child: ImageNetworkWShimmer(
+                          link:
+                              "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
+                          width: 40,
+                          height: 40,
+                        )),
                     const SizedBox(width: 10),
                     InkWell(
                       child: Text(data.user.name),
@@ -51,9 +52,10 @@ class TimelineCard extends StatelessWidget {
                   ],
                 )),
             const SizedBox(height: 10),
-            Image.network(data.photo[0] == "/"
-                ? "https://travelliu.yaudahlah.my.id${data.photo}"
-                : data.photo),
+            ImageNetworkWShimmer(
+                link: data.photo[0] == "/"
+                    ? "https://travelliu.yaudahlah.my.id${data.photo}"
+                    : data.photo),
             Container(
                 margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 child: Column(
