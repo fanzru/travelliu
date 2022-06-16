@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import "dart:math" as math;
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/api/user.dart';
+import 'package:mobile/screen/_global/components/profile_card.dart';
+import 'package:mobile/screen/_global/components/shimmer/profile_shimmer.dart';
 import 'package:mobile/screen/home/components/profile/myprofile/my_profile.dart';
 
 class ProfilePeopleScreenArguments {
@@ -30,47 +32,24 @@ class _ProfilePeopleScreenState extends State<ProfilePeopleScreen> {
 
     var id = arg.id;
     futureProfile = getUserProfileById(id);
-    final int randomForProfile = math.Random().nextInt(1000);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile Reviewer"),
         backgroundColor: Colors.white,
       ),
-      body: ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 200, bottom: 30),
-                  height: 100,
-                  width: 100,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.network(
-                      "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                FutureBuilder(
-                  future: futureProfile,
-                  builder: (context, snapshot) {
-                    if (snapshot.data == null) {
-                      return const Center(
-                        child: Text("Loading ..."),
-                      );
-                    } else {
-                      return ProfileCard(data: snapshot.data);
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
+      body: Center(
+        child: FutureBuilder(
+          future: futureProfile,
+          builder: (context, snapshot) {
+            if (snapshot.data == null) {
+              return const ShimmerProfile();
+            } else {
+              return Center(
+                  child: ProfileCard(data: snapshot.data! as Profile));
+            }
+          },
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/api/tikum.dart';
 import 'package:mobile/model/tikum.dart';
+import 'package:mobile/screen/_global/components/shimmer/tikum_shimmer.dart';
 import 'package:mobile/screen/home/components/tikum/tikum_card.dart';
 
 class GlobalTikum extends StatefulWidget {
@@ -36,8 +37,9 @@ class _GlobalTikumState extends State<GlobalTikum> {
           } else if (snapshot.hasError) {
             return const Center(child: Text("Error when fetching all reviews"));
           }
-          return const Center(
-            child: CircularProgressIndicator(),
+          return ListView.builder(
+            itemCount: 4,
+            itemBuilder: (context, _) => const ShimmerTikum(),
           );
         });
   }
