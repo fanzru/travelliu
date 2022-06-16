@@ -64,5 +64,5 @@ jobs:
         with:
           name: "Release Auto Build - ${{ steps.tags.outputs.tag }} - ${{ steps.date.outputs.date }}"
           artifacts: "mobile/artifacts/*.apk"
-          body: "An auto build for internal at ${{ steps.date.outputs.date }} for ${{ steps.tags.output.tag }}"
+          body: "An auto build for release at ${{ steps.date.outputs.date }} for ${{ steps.tags.output.tag }}"
           token: ${{ secrets.GITHUB_TOKEN }}
