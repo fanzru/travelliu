@@ -23,8 +23,8 @@ class Profile {
     return Profile(
       user: user,
       // reviews: json["reviews"],
-      totalReview: json["total_review"],
-      avgRating: json["avg_ratings"],
+      totalReview: json["total_review"].toInt(),
+      avgRating: json["avg_ratings"].toDouble(),
     );
   }
 }

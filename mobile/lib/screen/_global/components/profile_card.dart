@@ -11,10 +11,9 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 5),
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(children: [
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
           margin: const EdgeInsets.symmetric(vertical: 30),
           height: 100,
