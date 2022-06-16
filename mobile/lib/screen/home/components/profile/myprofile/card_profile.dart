@@ -1,38 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/api/user.dart';
 import 'package:mobile/model/review.dart';
+import 'package:mobile/screen/_global/components/image_network.dart';
 import "dart:math" as math;
 
 import 'package:mobile/screen/review_detail/review_detail_screen.dart';
 import 'package:mobile/utils/show_snackbar.dart';
 
 // final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
-class TimelineCard extends StatefulWidget {
-  final ReviewProfile data;
+
+class MyReviewCard extends StatelessWidget {
   final int randomForProfile = math.Random().nextInt(1000);
-  TimelineCard({Key? key, required this.data, int? randomForProfile})
+  final ReviewProfile data;
+  Function? refreshParent;
+  MyReviewCard({Key? key, required this.data, this.refreshParent})
       : super(key: key);
 
   @override
-  State<TimelineCard> createState() => _TimelineCardState();
-}
-
-class _TimelineCardState extends State<TimelineCard> {
-  late Future<bool> _futureStatus;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    void _handleDelete() async {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Hapus Review'),
+          content: const Text(
+              'Jika anda menghapus review ini akan hilang dari timeline umum dan profile anda!'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  await deleteMyReview(data.id);
+                  ShowSnackBar(context, "Berhasil menghapus post");
+                  if (refreshParent != null) {
+                    refreshParent!();
+                  }
+                } catch (err) {
+                  ShowSnackBar(context, err.toString());
+                }
+                Navigator.pop(context, "OK");
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, ReviewDetailScreen.routeName,
-              arguments: ReviewDetailScreenArguments(id: widget.data.id));
+              arguments: ReviewDetailScreenArguments(id: data.id));
         },
         child: Column(
           children: [
@@ -44,70 +72,29 @@ class _TimelineCardState extends State<TimelineCard> {
                     Row(children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: Image.network(
-                          "https://www.thiswaifudoesnotexist.net/example-${widget.randomForProfile}.jpg",
+                        child: ImageNetworkWShimmer(
+                          link:
+                              "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
                           width: 40,
                           height: 40,
                         ),
                       ),
                       const SizedBox(width: 10),
-                      InkWell(
-                        child: Text(widget.data.nameUser),
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          print("Open profile");
-                        },
-                      ),
+                      Text(data.nameUser)
                     ]),
                     TextButton(
-                      child: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                      onPressed: () => showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Hapus Review'),
-                          content: const Text(
-                              'Jika anda menghapus review ini akan hilang dari timeline umum dan profile anda!'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                try {
-                                  await deleteMyReview(widget.data.id);
-                                  ShowSnackBar(context,
-                                      "Berhasil menghapus post, harap pindah halaman untuk melihat perubahan");
-                                } catch (err) {
-                                  ShowSnackBar(context, err.toString());
-                                }
-                                Navigator.pop(context, "OK");
-                              },
-                              child: const Text(
-                                'OK',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ),
-                          ],
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
                         ),
-                      ),
-                      // onPressed: () async {
-                      //   setState(() {
-                      //     _futureStatus = deleteMyReview(widget.data.id);
-                      //   });
-                      // },
-                    ),
+                        onPressed: _handleDelete),
                   ],
                 )),
             const SizedBox(height: 10),
-            Image.network(widget.data.photo[0] == "/"
-                ? "https://travelliu.yaudahlah.my.id${widget.data.photo}"
-                : widget.data.photo),
+            ImageNetworkWShimmer(
+                link: data.photo[0] == "/"
+                    ? "https://travelliu.yaudahlah.my.id${data.photo}"
+                    : data.photo),
             Container(
                 margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 child: Column(
@@ -117,12 +104,12 @@ class _TimelineCardState extends State<TimelineCard> {
                       children: [
                         const Icon(Icons.star_border_outlined,
                             color: Colors.yellow),
-                        Text(widget.data.rating.toString()),
+                        Text(data.rating.toString()),
                         const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          widget.data.namaTempat,
+                          data.namaTempat,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -132,7 +119,7 @@ class _TimelineCardState extends State<TimelineCard> {
                       children: [
                         Expanded(
                             child: Text(
-                          widget.data.review,
+                          data.review,
                           textAlign: TextAlign.left,
                         ))
                       ],

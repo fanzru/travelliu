@@ -63,13 +63,13 @@ class SecureProfile {
     return userId;
   }
 
-  void setLoggedIn(int userId, String apiKey) async {
+  Future<void> setLoggedIn(int userId, String apiKey) async {
     await storage.setInt("user_id", userId);
     await storage.setString("api_key", apiKey);
     isLoggedIn = true;
   }
 
-  void setLoggedOut() async {
+  Future<void> setLoggedOut() async {
     await storage.remove("api_key");
     await storage.remove("user_id");
     isLoggedIn = false;

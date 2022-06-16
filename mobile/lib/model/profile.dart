@@ -1,8 +1,8 @@
 import "./user.dart";
-import "./review.dart";
 
 class Profile {
-  final dynamic avgRating, totalReview;
+  final double avgRating;
+  final int totalReview;
   // final List<ReviewProfile> reviews;
   final User user;
 
@@ -23,8 +23,8 @@ class Profile {
     return Profile(
       user: user,
       // reviews: json["reviews"],
-      totalReview: json["total_review"],
-      avgRating: json["avg_ratings"],
+      totalReview: json["total_review"].toInt(),
+      avgRating: json["avg_ratings"].toDouble(),
     );
   }
 }

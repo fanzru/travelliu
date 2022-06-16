@@ -31,7 +31,7 @@ Future<List<TikumProfile>> getMyTikum() async {
   );
 
   if (response.statusCode == 401) {
-    profile.setLoggedOut();
+    await profile.setLoggedOut();
     return Future.error("Session expired");
   }
 
@@ -64,7 +64,7 @@ Future<void> deleteMyTikum(int id) async {
   );
 
   if (response.statusCode == 401) {
-    profile.setLoggedOut();
+    await profile.setLoggedOut();
     return Future.error("Session expired");
   }
 
@@ -106,7 +106,7 @@ Future<void> createTikum({
     if (e.response != null) {
       var response = e.response!;
       if (response.statusCode == 401) {
-        profile.setLoggedOut();
+        await profile.setLoggedOut();
         return Future.error("Session expired");
       }
       if (response.statusCode == 400) {

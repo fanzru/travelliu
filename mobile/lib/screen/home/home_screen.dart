@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> section = [
     const Timeline(),
-    TikumLayout(),
+    const TikumLayout(),
     ProfileSection()
   ];
   var sectionidx = 0;
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          actions: [Image(image: AssetImage("assets/Logos.png"))],
+          actions: const [Image(image: AssetImage("assets/Logos.png"))],
           title: const Text("Travelliu",
               style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.white,

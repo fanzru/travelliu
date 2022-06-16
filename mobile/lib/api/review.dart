@@ -64,7 +64,7 @@ Future<void> createReview(
     if (e.response != null) {
       var response = e.response!;
       if (response.statusCode == 401) {
-        profile.setLoggedOut();
+        await profile.setLoggedOut();
         return Future.error("Session expired");
       }
       if (response.statusCode == 400) {

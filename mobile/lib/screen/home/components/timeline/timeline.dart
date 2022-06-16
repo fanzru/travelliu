@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/api/review.dart';
 import 'package:mobile/model/profile_secure.dart';
 import 'package:mobile/model/review.dart';
+import 'package:mobile/screen/_global/components/shimmer/review_shimmer.dart';
 import 'package:mobile/screen/form_review/form_review_screen.dart';
 import 'package:mobile/screen/home/components/timeline/timeline_card.dart';
 
@@ -70,8 +71,9 @@ FutureBuilder<List<Review>> reviewBuilder(Future<List<Review>> future) {
       } else if (snapshot.hasError) {
         return const Center(child: Text("Error when fetching all reviews"));
       }
-      return const Center(
-        child: CircularProgressIndicator(),
+      return ListView.builder(
+        itemCount: 4,
+        itemBuilder: (context, _) => const ShimmerReview(),
       );
     },
   );
