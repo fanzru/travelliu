@@ -129,6 +129,23 @@ class __ReviewSectionState extends State<_ReviewSection> {
           return Center(child: Text(snapshot.error.toString()));
         }
         if (snapshot.hasData) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: SizedBox(
+                width: 350,
+                child: Column(
+                  children: const [
+                    Text(
+                      "Oops.. kamu masih belum membagikan apapun",
+                      textAlign: TextAlign.center,
+                    ),
+                    Text("Bagikan cerita perjalananmu sekarang!")
+                  ],
+                ),
+              ),
+            );
+          }
+
           return Column(
             children: [
               for (var data in snapshot.data!)
