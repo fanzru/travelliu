@@ -12,12 +12,26 @@ Future<List<Review>> getAllReview() async {
     List decoded = jsonDecode(response.body);
     List<Review> reviews = [];
     for (var review in decoded) {
-      reviews.add(Review.fromJson(review, true));
+      reviews.add(Review.fromJson(review));
     }
     return reviews;
   } else {
     return Future.error('Failed to load all reviews');
   }
+}
+
+Future<Review> getReviewById(int id) async {
+  try {
+    var response = await http
+        .get(Uri.parse("https://travelliu.yaudahlah.my.id/api/review/$id"));
+    if (response.statusCode == 200) {
+      return Review.fromJson(jsonDecode(response.body));
+    }
+    Future.error("Tidak dapat mengambil review");
+  } catch (e) {
+    return Future.error(e);
+  }
+  return Future.error("Tidak dapat mengambil review");
 }
 
 Future<void> createReview(
