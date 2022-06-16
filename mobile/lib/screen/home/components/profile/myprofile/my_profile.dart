@@ -3,6 +3,7 @@ import 'package:mobile/api/user.dart';
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/model/review.dart';
 import 'package:mobile/screen/_global/components/profile_card.dart';
+import 'package:mobile/screen/_global/components/shimmer/review_shimmer.dart';
 import 'package:mobile/screen/home/components/profile/myprofile/card_profile.dart';
 import 'package:mobile/screen/home/home_screen.dart';
 
@@ -146,10 +147,7 @@ class __ReviewSectionState extends State<_ReviewSection> {
         }
         return Center(
             child: Column(
-          children: const [
-            CircularProgressIndicator(),
-            Text("Loading User Review")
-          ],
+          children: [for (int i = 0; i < 5; i++) const ShimmerReview()],
         ));
       },
     );
