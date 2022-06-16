@@ -40,6 +40,7 @@ class ShimmerProfile extends StatelessWidget {
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     const ShimmerContainer(width: 50),
+                    const SizedBox(height: 5),
                     ShimmerContainer(
                         width: MediaQuery.of(context).size.width * .3)
                   ],
@@ -54,6 +55,7 @@ class ShimmerProfile extends StatelessWidget {
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     const ShimmerContainer(width: 50),
+                    const SizedBox(height: 5),
                     ShimmerContainer(
                         width: MediaQuery.of(context).size.width * .3)
                   ],
