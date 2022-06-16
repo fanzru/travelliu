@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/profile_secure.dart';
 import 'package:mobile/screen/form_tikum/form_tikum_screen.dart';
-import 'package:mobile/screen/test_screen/test_screen.dart';
 import 'package:mobile/screen/home/components/tikum/global_tikum.dart';
 import 'package:mobile/screen/home/components/tikum/my_tikum.dart';
 

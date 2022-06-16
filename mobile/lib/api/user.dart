@@ -20,7 +20,7 @@ Future<void> loginUser(String email, String password) async {
     var id = decoded["user"]["id"];
 
     var profile = await SecureProfile.getStorage();
-    profile.setLoggedIn(id, token);
+    await profile.setLoggedIn(id, token);
   } else if (response.statusCode == 400) {
     return Future.error("Email atau password salah");
   } else {
@@ -59,7 +59,7 @@ Future<List<ReviewProfile>> getMyReviewById() async {
   );
 
   if (response.statusCode == 401) {
-    profile.setLoggedOut();
+    await profile.setLoggedOut();
     return Future.error("Session expired, please login again");
   }
 
@@ -88,7 +88,7 @@ Future<Profile> getMyProfileById() async {
   );
 
   if (response.statusCode == 401) {
-    profile.setLoggedOut();
+    await profile.setLoggedOut();
     return Future.error("Session expired, please login again");
   }
 
@@ -118,7 +118,7 @@ Future<void> deleteMyReview(int id) async {
   );
 
   if (response.statusCode == 401) {
-    profile.setLoggedOut();
+    await profile.setLoggedOut();
     return Future.error("Session expired, please login again");
   }
 
@@ -144,7 +144,7 @@ Future<void> userLogout() async {
   );
 
   if (res.statusCode == 401) {
-    profile.setLoggedOut();
+    await profile.setLoggedOut();
     return Future.error("Session expired, please login again");
   }
 
@@ -152,7 +152,7 @@ Future<void> userLogout() async {
     return Future.error("Failed to logout");
   }
 
-  profile.setLoggedOut();
+  await profile.setLoggedOut();
 }
 
 Future<Profile> getUserProfileById(int id) async {
