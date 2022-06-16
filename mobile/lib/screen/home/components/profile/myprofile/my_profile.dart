@@ -17,27 +17,21 @@ class MyProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: const [
-          SizedBox(
+        children: [
+          const SizedBox(
             height: 10,
           ),
           _ProfileSection(),
-          _ReviewSection(),
+          const _ReviewSection(),
         ],
       ),
     );
   }
 }
 
-class _ProfileSection extends StatefulWidget {
-  const _ProfileSection({Key? key}) : super(key: key);
-
-  @override
-  State<_ProfileSection> createState() => _ProfileSectionState();
-}
-
-class _ProfileSectionState extends State<_ProfileSection> {
-  Future<Profile> futureProfile = getMyProfileById();
+class _ProfileSection extends StatelessWidget {
+  final Future<Profile> futureProfile = getMyProfileById();
+  _ProfileSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -11,29 +11,29 @@ class TikumLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child: Scaffold(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        floatingActionButton: const _FloatingActionButtonTikum(),
+        appBar: AppBar(
           backgroundColor: Colors.white,
-          floatingActionButton: const _FloatingActionButtonTikum(),
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            flexibleSpace: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                TabBar(indicatorColor: Colors.black26, tabs: [
-                  Tab(
-                    text: "Global Tikum",
-                  ),
-                  Tab(
-                    text: "My Tikum",
-                  )
-                ])
-              ],
-            ),
+          flexibleSpace: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: const [
+              TabBar(indicatorColor: Colors.black26, tabs: [
+                Tab(
+                  text: "Global Tikum",
+                ),
+                Tab(
+                  text: "My Tikum",
+                )
+              ])
+            ],
           ),
-          body: TabBarView(children: [GlobalTikum(), MyTikum()]),
-        ));
-    ;
+        ),
+        body: TabBarView(children: [GlobalTikum(), MyTikum()]),
+      ),
+    );
   }
 }
 

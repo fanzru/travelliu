@@ -12,8 +12,8 @@ class ProfilePeopleScreenArguments {
 }
 
 class ProfilePeopleScreen extends StatefulWidget {
-  ProfilePeopleScreen({Key? key}) : super(key: key);
-  static String routeName = "/profile-detail";
+  const ProfilePeopleScreen({Key? key}) : super(key: key);
+  static const String routeName = "/profile-detail";
   @override
   State<ProfilePeopleScreen> createState() => _ProfilePeopleScreenState();
 }
