@@ -2,11 +2,9 @@ name: Build Mobile Debug Staging
 
 on:
   push:
-    branches:
-      # Only run when there's a push / commits on main branch
-      - "staging"
-    paths:
-      - "mobile/**"
+    tags:
+      # Can be built anywhere with tags "internal-v*"
+      - "internal-v*"
 
 jobs: 
   BuildDebug:
@@ -23,9 +21,9 @@ jobs:
         with:
           timezoneLinux: "Asia/Jakarta"
 
-      - name: Create Tags
+      - name: Get Tags
         id: tags
-        run: echo "::set-output name=sha_short::${GITHUB_SHA::7}" 
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/*/}" 
       
       - name: Get Current Date
         id: date
@@ -61,9 +59,7 @@ jobs:
       - name: "Create Release"
         uses: ncipollo/release-action@v1
         with:
-          name: "Debug Auto Build - ${{ steps.date.outputs.date }}"
-          tag: ${{ steps.tags.outputs.sha_short }}
-          commit: "main"
+          name: "Debug Auto Build - ${{ steps.tags.outputs.tag }} - ${{ steps.date.outputs.date }}"
           artifacts: "mobile/artifacts/*.apk"
-          body: "An auto build on staging at ${{ steps.date.outputs.date }}"
+          body: "An auto build for internal at ${{ steps.date.outputs.date }} for ${{ steps.tags.output.tag }}"
           token: ${{ secrets.GITHUB_TOKEN }}

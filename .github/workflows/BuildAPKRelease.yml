@@ -3,10 +3,11 @@ name: Build Mobile Release
 on:
   push:
     branches:
-      # Only run when there's a push / commits on main branch
+      # Only can be built on Main
       - "main"
-    paths:
-      - "mobile/**"
+    tags:
+      # With a tags "v*"
+      - "v*"
 
 jobs: 
   BuildRelease:
@@ -23,9 +24,9 @@ jobs:
         with:
           timezoneLinux: "Asia/Jakarta"
 
-      - name: Create Tags
+      - name: Get Tags
         id: tags
-        run: echo "::set-output name=sha_short::${GITHUB_SHA::7}" 
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/*/}" 
       
       - name: Get Current Date
         id: date
@@ -61,9 +62,7 @@ jobs:
       - name: "Create Release"
         uses: ncipollo/release-action@v1
         with:
-          name: "Release Auto Build - ${{ steps.date.outputs.date }}"
-          tag: ${{ steps.tags.outputs.sha_short }}
-          commit: "main"
+          name: "Release Auto Build - ${{ steps.tags.outputs.tag }} - ${{ steps.date.outputs.date }}"
           artifacts: "mobile/artifacts/*.apk"
-          body: "An auto build on main at ${{ steps.date.outputs.date }}"
+          body: "An auto build for release at ${{ steps.date.outputs.date }} for ${{ steps.tags.output.tag }}"
           token: ${{ secrets.GITHUB_TOKEN }}
