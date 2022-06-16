@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/review.dart';
 import 'package:mobile/screen/_global/components/image_network.dart';
-import 'package:mobile/screen/form_review/form_review_screen.dart';
 import 'package:mobile/screen/profile_detail/profile_detail_screen.dart';
 import "dart:math" as math;
 
@@ -15,6 +14,8 @@ class TimelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String review = data.review;
+    if (review.length > 200) review = data.review.substring(0, 195) + "...";
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: InkWell(
@@ -80,7 +81,7 @@ class TimelineCard extends StatelessWidget {
                       children: [
                         Expanded(
                             child: Text(
-                          data.review,
+                          review,
                           textAlign: TextAlign.left,
                         ))
                       ],

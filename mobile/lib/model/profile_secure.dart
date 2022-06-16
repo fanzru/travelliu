@@ -25,30 +25,32 @@ class SecureProfile {
 
   bool isLoggedIn;
   int? userId;
-  String? apiKey;
+  String? apiKey, name;
 
   SecureProfile(
       {required this.storage,
       required this.isLoggedIn,
       this.userId,
-      this.apiKey});
+      this.apiKey,
+      this.name});
 
   static Future<SecureProfile> getStorage() async {
     var storage = await SharedPreferences.getInstance();
     var userId = storage.getInt("user_id");
     var apiKey = storage.getString("api_key");
+    var name = storage.getString("user_name");
 
     bool loggedIn = false;
-
-    if ((userId == null || userId == -1) || (apiKey == null || apiKey == "")) {
-      await storage.setInt("user_id", -1);
-      await storage.setString("api_key", "");
-    } else {
+    if (userId != null && apiKey != null && name != null) {
       loggedIn = true;
     }
 
     return SecureProfile(
-        storage: storage, isLoggedIn: loggedIn, apiKey: apiKey, userId: userId);
+        storage: storage,
+        isLoggedIn: loggedIn,
+        apiKey: apiKey,
+        userId: userId,
+        name: name);
   }
 
   bool getLoggedInStatus() {
@@ -63,15 +65,21 @@ class SecureProfile {
     return userId;
   }
 
-  Future<void> setLoggedIn(int userId, String apiKey) async {
+  String? getUserName() {
+    return name;
+  }
+
+  Future<void> setLoggedIn(int userId, String apiKey, String name) async {
     await storage.setInt("user_id", userId);
     await storage.setString("api_key", apiKey);
+    await storage.setString("user_name", name);
     isLoggedIn = true;
   }
 
   Future<void> setLoggedOut() async {
     await storage.remove("api_key");
     await storage.remove("user_id");
+    await storage.remove("user_name");
     isLoggedIn = false;
   }
 }

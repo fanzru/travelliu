@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
-        ReviewDetailScreen.routeName: (context) => const ReviewDetailScreen(),
+        ReviewDetailScreen.routeName: (context) => ReviewDetailScreen(),
         FormReviewScreen.routeName: (context) => const FormReviewScreen(),
         FormTikumScreen.routeName: (context) => const FormTikumScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),

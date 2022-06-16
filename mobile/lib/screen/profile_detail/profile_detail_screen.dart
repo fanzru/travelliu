@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import "dart:math" as math;
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/api/user.dart';
 import 'package:mobile/screen/_global/components/profile_card.dart';
 import 'package:mobile/screen/_global/components/shimmer/profile_shimmer.dart';
-import 'package:mobile/screen/home/components/profile/myprofile/my_profile.dart';
 
 class ProfilePeopleScreenArguments {
   final int id;
