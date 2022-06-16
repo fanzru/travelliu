@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import "dart:math" as math;
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/api/user.dart';
+import 'package:mobile/screen/_global/components/profile_card.dart';
 import 'package:mobile/screen/home/components/profile/myprofile/my_profile.dart';
 
 class ProfilePeopleScreenArguments {
@@ -63,7 +64,7 @@ class _ProfilePeopleScreenState extends State<ProfilePeopleScreen> {
                         child: Text("Loading ..."),
                       );
                     } else {
-                      return ProfileCard(data: snapshot.data);
+                      return ProfileCard(data: snapshot.data! as Profile);
                     }
                   },
                 ),

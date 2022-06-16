@@ -2,30 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:mobile/api/user.dart';
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/model/review.dart';
+import 'package:mobile/screen/_global/components/profile_card.dart';
 import 'package:mobile/screen/home/components/profile/myprofile/card_profile.dart';
 import 'package:mobile/screen/home/home_screen.dart';
-import "dart:math" as math;
 
 import 'package:mobile/utils/show_snackbar.dart';
 
-class MyProfile extends StatefulWidget {
-  const MyProfile({
-    Key? key,
-  }) : super(key: key);
+class MyProfile extends StatelessWidget {
+  const MyProfile({Key? key}) : super(key: key);
+
   @override
-  State<MyProfile> createState() => _MyProfile();
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: const [
+          SizedBox(
+            height: 10,
+          ),
+          _ProfileSection(),
+          _ReviewSection(),
+        ],
+      ),
+    );
+  }
 }
 
-class _MyProfile extends State<MyProfile> {
-  late Future<List<ReviewProfile>> futureReview;
-  late Future<Profile> futureProfile;
-  final int randomForProfile = math.Random().nextInt(1000);
+class _ProfileSection extends StatefulWidget {
+  const _ProfileSection({Key? key}) : super(key: key);
+
   @override
-  void initState() {
-    futureReview = getMyReviewById();
-    futureProfile = getMyProfileById();
-    super.initState();
-  }
+  State<_ProfileSection> createState() => _ProfileSectionState();
+}
+
+class _ProfileSectionState extends State<_ProfileSection> {
+  Future<Profile> futureProfile = getMyProfileById();
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +61,73 @@ class _MyProfile extends State<MyProfile> {
       }
     }
 
-    ;
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+                backgroundColor: Colors.red,
+              ),
+              onPressed: _handleLogout,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
+                  Text(
+                    "logout ",
+                  ),
+                  Icon(
+                    Icons.logout_outlined,
+                    size: 15.0,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            )
+          ],
+        ),
+        FutureBuilder<Profile>(
+          future: futureProfile,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ProfileCard(data: snapshot.data!);
+            }
 
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircularProgressIndicator(),
+                    Text("Loading Profile")
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _ReviewSection extends StatefulWidget {
+  const _ReviewSection({Key? key}) : super(key: key);
+
+  @override
+  State<_ReviewSection> createState() => __ReviewSectionState();
+}
+
+class __ReviewSectionState extends State<_ReviewSection> {
+  Future<List<ReviewProfile>> futureReview = getMyReviewById();
+
+  @override
+  Widget build(BuildContext context) {
     return FutureBuilder<List<ReviewProfile>>(
       future: futureReview,
       builder: (context, snapshot) {
@@ -60,66 +135,8 @@ class _MyProfile extends State<MyProfile> {
           return Center(child: Text(snapshot.error.toString()));
         }
         if (snapshot.hasData) {
-          return ListView(
+          return Column(
             children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.red,
-                    ),
-                    onPressed: _handleLogout,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        Text(
-                          "logout ",
-                        ),
-                        Icon(
-                          Icons.logout_outlined,
-                          size: 15.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  )
-                ],
-              ),
-              Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 30),
-                    height: 100,
-                    width: 100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(
-                        "https://www.thiswaifudoesnotexist.net/example-$randomForProfile.jpg",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  FutureBuilder(
-                    future: futureProfile,
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return const Center(
-                          child: Text("Loading ..."),
-                        );
-                      } else {
-                        return ProfileCard(data: snapshot.data);
-                      }
-                    },
-                  ),
-                ],
-              ),
               for (var data in snapshot.data!)
                 TimelineCard(
                   data: data,
@@ -127,75 +144,14 @@ class _MyProfile extends State<MyProfile> {
             ],
           );
         }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return Center(
+            child: Column(
+          children: const [
+            CircularProgressIndicator(),
+            Text("Loading User Review")
+          ],
+        ));
       },
-    );
-  }
-}
-
-class ProfileCard extends StatelessWidget {
-  final data;
-  // final GlobalKey<NavigatorState> navKey;
-  final int randomForProfile = math.Random().nextInt(1000);
-  ProfileCard({
-    Key? key,
-    required this.data,
-    // required this.navKey
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 5),
-      child: Column(children: [
-        Text(
-          data.user.name.toString(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(
-            vertical: 20,
-            horizontal: 15,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    const Text("Total Review"),
-                    Text(data.totalReview.toString()),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    const Text("Rataan Rating"),
-                    Text(data.avgRating.toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ]),
     );
   }
 }

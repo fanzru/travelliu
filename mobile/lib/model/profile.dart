@@ -1,8 +1,8 @@
 import "./user.dart";
-import "./review.dart";
 
 class Profile {
-  final dynamic avgRating, totalReview;
+  final double avgRating;
+  final int totalReview;
   // final List<ReviewProfile> reviews;
   final User user;
 
