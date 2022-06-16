@@ -65,5 +65,5 @@ jobs:
           name: "Release Auto Build - ${{ steps.tags.outputs.tag }} - ${{ steps.date.outputs.date }}"
           artifacts: "mobile/artifacts/*.apk"
           allowUpdates: "true"
-          body: "An auto build for release at ${{ steps.date.outputs.date }} for ${{ steps.tags.output.tag }}"
+          body: "An auto build for release at ${{ steps.date.outputs.date }} for ${{ steps.tags.outputs.tag }}"
           token: ${{ secrets.GITHUB_TOKEN }}
