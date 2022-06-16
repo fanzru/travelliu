@@ -50,9 +50,17 @@ class MyTikumList extends StatefulWidget {
 
 class _MyTikumListState extends State<MyTikumList> {
   late Future<List<TikumProfile>> futureTikumProfile;
+
+  @override
   void initState() {
     futureTikumProfile = getMyTikum();
     super.initState();
+  }
+
+  void refreshList() {
+    setState(() {
+      futureTikumProfile = getMyTikum();
+    });
   }
 
   @override
@@ -66,6 +74,7 @@ class _MyTikumListState extends State<MyTikumList> {
               for (var data in snapshot.data!)
                 MyTikumCard(
                   tikum: data,
+                  refreshParent: refreshList,
                 )
             ],
           );

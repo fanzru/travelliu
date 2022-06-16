@@ -101,7 +101,7 @@ class _ProfileSectionState extends State<_ProfileSection> {
 
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.4,
-              child: Center(child: ShimmerProfile()),
+              child: const Center(child: ShimmerProfile()),
             );
           },
         ),
@@ -120,6 +120,12 @@ class _ReviewSection extends StatefulWidget {
 class __ReviewSectionState extends State<_ReviewSection> {
   Future<List<ReviewProfile>> futureReview = getMyReviewById();
 
+  void refreshList() {
+    setState(() {
+      futureReview = getMyReviewById();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<ReviewProfile>>(
@@ -132,8 +138,9 @@ class __ReviewSectionState extends State<_ReviewSection> {
           return Column(
             children: [
               for (var data in snapshot.data!)
-                TimelineCard(
+                MyReviewCard(
                   data: data,
+                  refreshParent: refreshList,
                 )
             ],
           );
