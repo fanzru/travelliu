@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/model/profile_secure.dart';
 import 'package:mobile/model/tikum.dart';
+import 'package:mobile/screen/_global/components/shimmer/tikum_shimmer.dart';
 import 'package:mobile/screen/home/components/profile/not_loggedin.dart';
 import 'package:mobile/api/tikum.dart';
 import 'package:mobile/screen/home/components/tikum/mytikum_card.dart';
@@ -40,7 +41,6 @@ class _MyTikumState extends State<MyTikum> {
   }
 }
 
-// TODO: Affan ngerjain ini ya untuk ngerender listnya
 class MyTikumList extends StatefulWidget {
   MyTikumList({Key? key}) : super(key: key);
 
@@ -72,8 +72,9 @@ class _MyTikumListState extends State<MyTikumList> {
         } else if (snapshot.hasError) {
           return const Center(child: Text("Error when fetching all reviews"));
         }
-        return const Center(
-          child: CircularProgressIndicator(),
+        return ListView.builder(
+          itemCount: 4,
+          itemBuilder: (context, _) => const ShimmerTikum(),
         );
       },
     );
