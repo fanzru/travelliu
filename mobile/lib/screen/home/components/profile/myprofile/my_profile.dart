@@ -3,6 +3,7 @@ import 'package:mobile/api/user.dart';
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/model/review.dart';
 import 'package:mobile/screen/_global/components/profile_card.dart';
+import 'package:mobile/screen/_global/components/shimmer/profile_shimmer.dart';
 import 'package:mobile/screen/_global/components/shimmer/review_shimmer.dart';
 import 'package:mobile/screen/home/components/profile/myprofile/card_profile.dart';
 import 'package:mobile/screen/home/home_screen.dart';
@@ -100,15 +101,7 @@ class _ProfileSectionState extends State<_ProfileSection> {
 
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.4,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    CircularProgressIndicator(),
-                    Text("Loading Profile")
-                  ],
-                ),
-              ),
+              child: Center(child: ShimmerProfile()),
             );
           },
         ),

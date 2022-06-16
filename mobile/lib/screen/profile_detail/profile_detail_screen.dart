@@ -3,6 +3,7 @@ import "dart:math" as math;
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/api/user.dart';
 import 'package:mobile/screen/_global/components/profile_card.dart';
+import 'package:mobile/screen/_global/components/shimmer/profile_shimmer.dart';
 import 'package:mobile/screen/home/components/profile/myprofile/my_profile.dart';
 
 class ProfilePeopleScreenArguments {
@@ -42,9 +43,7 @@ class _ProfilePeopleScreenState extends State<ProfilePeopleScreen> {
           future: futureProfile,
           builder: (context, snapshot) {
             if (snapshot.data == null) {
-              return const Center(
-                child: Text("Loading Profile"),
-              );
+              return const ShimmerProfile();
             } else {
               return Center(
                   child: ProfileCard(data: snapshot.data! as Profile));
