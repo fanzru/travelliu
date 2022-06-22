@@ -87,18 +87,6 @@ class _FormTikumScreenState extends State<FormTikumScreen> {
             padding: const EdgeInsets.all(12.0),
             child: Stack(
               children: [
-                TextButton(
-                  style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.all(Colors.black12)),
-                  onPressed: _handleKembaliButton,
-                  child: const Text(
-                    "Kembali",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  ),
-                ),
                 Center(
                   child: SingleChildScrollView(
                     reverse: true,
@@ -347,7 +335,21 @@ class _FormTikumScreenState extends State<FormTikumScreen> {
                       ),
                     ),
                   ),
-                )
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(Colors.black12),
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+                  onPressed: _handleKembaliButton,
+                  child: const Text(
+                    "Kembali",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
+                ),
               ],
             ),
           ),

@@ -1,3 +1,5 @@
+import 'package:mobile/model/komentar.dart';
+
 import "./user.dart";
 
 class Review {
@@ -6,8 +8,9 @@ class Review {
   final String namaTempat, alamat, review, photo;
   final User user;
   final double? longitude, latitude;
+  List<Komentar> komentar = [];
 
-  const Review(
+  Review(
       {required this.userId,
       required this.id,
       required this.photo,
@@ -18,17 +21,13 @@ class Review {
       this.user = const User.empty(),
       this.longitude,
       this.latitude,
+      this.komentar = const [],
       this.numKomentar = 0});
 
-  factory Review.fromJson(Map<String, dynamic> json, bool concatReview) {
+  factory Review.fromJson(Map<String, dynamic> json) {
     var user = User.fromJson(json["user"]);
-    String review = json["review"];
-    if (concatReview) {
-      if (review.length > 200) {
-        review = review.substring(0, 195);
-        review = review + " ...";
-      }
-    }
+    List<Komentar> finalKomentar = [];
+    int komentarcount = 0;
 
     if (json["latitude"] != null) {
       if (json["latitude"] is int) {
@@ -46,6 +45,12 @@ class Review {
       json["longitude"] = json["longitude"] as double;
     }
 
+    if (json.containsKey("komentar")) {
+      List<dynamic> komentarTemp = json["komentar"];
+      for (var komentar in komentarTemp) {
+        finalKomentar.add(Komentar.fromJson(komentar));
+      }
+    }
     return Review(
         userId: json['user_id'],
         id: json['id'],
@@ -53,11 +58,12 @@ class Review {
         namaTempat: json["nama_tempat"],
         photo: json["photo"],
         rating: json["rating"].toDouble(),
-        review: review,
+        review: json["review"],
         latitude: json["latitude"],
         longitude: json["longitude"],
-        numKomentar: json["komentar_count"],
-        user: user);
+        numKomentar: json["komentar_count"] ?? finalKomentar.length,
+        user: user,
+        komentar: finalKomentar);
   }
 }
 

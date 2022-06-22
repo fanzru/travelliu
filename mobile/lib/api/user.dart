@@ -18,9 +18,10 @@ Future<void> loginUser(String email, String password) async {
     var decoded = jsonDecode(response.body);
     var token = decoded["token"];
     var id = decoded["user"]["id"];
+    var name = decoded["user"]["name"];
 
     var profile = await SecureProfile.getStorage();
-    await profile.setLoggedIn(id, token);
+    await profile.setLoggedIn(id, token, name);
   } else if (response.statusCode == 400) {
     return Future.error("Email atau password salah");
   } else {
