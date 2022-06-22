@@ -76,7 +76,7 @@ class TikumCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(tikum.tempatTujuan)
+                Text(tikum.tempatKumpul)
               ],
             ),
             const SizedBox(
